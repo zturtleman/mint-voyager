@@ -1743,8 +1743,8 @@ void Menu_Cache( void )
 	uis.rb_off          = trap_R_RegisterShaderNoMip( "menu/art/switch_off" );
 
 	uis.whiteShader = trap_R_RegisterShaderNoMip( "white" );
-	uis.menuBackShader	= trap_R_RegisterShaderNoMip( "menuback" );
-	uis.menuBackNoLogoShader = trap_R_RegisterShaderNoMip( "menubacknologo" );
+	uis.menuBackShader	= trap_R_RegisterShaderNoMip( "gfx/2d/conback" );
+	uis.menuBackNoLogoShader = trap_R_RegisterShaderNoMip( "gfx/colors/black" );
 
 	menu_in_sound	= trap_S_RegisterSound( "sound/misc/menu1.wav", qfalse );
 	menu_move_sound	= trap_S_RegisterSound( "sound/misc/menu2.wav", qfalse );
