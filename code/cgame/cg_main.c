@@ -2466,7 +2466,7 @@ void CG_Init( connstate_t state, int maxSplitView, int playVideo ) {
 	CG_InitConsoleCommands();
 
 	// load a few needed things before we do any screen updates
-	cgs.media.charsetShader		= trap_R_RegisterShader( "gfx/2d/bigchars" );
+	cgs.media.charsetShader		= trap_R_RegisterShader( "gfx/2d/charsgrid_med" );
 	cgs.media.whiteShader		= trap_R_RegisterShader( "white" );
 	cgs.media.consoleShader		= trap_R_RegisterShader( "console" );
 	cgs.media.nodrawShader		= trap_R_RegisterShaderEx( "nodraw", LIGHTMAP_NONE, qtrue );

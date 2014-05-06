@@ -345,7 +345,7 @@ Coordinates and size in 640*480 virtual screen size
 void CG_DrawChar( int x, int y, int width, int height, int ch ) {
 	int row, col;
 	float frow, fcol;
-	float size;
+	float size, wsize;
 	float	ax, ay, aw, ah;
 
 	ch &= 255;
@@ -366,10 +366,11 @@ void CG_DrawChar( int x, int y, int width, int height, int ch ) {
 	frow = row*0.0625;
 	fcol = col*0.0625;
 	size = 0.0625;
+	wsize = ( width / (float)height ) * 16 / 256.0f;
 
 	trap_R_DrawStretchPic( ax, ay, aw, ah,
 					   fcol, frow, 
-					   fcol + size, frow + size, 
+					   fcol + wsize, frow + size, 
 					   cgs.media.charsetShader );
 }
 
