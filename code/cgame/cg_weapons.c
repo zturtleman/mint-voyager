@@ -614,6 +614,7 @@ The server says this item is used on this level
 void CG_RegisterWeapon( int weaponNum ) {
 	weaponInfo_t	*weaponInfo;
 	gitem_t			*item, *ammo;
+	char			*baseModel;
 	char			path[MAX_QPATH];
 	vec3_t			mins, maxs;
 	int				i;
@@ -664,17 +665,23 @@ void CG_RegisterWeapon( int weaponNum ) {
 		weaponInfo->ammoModel = trap_R_RegisterModel( ammo->world_model[0] );
 	}
 
-	strcpy( path, item->world_model[0] );
+	if ( item->view_model ) {
+		baseModel = item->view_model;
+	} else {
+		baseModel = item->world_model[0];
+	}
+
+	strcpy( path, baseModel );
 	COM_StripExtension(path, path, sizeof(path));
 	strcat( path, "_flash.md3" );
 	weaponInfo->flashModel = trap_R_RegisterModel( path );
 
-	strcpy( path, item->world_model[0] );
+	strcpy( path, baseModel );
 	COM_StripExtension(path, path, sizeof(path));
 	strcat( path, "_barrel.md3" );
 	weaponInfo->barrelModel = trap_R_RegisterModel( path );
 
-	strcpy( path, item->world_model[0] );
+	strcpy( path, baseModel );
 	COM_StripExtension(path, path, sizeof(path));
 	strcat( path, "_hand.md3" );
 	weaponInfo->handsModel = trap_R_RegisterModel( path );
