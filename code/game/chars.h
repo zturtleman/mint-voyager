@@ -66,9 +66,9 @@ Suite 120, Rockville, Maryland 20850 USA.
 // >  0.8 && <= 1.0 = enemy exact movement leading
 // >  0.5 && <= 1.0 = prediction shots when enemy is not visible
 // >  0.6 && <= 1.0 = splash damage by shooting nearby geometry
-#define CHARACTERISTIC_AIM_SKILL					16	//float [0, 1]
+#define CHARACTERISTIC_AIM_SKILL					17	//float [0, 1]
 //weapon specific aim skill
-#define CHARACTERISTIC_AIM_SKILL_ROCKETLAUNCHER		17	//float [0, 1]
+#define CHARACTERISTIC_AIM_SKILL_ROCKETLAUNCHER		18	//float [0, 1]
 #define CHARACTERISTIC_AIM_SKILL_GRENADELAUNCHER	18	//float [0, 1]
 #define CHARACTERISTIC_AIM_SKILL_PLASMAGUN			19	//float [0, 1]
 #define CHARACTERISTIC_AIM_SKILL_BFG10K				20	//float [0, 1]
@@ -113,11 +113,11 @@ Suite 120, Rockville, Maryland 20850 USA.
 //tendency to jump
 #define CHARACTERISTIC_JUMPER						37	//float [0, 1]
 //tendency to walk
-#define CHARACTERISTIC_WALKER						48	//float [0, 1]
+#define CHARACTERISTIC_WALKER						38	//float [0, 1]
 //tendency to jump using a weapon
-#define CHARACTERISTIC_WEAPONJUMPING				38	//float [0, 1]
+#define CHARACTERISTIC_WEAPONJUMPING				39	//float [0, 1]
 //tendency to use the grapple hook when available
-#define CHARACTERISTIC_GRAPPLE_USER					39	//float [0, 1]	//use this!!
+#define CHARACTERISTIC_GRAPPLE_USER					48	//float [0, 1]	//use this!!
 //========================================================
 //goal
 //========================================================

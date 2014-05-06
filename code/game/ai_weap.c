@@ -141,7 +141,8 @@ int BotValidWeaponNumber(int weaponnum)
 {
 	if (weaponnum <= 0 || weaponnum > weaponconfig.numweapons)
 	{
-		BotAI_Print(PRT_ERROR, "weapon number out of range\n");
+		// ZTM: PORTNOTE: Elite Force only has 1-9, so warning is shown a lot when using Q3 weapons
+		//BotAI_Print(PRT_ERROR, "weapon number out of range\n");
 		return qfalse;
 	} //end if
 	return qtrue;
@@ -225,6 +226,11 @@ qboolean LoadWeaponConfig(char *filename)
 				trap_PC_FreeSource(source);
 				return qfalse;
 			} //end if
+			// ZTM: PORTNOTE: Ignore altfire
+			if (weaponinfo.number > 10 && weaponinfo.number < 20)
+			{
+				continue;
+			} //end if
 			if (weaponinfo.number < 0 || weaponinfo.number >= MAX_WEAPONS)
 			{
 				BotAI_Print(PRT_ERROR, "weapon info number %d out of range in %s\n", weaponinfo.number, path);
@@ -238,9 +244,19 @@ qboolean LoadWeaponConfig(char *filename)
 		{
 			if (wc->numprojectiles >= MAX_WEAPONS)
 			{
+#if 1 // ZTM: PORTNOTE: Ignore altfire
+				Com_Memset(&wc->projectileinfo[MAX_WEAPONS-1], 0, sizeof(projectileinfo_t));
+				if (!PC_ReadStructure(source, &projectileinfo_struct, (void *) &wc->projectileinfo[MAX_WEAPONS-1]))
+				{
+					trap_PC_FreeSource(source);
+					return qfalse;
+				} //end if
+				continue;
+#else
 				BotAI_Print(PRT_ERROR, "more than %d projectiles defined in %s\n", MAX_WEAPONS, path);
 				trap_PC_FreeSource(source);
 				return qfalse;
+#endif
 			} //end if
 			Com_Memset(&wc->projectileinfo[wc->numprojectiles], 0, sizeof(projectileinfo_t));
 			if (!PC_ReadStructure(source, &projectileinfo_struct, (void *) &wc->projectileinfo[wc->numprojectiles]))
