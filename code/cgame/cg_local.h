@@ -875,7 +875,8 @@ typedef struct {
 
 	qhandle_t	lightningShader;
 
-	qhandle_t	friendShader;
+	qhandle_t	redFriendShader;
+	qhandle_t	blueFriendShader;
 
 	qhandle_t	balloonShader;
 	qhandle_t	connectionShader;

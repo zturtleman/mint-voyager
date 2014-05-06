@@ -2121,10 +2121,14 @@ static void CG_PlayerSprites( centity_t *cent ) {
 
 	team = cgs.clientinfo[ cent->currentState.clientNum ].team;
 	if ( !(cent->currentState.eFlags & EF_DEAD) && 
-		cg.cur_ps->persistant[PERS_TEAM] == team &&
+		( cg.cur_ps->persistant[PERS_TEAM] == TEAM_SPECTATOR || cg.cur_ps->persistant[PERS_TEAM] == team ) &&
 		cgs.gametype >= GT_TEAM) {
 		if (cg_drawFriend.integer) {
-			CG_PlayerFloatSprite( cent, friendFlags, cgs.media.friendShader );
+			if ( team == TEAM_BLUE ) {
+				CG_PlayerFloatSprite( cent, friendFlags, cgs.media.blueFriendShader );
+			} else {
+				CG_PlayerFloatSprite( cent, friendFlags, cgs.media.redFriendShader );
+			}
 		}
 		return;
 	}
