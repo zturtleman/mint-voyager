@@ -33,6 +33,38 @@ Suite 120, Rockville, Maryland 20850 USA.
 #include "../qcommon/q_shared.h"
 #include "bg_misc.h"
 
+#if 1 // ZTM: PORTFIXME: Hacked up enums to be semi-useable
+#define PW_SEEKER PW_BATTLESUIT
+
+#define HI_TRANSPORTER HI_TELEPORTER
+#define HI_DETPACK HI_MEDKIT
+#define HI_SHIELD HI_MEDKIT
+#define HI_DECOY HI_TELEPORTER
+
+#define WP_PHASER WP_GAUNTLET
+#define WP_COMPRESSION_RIFLE WP_MACHINEGUN
+#define WP_IMOD WP_LIGHTNING
+#define WP_SCAVENGER_RIFLE WP_SHOTGUN
+#define WP_STASIS WP_ROCKET_LAUNCHER
+#define WP_TETRION_DISRUPTOR WP_RAILGUN
+#define WP_QUANTUM_BURST WP_PLASMAGUN
+#define WP_DREADNOUGHT WP_BFG
+// new weapons
+#define WP_VOYAGER_HYPO WP_PHASER
+#define WP_BORG_ASSIMILATOR WP_PHASER
+#define WP_BORG_WEAPON WP_PHASER
+#endif
+
+#define AMMO_PHASER_CLIP		50
+#define AMMO_COMPRESSION_CLIP	32
+#define AMMO_IMOD_CLIP			15
+#define AMMO_SCAVENGER_CLIP		30
+#define AMMO_STASIS_CLIP		15
+#define AMMO_GRENADE_CLIP		10
+#define AMMO_TETRION_CLIP		40
+#define AMMO_QUANTUM_CLIP		6
+#define AMMO_DREADNOUGHT_CLIP	40
+
 /*QUAKED item_***** ( 0 0 0 ) (-16 -16 -16) (16 16 16) suspended
 DO NOT USE THIS CLASS, IT JUST HOLDS GENERAL INFORMATION.
 The suspended flag will allow items to hang in the air, otherwise they are dropped to the next surface.
@@ -57,6 +89,7 @@ gitem_t	bg_itemlist[] =
 		{ NULL,
 		NULL,
 		NULL, NULL} ,
+		NULL,
 /* icon */		NULL,
 /* pickup */	NULL,
 		0,
@@ -67,178 +100,90 @@ gitem_t	bg_itemlist[] =
 	},	// leave index 0 alone
 
 	//
-	// ARMOR
-	//
-
-/*QUAKED item_armor_shard (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
-*/
-	{
-		"item_armor_shard", 
-		"sound/misc/ar1_pkup.wav",
-		{ "models/powerups/armor/shard.md3", 
-		"models/powerups/armor/shard_sphere.md3",
-		NULL, NULL} ,
-/* icon */		"icons/iconr_shard",
-/* pickup */	"Armor Shard",
-		5,
-		IT_ARMOR,
-		0,
-/* precache */ "",
-/* sounds */ ""
-	},
-
-/*QUAKED item_armor_combat (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
-*/
-	{
-		"item_armor_combat", 
-		"sound/misc/ar2_pkup.wav",
-        { "models/powerups/armor/armor_yel.md3",
-		NULL, NULL, NULL},
-/* icon */		"icons/iconr_yellow",
-/* pickup */	"Armor",
-		50,
-		IT_ARMOR,
-		0,
-/* precache */ "",
-/* sounds */ ""
-	},
-
-/*QUAKED item_armor_body (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
-*/
-	{
-		"item_armor_body", 
-		"sound/misc/ar2_pkup.wav",
-        { "models/powerups/armor/armor_red.md3",
-		NULL, NULL, NULL},
-/* icon */		"icons/iconr_red",
-/* pickup */	"Heavy Armor",
-		100,
-		IT_ARMOR,
-		0,
-/* precache */ "",
-/* sounds */ ""
-	},
-
-	//
-	// health
-	//
-/*QUAKED item_health_small (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
-*/
-	{
-		"item_health_small",
-		"sound/items/s_health.wav",
-        { "models/powerups/health/small_cross.md3", 
-		"models/powerups/health/small_sphere.md3", 
-		NULL, NULL },
-/* icon */		"icons/iconh_green",
-/* pickup */	"5 Health",
-		5,
-		IT_HEALTH,
-		0,
-/* precache */ "",
-/* sounds */ ""
-	},
-
-/*QUAKED item_health (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
-*/
-	{
-		"item_health",
-		"sound/items/n_health.wav",
-        { "models/powerups/health/medium_cross.md3", 
-		"models/powerups/health/medium_sphere.md3", 
-		NULL, NULL },
-/* icon */		"icons/iconh_yellow",
-/* pickup */	"25 Health",
-		25,
-		IT_HEALTH,
-		0,
-/* precache */ "",
-/* sounds */ ""
-	},
-
-/*QUAKED item_health_large (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
-*/
-	{
-		"item_health_large",
-		"sound/items/l_health.wav",
-        { "models/powerups/health/large_cross.md3", 
-		"models/powerups/health/large_sphere.md3", 
-		NULL, NULL },
-/* icon */		"icons/iconh_red",
-/* pickup */	"50 Health",
-		50,
-		IT_HEALTH,
-		0,
-/* precache */ "",
-/* sounds */ ""
-	},
-
-/*QUAKED item_health_mega (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
-*/
-	{
-		"item_health_mega",
-		"sound/items/m_health.wav",
-        { "models/powerups/health/mega_cross.md3", 
-		"models/powerups/health/mega_sphere.md3", 
-		NULL, NULL },
-/* icon */		"icons/iconh_mega",
-/* pickup */	"Mega Health",
-		100,
-		IT_HEALTH,
-		0,
-/* precache */ "",
-/* sounds */ ""
-	},
-
-
-	//
 	// WEAPONS 
 	//
 
-/*QUAKED weapon_gauntlet (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+/*QUAKED weapon_phaser (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
 */
 	{
-		"weapon_gauntlet", 
-		"sound/misc/w_pkup.wav",
-        { "models/weapons2/gauntlet/gauntlet.md3",
+		"weapon_phaser", 
+		"sound/weapons/w_pkup.wav",
+		{ "models/weapons2/phaser/phaser_w.md3",
 		NULL, NULL, NULL},
-/* icon */		"icons/iconw_gauntlet",
-/* pickup */	"Gauntlet",
-		0,
+		"models/weapons2/phaser/phaser.md3",
+/* icon */		"icons/w_icon_phaser",
+/* pickup */	"Phaser",
+		AMMO_PHASER_CLIP,
 		IT_WEAPON,
-		WP_GAUNTLET,
+		WP_PHASER,
 /* precache */ "",
 /* sounds */ ""
 	},
 
-/*QUAKED weapon_shotgun (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+/*QUAKED weapon_compressionrifle (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
 */
 	{
-		"weapon_shotgun", 
-		"sound/misc/w_pkup.wav",
-        { "models/weapons2/shotgun/shotgun.md3", 
+		"weapon_compressionrifle", 
+		"sound/weapons/w_pkup.wav",
+        { "models/weapons2/prifle/prifle_w.md3",
 		NULL, NULL, NULL},
-/* icon */		"icons/iconw_shotgun",
-/* pickup */	"Shotgun",
-		10,
+		"models/weapons2/prifle/prifle.md3",
+/* icon */		"icons/w_icon_rifle",
+/* pickup */	"Phaser Compression Rifle",
+		AMMO_COMPRESSION_CLIP,
 		IT_WEAPON,
-		WP_SHOTGUN,
+		WP_COMPRESSION_RIFLE,
 /* precache */ "",
 /* sounds */ ""
 	},
 
-/*QUAKED weapon_machinegun (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+/*QUAKED weapon_imod (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
 */
 	{
-		"weapon_machinegun", 
-		"sound/misc/w_pkup.wav",
-        { "models/weapons2/machinegun/machinegun.md3", 
+		"weapon_imod", 
+		"sound/weapons/w_pkup.wav",
+        { "models/weapons2/imod/imod2_w.md3",
 		NULL, NULL, NULL},
-/* icon */		"icons/iconw_machinegun",
-/* pickup */	"Machinegun",
-		40,
+		"models/weapons2/imod/imod2.md3",
+/* icon */		"icons/w_icon_imod",
+/* pickup */	"I-MOD",
+		AMMO_IMOD_CLIP,
 		IT_WEAPON,
-		WP_MACHINEGUN,
+		WP_IMOD,
+/* precache */ "",
+/* sounds */ ""
+	},
+
+/*QUAKED weapon_scavenger (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+*/
+	{
+		"weapon_scavenger", 
+		"sound/weapons/w_pkup.wav",
+        { "models/weapons2/scavenger/scavenger_w.md3",
+		NULL, NULL, NULL},
+		"models/weapons2/scavenger/scavenger.md3",
+/* icon */		"icons/w_icon_scav",
+/* pickup */	"Scavenger Weapon",
+		AMMO_SCAVENGER_CLIP,
+		IT_WEAPON,
+		WP_SCAVENGER_RIFLE,
+/* precache */ "",
+/* sounds */ ""
+	},
+
+/*QUAKED weapon_stasisweapon (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+*/
+	{
+		"weapon_stasisweapon",
+		"sound/weapons/w_pkup.wav",
+        { "models/weapons2/stasis/stasis_w.md3",
+		NULL, NULL, NULL},
+		"models/weapons2/stasis/stasis.md3",
+/* icon */		"icons/w_icon_stasis",
+/* pickup */	"Stasis Weapon",
+		AMMO_STASIS_CLIP,
+		IT_WEAPON,
+		WP_STASIS,
 /* precache */ "",
 /* sounds */ ""
 	},
@@ -247,110 +192,66 @@ gitem_t	bg_itemlist[] =
 */
 	{
 		"weapon_grenadelauncher",
-		"sound/misc/w_pkup.wav",
-        { "models/weapons2/grenadel/grenadel.md3", 
+		"sound/weapons/w_pkup.wav",
+        { "models/weapons2/launcher/launcher_w.md3",
 		NULL, NULL, NULL},
-/* icon */		"icons/iconw_grenade",
-/* pickup */	"Grenade Launcher",
-		10,
+		"models/weapons2/launcher/launcher.md3",
+/* icon */		"icons/w_icon_grenade",
+/* pickup */	"Compound Grenade Launcher",
+		AMMO_GRENADE_CLIP,
 		IT_WEAPON,
 		WP_GRENADE_LAUNCHER,
 /* precache */ "",
-/* sounds */ "sound/weapons/grenade/hgrenb1a.wav sound/weapons/grenade/hgrenb2a.wav"
+/* sounds */ "sound/weapons/glauncher/bounce1.wav sound/weapons/glauncher/bounce2.wav"
 	},
 
-/*QUAKED weapon_rocketlauncher (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+/*QUAKED weapon_tetriondisruptor (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
 */
 	{
-		"weapon_rocketlauncher",
-		"sound/misc/w_pkup.wav",
-        { "models/weapons2/rocketl/rocketl.md3", 
+		"weapon_tetriondisruptor", 
+		"sound/weapons/w_pkup.wav",
+        { "models/weapons2/tpd/tpd_w.md3",
 		NULL, NULL, NULL},
-/* icon */		"icons/iconw_rocket",
-/* pickup */	"Rocket Launcher",
-		10,
+		"models/weapons2/tpd/tpd.md3",
+/* icon */		"icons/w_icon_tetrion",
+/* pickup */	"Tetryon Pulse Disruptor",
+		AMMO_TETRION_CLIP,
 		IT_WEAPON,
-		WP_ROCKET_LAUNCHER,
+		WP_TETRION_DISRUPTOR,
 /* precache */ "",
 /* sounds */ ""
 	},
 
-/*QUAKED weapon_lightning (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+/*QUAKED weapon_quantumburst (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
 */
 	{
-		"weapon_lightning", 
-		"sound/misc/w_pkup.wav",
-        { "models/weapons2/lightning/lightning.md3", 
+		"weapon_quantumburst", 
+		"sound/weapons/w_pkup.wav",
+        { "models/weapons2/q_burst/q_burst_w.md3",
 		NULL, NULL, NULL},
-/* icon */		"icons/iconw_lightning",
-/* pickup */	"Lightning Gun",
-		100,
+		"models/weapons2/q_burst/q_burst.md3",
+/* icon */		"icons/w_icon_quantum",
+/* pickup */	"Photon Burst",
+		AMMO_QUANTUM_CLIP,
 		IT_WEAPON,
-		WP_LIGHTNING,
+		WP_QUANTUM_BURST,
 /* precache */ "",
 /* sounds */ ""
 	},
 
-/*QUAKED weapon_railgun (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+/*QUAKED weapon_dreadnought (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
 */
 	{
-		"weapon_railgun", 
-		"sound/misc/w_pkup.wav",
-        { "models/weapons2/railgun/railgun.md3", 
+		"weapon_dreadnought", 
+		"sound/weapons/w_pkup.wav",
+        { "models/weapons2/arc_welder/arc_w.md3",
 		NULL, NULL, NULL},
-/* icon */		"icons/iconw_railgun",
-/* pickup */	"Railgun",
-		10,
+		"models/weapons2/arc_welder/arc.md3",
+/* icon */		"icons/w_icon_dreadnought",
+/* pickup */	"Arc Welder",
+		AMMO_DREADNOUGHT_CLIP,
 		IT_WEAPON,
-		WP_RAILGUN,
-/* precache */ "",
-/* sounds */ ""
-	},
-
-/*QUAKED weapon_plasmagun (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
-*/
-	{
-		"weapon_plasmagun", 
-		"sound/misc/w_pkup.wav",
-        { "models/weapons2/plasma/plasma.md3", 
-		NULL, NULL, NULL},
-/* icon */		"icons/iconw_plasma",
-/* pickup */	"Plasma Gun",
-		50,
-		IT_WEAPON,
-		WP_PLASMAGUN,
-/* precache */ "",
-/* sounds */ ""
-	},
-
-/*QUAKED weapon_bfg (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
-*/
-	{
-		"weapon_bfg",
-		"sound/misc/w_pkup.wav",
-        { "models/weapons2/bfg/bfg.md3", 
-		NULL, NULL, NULL},
-/* icon */		"icons/iconw_bfg",
-/* pickup */	"BFG10K",
-		20,
-		IT_WEAPON,
-		WP_BFG,
-/* precache */ "",
-/* sounds */ ""
-	},
-
-/*QUAKED weapon_grapplinghook (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
-*/
-	{
-		"weapon_grapplinghook",
-		"sound/misc/w_pkup.wav",
-        { "models/weapons2/grapple/grapple.md3", 
-		NULL, NULL, NULL},
-/* icon */		"icons/iconw_grapple",
-/* pickup */	"Grappling Hook",
-		0,
-		IT_WEAPON,
-		WP_GRAPPLING_HOOK,
+		WP_DREADNOUGHT,
 /* precache */ "",
 /* sounds */ ""
 	},
@@ -359,130 +260,245 @@ gitem_t	bg_itemlist[] =
 	// AMMO ITEMS
 	//
 
-/*QUAKED ammo_shells (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+/*QUAKED ammo_compressionrifle (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+32 ammo for the compression rifle
 */
 	{
-		"ammo_shells",
-		"sound/misc/am_pkup.wav",
-        { "models/powerups/ammo/shotgunam.md3", 
+		"ammo_compressionrifle",
+		"sound/player/pickupenergy.wav",
+        { "models/powerups/trek/prifle_ammo.md3",
 		NULL, NULL, NULL},
-/* icon */		"icons/icona_shotgun",
-/* pickup */	"Shells",
-		10,
+		NULL,
+/* icon */		"icons/dm_phaser_sm",
+/* pickup */	"Phaser Compression Rifle Ammo",
+		AMMO_COMPRESSION_CLIP,
 		IT_AMMO,
-		WP_SHOTGUN,
+		WP_COMPRESSION_RIFLE,
 /* precache */ "",
 /* sounds */ ""
 	},
 
-/*QUAKED ammo_bullets (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+/*QUAKED ammo_imod (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+15 ammo for the I-MOD
 */
 	{
-		"ammo_bullets",
-		"sound/misc/am_pkup.wav",
-        { "models/powerups/ammo/machinegunam.md3", 
+		"ammo_imod",
+		"sound/player/pickupenergy.wav",
+        { "models/powerups/trek/imod_ammo.md3",
 		NULL, NULL, NULL},
-/* icon */		"icons/icona_machinegun",
-/* pickup */	"Bullets",
-		50,
+		NULL,
+/* icon */		"icons/dm_imod",
+/* pickup */	"I-MOD Ammo",
+		AMMO_IMOD_CLIP,
 		IT_AMMO,
-		WP_MACHINEGUN,
+		WP_IMOD,
+/* precache */ "",
+/* sounds */ ""
+	},
+
+/*QUAKED ammo_scavenger (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+30 ammo for the scavenger rifle
+*/
+	{
+		"ammo_scavenger",
+		"sound/player/pickupenergy.wav",
+        { "models/powerups/trek/scavenger_ammo.md3",
+		NULL, NULL, NULL},
+		NULL,
+/* icon */		"icons/dm_scav",
+/* pickup */	"Scavenger Weapon Ammo",
+		AMMO_SCAVENGER_CLIP,
+		IT_AMMO,
+		WP_SCAVENGER_RIFLE,
+/* precache */ "",
+/* sounds */ ""
+	},
+
+/*QUAKED ammo_stasis (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+15 ammo for the stasis weapon
+*/
+	{
+		"ammo_stasis",
+		"sound/player/pickupenergy.wav",
+        { "models/powerups/trek/stasis_ammo.md3",
+		NULL, NULL, NULL},
+		NULL,
+/* icon */		"icons/dm_stasis_sm",
+/* pickup */	"Stasis Weapon Ammo",
+		AMMO_STASIS_CLIP,
+		IT_AMMO,
+		WP_STASIS,
 /* precache */ "",
 /* sounds */ ""
 	},
 
 /*QUAKED ammo_grenades (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+10 ammo for the grenade launcher
 */
 	{
 		"ammo_grenades",
-		"sound/misc/am_pkup.wav",
-        { "models/powerups/ammo/grenadeam.md3", 
+		"sound/player/pickupenergy.wav",
+        { "models/powerups/trek/glauncher_ammo.md3",
 		NULL, NULL, NULL},
-/* icon */		"icons/icona_grenade",
-/* pickup */	"Grenades",
-		5,
+		NULL,
+/* icon */		"icons/dm_glauncher_sm",
+/* pickup */	"Compound Grenade Launcher Ammo",
+		AMMO_GRENADE_CLIP,
 		IT_AMMO,
 		WP_GRENADE_LAUNCHER,
 /* precache */ "",
 /* sounds */ ""
 	},
 
-/*QUAKED ammo_cells (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+/*QUAKED ammo_tetriondisruptor (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+40 ammo for the tetrYon disruptor
 */
 	{
-		"ammo_cells",
-		"sound/misc/am_pkup.wav",
-        { "models/powerups/ammo/plasmaam.md3", 
+		"ammo_tetriondisruptor",
+		"sound/player/pickupenergy.wav",
+        { "models/powerups/trek/tetrion_ammo.md3",
 		NULL, NULL, NULL},
-/* icon */		"icons/icona_plasma",
-/* pickup */	"Cells",
-		30,
+		NULL,
+/* icon */		"icons/dm_tetrion_sm",
+/* pickup */	"Tetryon Pulse Disruptor Ammo",
+		AMMO_TETRION_CLIP,
 		IT_AMMO,
-		WP_PLASMAGUN,
+		WP_TETRION_DISRUPTOR,
 /* precache */ "",
 /* sounds */ ""
 	},
 
-/*QUAKED ammo_lightning (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+/*QUAKED ammo_quantumburst (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+6 ammo for the quantum burst weapon
 */
 	{
-		"ammo_lightning",
-		"sound/misc/am_pkup.wav",
-        { "models/powerups/ammo/lightningam.md3", 
+		"ammo_quantumburst",
+		"sound/player/pickupenergy.wav",
+        { "models/powerups/trek/torpedo.md3",
 		NULL, NULL, NULL},
-/* icon */		"icons/icona_lightning",
-/* pickup */	"Lightning",
-		60,
+		NULL,
+/* icon */		"icons/dm_torpedo_sm",
+/* pickup */	"Photon Burst Ammo",
+		AMMO_QUANTUM_CLIP,
 		IT_AMMO,
-		WP_LIGHTNING,
+		WP_QUANTUM_BURST,
 /* precache */ "",
 /* sounds */ ""
 	},
 
-/*QUAKED ammo_rockets (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+/*QUAKED ammo_dreadnought (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+40 ammo for the dreadnought/arc welder
 */
 	{
-		"ammo_rockets",
-		"sound/misc/am_pkup.wav",
-        { "models/powerups/ammo/rocketam.md3", 
+		"ammo_dreadnought",
+		"sound/player/pickupenergy.wav",
+        { "models/powerups/trek/arc_ammo.md3",
 		NULL, NULL, NULL},
-/* icon */		"icons/icona_rocket",
-/* pickup */	"Rockets",
+		NULL,
+/* icon */		"icons/dm_a_arc_sm",
+/* pickup */	"Arc Welder Ammo",
+		AMMO_DREADNOUGHT_CLIP,
+		IT_AMMO,
+		WP_DREADNOUGHT,
+/* precache */ "",
+/* sounds */ ""
+	},
+
+
+	//
+	// ARMOR
+	//
+
+/*QUAKED item_armor_shard (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+5 points of shields
+*/
+	{
+		"item_armor_shard", 
+		"sound/player/pickupenergy.wav",
+        { "models/powerups/trek/armor_shard.md3",
+		NULL, NULL, NULL},
+		NULL,
+/* icon */		"icons/icon_shards",
+/* pickup */	"Incremental Shield Boost",
 		5,
-		IT_AMMO,
-		WP_ROCKET_LAUNCHER,
+		IT_ARMOR,
+		0,
 /* precache */ "",
 /* sounds */ ""
 	},
 
-/*QUAKED ammo_slugs (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+/*QUAKED item_armor_combat (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+50 points of shields
 */
 	{
-		"ammo_slugs",
-		"sound/misc/am_pkup.wav",
-        { "models/powerups/ammo/railgunam.md3", 
+		"item_armor_combat", 
+		"sound/player/pickupenergy.wav",
+        { "models/powerups/trek/armor.md3",
 		NULL, NULL, NULL},
-/* icon */		"icons/icona_railgun",
-/* pickup */	"Slugs",
-		10,
-		IT_AMMO,
-		WP_RAILGUN,
+		NULL,
+/* icon */		"icons/dm_armor_sm",
+/* pickup */	"Personal Deflector Screen",
+		50,
+		IT_ARMOR,
+		0,
 /* precache */ "",
 /* sounds */ ""
 	},
 
-/*QUAKED ammo_bfg (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+/*QUAKED item_armor_body (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+100 points of shields
 */
 	{
-		"ammo_bfg",
-		"sound/misc/am_pkup.wav",
-        { "models/powerups/ammo/bfgam.md3", 
+		"item_armor_body", 
+		"sound/player/suitenergy.wav",
+        { "models/powerups/trek/armor2.md3",
 		NULL, NULL, NULL},
-/* icon */		"icons/icona_bfg",
-/* pickup */	"Bfg Ammo",
-		15,
-		IT_AMMO,
-		WP_BFG,
+		NULL,
+/* icon */		"icons/dm_superarmor_sm",
+/* pickup */	"Isokinetic Deflector Screen",
+		100,
+		IT_ARMOR,
+		0,
+/* precache */ "",
+/* sounds */ ""
+	},
+
+	//
+	// HEALTH
+	//
+
+/*QUAKED item_hypo_small (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+5 points of health, max of 200
+*/
+	{
+		"item_hypo_small",
+		"sound/player/pickuphealth.wav",
+        { "models/powerups/trek/hypo_single.md3",
+		NULL, NULL, NULL},
+		NULL,
+/* icon */		"icons/dm_health_sm",
+/* pickup */	"Booster Hypospray",
+		5,
+		IT_HEALTH,
+		0,
+/* precache */ "",
+/* sounds */ ""
+	},
+
+/*QUAKED item_hypo (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+25 points of health, max of 100
+*/
+	{
+		"item_hypo",
+		"sound/player/suithealth.wav",
+        { "models/powerups/trek/hypo_double.md3",
+		NULL, NULL, NULL},
+		NULL,
+/* icon */		"icons/dm_health2_sm",
+/* pickup */	"Emergency Hypospray",
+		25,
+		IT_HEALTH,
+		0,
 /* precache */ "",
 /* sounds */ ""
 	},
@@ -490,32 +506,36 @@ gitem_t	bg_itemlist[] =
 	//
 	// HOLDABLE ITEMS
 	//
-/*QUAKED holdable_teleporter (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+/*QUAKED holdable_transporter (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+pick it up and it stays in your inventory until used, at which time you drop it in front of you and it still
+kind of resides in your inventory. when you use it _again_ it activates and anyone can walk through the transporter.
 */
 	{
-		"holdable_teleporter", 
+		"holdable_transporter", 
 		"sound/items/holdable.wav",
-        { "models/powerups/holdable/teleporter.md3", 
+        { "models/powerups/trek/transporter.md3",
 		NULL, NULL, NULL},
-/* icon */		"icons/teleporter",
-/* pickup */	"Personal Teleporter",
+		NULL,
+/* icon */		"icons/dm_transport_sm",
+/* pickup */	"Personal Transporter Device",
 		60,
 		IT_HOLDABLE,
-		HI_TELEPORTER,
+		HI_TRANSPORTER,
 /* precache */ "",
 /* sounds */ ""
 	},
+
 /*QUAKED holdable_medkit (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+pick it up and it stays in your inventory until used, at which time it sets your health to 100
 */
 	{
 		"holdable_medkit", 
 		"sound/items/holdable.wav",
-        { 
-		"models/powerups/holdable/medkit.md3", 
-		"models/powerups/holdable/medkit_sphere.md3",
-		NULL, NULL},
-/* icon */		"icons/medkit",
-/* pickup */	"Medkit",
+        { "models/powerups/trek/med_kit.md3",
+		NULL, NULL, NULL},
+		NULL,
+/* icon */		"icons/dm_health3_sm",
+/* pickup */	"Portable Medkit",
 		60,
 		IT_HOLDABLE,
 		HI_MEDKIT,
@@ -527,49 +547,52 @@ gitem_t	bg_itemlist[] =
 	// POWERUP ITEMS
 	//
 /*QUAKED item_quad (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+multiplies your weapon's damage for 30 seconds
 */
 	{
 		"item_quad", 
 		"sound/items/quaddamage.wav",
-        { "models/powerups/instant/quad.md3", 
-        "models/powerups/instant/quad_ring.md3",
-		NULL, NULL },
-/* icon */		"icons/quad",
-/* pickup */	"Quad Damage",
+        { "models/powerups/trek/quad_damage.md3",
+		NULL, NULL, NULL},
+		NULL,
+/* icon */		"icons/dm_quad",
+/* pickup */	"Quantum Weapon Enhancer",
 		30,
 		IT_POWERUP,
 		PW_QUAD,
 /* precache */ "",
-/* sounds */ "sound/items/damage2.wav sound/items/damage3.wav"
+/* sounds */ "sound/items/damage3.wav"
 	},
 
 /*QUAKED item_enviro (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+20 seconds of invulnerability
 */
 	{
 		"item_enviro",
 		"sound/items/protect.wav",
-        { "models/powerups/instant/enviro.md3", 
-		"models/powerups/instant/enviro_ring.md3", 
-		NULL, NULL },
+		{ "models/powerups/trek/armor3.md3",
+		NULL, NULL, NULL},
+		NULL,
 /* icon */		"icons/envirosuit",
-/* pickup */	"Battle Suit",
-		30,
+/* pickup */	"Metaphasic Shielding",
+		20,
 		IT_POWERUP,
 		PW_BATTLESUIT,
 /* precache */ "",
-/* sounds */ "sound/items/airout.wav sound/items/protect3.wav"
+/* sounds */ "sound/items/protect3.wav"
 	},
 
 /*QUAKED item_haste (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+for 30 seconds you run at %150 of your normal speed and your firing delays are 3/4 as long
 */
 	{
 		"item_haste",
 		"sound/items/haste.wav",
-        { "models/powerups/instant/haste.md3", 
-		"models/powerups/instant/haste_ring.md3", 
-		NULL, NULL },
-/* icon */		"icons/haste",
-/* pickup */	"Speed",
+        { "models/powerups/trek/haste.md3",
+		NULL, NULL, NULL},
+		NULL,
+/* icon */		"icons/dm_haste",
+/* pickup */	"Temporal Accelerator",
 		30,
 		IT_POWERUP,
 		PW_HASTE,
@@ -578,16 +601,17 @@ gitem_t	bg_itemlist[] =
 	},
 
 /*QUAKED item_invis (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+20 seconds of invisibility
 */
 	{
 		"item_invis",
 		"sound/items/invisibility.wav",
-        { "models/powerups/instant/invis.md3", 
-		"models/powerups/instant/invis_ring.md3", 
-		NULL, NULL },
-/* icon */		"icons/invis",
-/* pickup */	"Invisibility",
-		30,
+        { "models/powerups/trek/invisible.md3",
+		NULL, NULL, NULL},
+		NULL,
+/* icon */		"icons/dm_invisibility",
+/* pickup */	"Personal Cloaking Device",
+		20,
 		IT_POWERUP,
 		PW_INVIS,
 /* precache */ "",
@@ -595,15 +619,16 @@ gitem_t	bg_itemlist[] =
 	},
 
 /*QUAKED item_regen (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+for 30 seconds you get 5 health every second, up to 200 health
 */
 	{
 		"item_regen",
 		"sound/items/regeneration.wav",
-        { "models/powerups/instant/regen.md3", 
-		"models/powerups/instant/regen_ring.md3", 
-		NULL, NULL },
+        { "models/powerups/trek/regen.md3",
+		NULL, NULL, NULL},
+		NULL,
 /* icon */		"icons/regen",
-/* pickup */	"Regeneration",
+/* pickup */	"Nano-Regenerative Protoplasmer",
 		30,
 		IT_POWERUP,
 		PW_REGEN,
@@ -612,52 +637,183 @@ gitem_t	bg_itemlist[] =
 	},
 
 /*QUAKED item_flight (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+30 seconds of flight
 */
 	{
 		"item_flight",
 		"sound/items/flight.wav",
-        { "models/powerups/instant/flight.md3", 
-		"models/powerups/instant/flight_ring.md3", 
-		NULL, NULL },
-/* icon */		"icons/flight",
-/* pickup */	"Flight",
-		60,
+        { "models/powerups/trek/flight.md3",
+		NULL, NULL, NULL},
+		NULL,
+/* icon */		"icons/dm_flight",
+/* pickup */	"Anti-Gravity Pack",
+		30,
 		IT_POWERUP,
 		PW_FLIGHT,
 /* precache */ "",
 /* sounds */ "sound/items/flight.wav"
 	},
 
-/*QUAKED team_CTF_redflag (1 0 0) (-16 -16 -16) (16 16 16)
+/*QUAKED team_CTF_redflag (1 0 0) (-24 -24 -16) (24 24 32)
 Only in CTF games
 */
 	{
 		"team_CTF_redflag",
+		"sound/voice/computer/misc/haveflag.wav",
+        { "models/flags/flag_red.md3", //must match cg_main media and botfiles/items.c
+		NULL, NULL, NULL},
 		NULL,
-        { "models/flags/r_flag.md3",
-		NULL, NULL, NULL },
-/* icon */		"icons/iconf_red1",
+/* icon */		"icons/iconf_red",
 /* pickup */	"Red Flag",
 		0,
 		IT_TEAM,
 		PW_REDFLAG,
 /* precache */ "",
-/* sounds */ ""
+/* sounds */ "sound/voice/computer/misc/stolen.wav sound/voice/computer/misc/stolen_e.wav sound/voice/computer/misc/returned.wav sound/voice/computer/misc/returned_e.wav"
 	},
 
-/*QUAKED team_CTF_blueflag (0 0 1) (-16 -16 -16) (16 16 16)
+/*QUAKED team_CTF_blueflag (0 0 1) (-24 -24 -16) (24 24 32)
 Only in CTF games
 */
 	{
 		"team_CTF_blueflag",
+		"sound/voice/computer/misc/haveflag.wav",
+        { "models/flags/flag_blue.md3",//must match cg_main media and botfiles/items.c
+		NULL, NULL, NULL},
 		NULL,
-        { "models/flags/b_flag.md3",
-		NULL, NULL, NULL },
-/* icon */		"icons/iconf_blu1",
+/* icon */		"icons/iconf_blu",
 /* pickup */	"Blue Flag",
 		0,
 		IT_TEAM,
 		PW_BLUEFLAG,
+/* precache */ "",
+/* sounds */ "sound/voice/computer/misc/dropped.wav sound/voice/computer/misc/dropped_e.wav sound/voice/computer/misc/scored.wav sound/voice/computer/misc/scored_e.wav"
+	},
+
+/*QUAKED holdable_detpack (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+BLAMMO!
+*/
+	{
+		"holdable_detpack", 
+		"sound/player/pickupenergy.wav",
+        { "models/powerups/trek/detpak.md3",
+		NULL, NULL, NULL},
+		NULL,
+/* icon */		"icons/icon_detpack",
+/* pickup */	"Ultritium Explosive Charge",
+		1,		// 5,
+		IT_HOLDABLE,
+		HI_DETPACK,
+/* precache */ "",
+/* sounds */ "sound/weapons/detpacklatch.wav sound/weapons/explosions/detpakexplode.wav"
+	},
+
+/*QUAKED item_seeker (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+30 seconds of seeker drone
+*/
+	{
+		"item_seeker", 
+		"sound/player/pickupenergy.wav",
+        { "models/powerups/trek/flyer.md3",
+		NULL, NULL, NULL},
+		NULL,
+/* icon */		"icons/icon_seeker",
+/* pickup */	"Seeker Drone",
+		30,
+		IT_POWERUP,
+		PW_SEEKER,
+/* precache */ "",
+/* sounds */ ""
+	},
+
+/*QUAKED holdable_shield (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+About 25 seconds or 250 hit points of a portashield.
+*/
+	{
+		"holdable_shield", 
+		"sound/player/pickupenergy.wav",
+        { "models/powerups/trek/shield_gen.md3",
+		NULL, NULL, NULL},
+		NULL,
+/* icon */		"icons/icon_shield",
+/* pickup */	"Portable Force Field",
+		1,
+		IT_HOLDABLE,
+		HI_SHIELD,
+/* precache */ "",
+/* sounds */ "sound/weapons/detpacklatch.wav sound/movers/forceup.wav sound/ambience/spark5.wav"
+	},	
+
+
+/*QUAKED Holographic_decoy (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+About 1 minute of a holographic decoy.
+*/
+	{
+		"Holographic_decoy", 
+		"sound/items/holdable.wav",
+        { "models/powerups/trek/decoy.md3",
+		NULL, NULL, NULL},
+		NULL,
+/* icon */		"icons/icon_decoy",
+/* pickup */	"Holographic Decoy",
+		1,
+		IT_HOLDABLE,
+		HI_DECOY,
+/* precache */ "",
+/* sounds */ ""
+	},	
+
+	//
+	// New Weapons
+	//
+
+/*QUAKED weapon_voyager_hypo (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+*/
+	{
+		"weapon_voyager_hypo", 
+		"sound/weapons/w_pkup.wav",
+        { "models/weapons2/tricorder/hypo.md3",
+		NULL, NULL, NULL},
+		"models/weapons2/tricorder/hypo.md3",
+/* icon */		"icons/w_icon_hypo",
+/* pickup */	"Hypo",
+		AMMO_PHASER_CLIP,
+		IT_WEAPON,
+		WP_VOYAGER_HYPO,
+/* precache */ "",
+/* sounds */ ""
+	},
+
+/*QUAKED weapon_borg_assimilator (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+*/
+	{
+		"weapon_borg_assimilator", 
+		"sound/weapons/w_pkup.wav",
+        { "models/weapons2/borg/hand_w.md3",
+		NULL, NULL, NULL},
+		"models/weapons2/borg/hand.md3",
+/* icon */		"icons/w_icon_borg_assimilator",
+/* pickup */	"Assimilator",
+		AMMO_PHASER_CLIP,
+		IT_WEAPON,
+		WP_BORG_ASSIMILATOR,
+/* precache */ "",
+/* sounds */ ""
+	},
+
+/*QUAKED weapon_borg_weapon (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+*/
+	{
+		"weapon_borg_weapon", 
+		"sound/weapons/w_pkup.wav",
+        { "models/weapons2/borg/claw-1_w.md3",
+		NULL, NULL, NULL},
+		"models/weapons2/borg/claw-1.md3",
+/* icon */		"icons/w_icon_borg_weapon",
+/* pickup */	"Borg Weapon",
+		AMMO_PHASER_CLIP,
+		IT_WEAPON,
+		WP_BORG_WEAPON,
 /* precache */ "",
 /* sounds */ ""
 	},
@@ -670,6 +826,7 @@ Only in CTF games
 		"sound/items/holdable.wav",
         { "models/powerups/kamikazi.md3", 
 		NULL, NULL, NULL},
+		NULL,
 /* icon */		"icons/kamikaze",
 /* pickup */	"Kamikaze",
 		60,
@@ -686,6 +843,7 @@ Only in CTF games
 		"sound/items/holdable.wav",
         { "models/powerups/holdable/porter.md3",
 		NULL, NULL, NULL},
+		NULL,
 /* icon */		"icons/portal",
 /* pickup */	"Portal",
 		60,
@@ -702,6 +860,7 @@ Only in CTF games
 		"sound/items/holdable.wav",
         { "models/powerups/holdable/invulnerability.md3", 
 		NULL, NULL, NULL},
+		NULL,
 /* icon */		"icons/invulnerability",
 /* pickup */	"Invulnerability",
 		60,
@@ -718,6 +877,7 @@ Only in CTF games
 		"sound/misc/am_pkup.wav",
         { "models/powerups/ammo/nailgunam.md3", 
 		NULL, NULL, NULL},
+		NULL,
 /* icon */		"icons/icona_nailgun",
 /* pickup */	"Nails",
 		20,
@@ -734,6 +894,7 @@ Only in CTF games
 		"sound/misc/am_pkup.wav",
         { "models/powerups/ammo/proxmineam.md3", 
 		NULL, NULL, NULL},
+		NULL,
 /* icon */		"icons/icona_proxlauncher",
 /* pickup */	"Proximity Mines",
 		10,
@@ -750,6 +911,7 @@ Only in CTF games
 		"sound/misc/am_pkup.wav",
         { "models/powerups/ammo/chaingunam.md3", 
 		NULL, NULL, NULL},
+		NULL,
 /* icon */		"icons/icona_chaingun",
 /* pickup */	"Chaingun Belt",
 		100,
@@ -769,6 +931,7 @@ Only in CTF games
 		"sound/items/scout.wav",
         { "models/powerups/scout.md3", 
 		NULL, NULL, NULL },
+		NULL,
 /* icon */		"icons/scout",
 /* pickup */	"Scout",
 		30,
@@ -785,6 +948,7 @@ Only in CTF games
 		"sound/items/guard.wav",
         { "models/powerups/guard.md3", 
 		NULL, NULL, NULL },
+		NULL,
 /* icon */		"icons/guard",
 /* pickup */	"Guard",
 		30,
@@ -801,6 +965,7 @@ Only in CTF games
 		"sound/items/doubler.wav",
         { "models/powerups/doubler.md3", 
 		NULL, NULL, NULL },
+		NULL,
 /* icon */		"icons/doubler",
 /* pickup */	"Doubler",
 		30,
@@ -817,6 +982,7 @@ Only in CTF games
 		"sound/items/ammoregen.wav",
         { "models/powerups/ammo.md3",
 		NULL, NULL, NULL },
+		NULL,
 /* icon */		"icons/ammo_regen",
 /* pickup */	"Ammo Regen",
 		30,
@@ -834,6 +1000,7 @@ Only in One Flag CTF games
 		NULL,
         { "models/flags/n_flag.md3",
 		NULL, NULL, NULL },
+		NULL,
 /* icon */		"icons/iconf_neutral1",
 /* pickup */	"Neutral Flag",
 		0,
@@ -848,6 +1015,7 @@ Only in One Flag CTF games
 		"sound/misc/am_pkup.wav",
         { "models/powerups/orb/r_orb.md3",
 		NULL, NULL, NULL },
+		NULL,
 /* icon */		"icons/iconh_rorb",
 /* pickup */	"Red Cube",
 		0,
@@ -862,6 +1030,7 @@ Only in One Flag CTF games
 		"sound/misc/am_pkup.wav",
         { "models/powerups/orb/b_orb.md3",
 		NULL, NULL, NULL },
+		NULL,
 /* icon */		"icons/iconh_borb",
 /* pickup */	"Blue Cube",
 		0,
@@ -877,6 +1046,7 @@ Only in One Flag CTF games
 		"sound/misc/w_pkup.wav",
         { "models/weapons/nailgun/nailgun.md3", 
 		NULL, NULL, NULL},
+		NULL,
 /* icon */		"icons/iconw_nailgun",
 /* pickup */	"Nailgun",
 		10,
@@ -893,6 +1063,7 @@ Only in One Flag CTF games
 		"sound/misc/w_pkup.wav",
         { "models/weapons/proxmine/proxmine.md3", 
 		NULL, NULL, NULL},
+		NULL,
 /* icon */		"icons/iconw_proxlauncher",
 /* pickup */	"Prox Launcher",
 		5,
@@ -914,6 +1085,7 @@ Only in One Flag CTF games
 		"sound/misc/w_pkup.wav",
         { "models/weapons/vulcan/vulcan.md3", 
 		NULL, NULL, NULL},
+		NULL,
 /* icon */		"icons/iconw_chaingun",
 /* pickup */	"Chaingun",
 		80,

@@ -1005,6 +1005,7 @@ typedef struct gitem_s {
 	char		*classname;	// spawning name
 	char		*pickup_sound;
 	char		*world_model[MAX_ITEM_MODELS];
+	char		*view_model;
 
 	char		*icon;
 	char		*pickup_name;	// for printing on pickup
