@@ -429,6 +429,7 @@ typedef struct weaponInfo_s {
 
 	qhandle_t		handsModel;			// the hands don't actually draw, they just position the weapon
 	qhandle_t		weaponModel;
+	qhandle_t		viewModel;
 	qhandle_t		barrelModel;
 	qhandle_t		flashModel;
 

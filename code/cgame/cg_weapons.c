@@ -644,6 +644,7 @@ void CG_RegisterWeapon( int weaponNum ) {
 
 	// load cmodel before model so filecache works
 	weaponInfo->weaponModel = trap_R_RegisterModel( item->world_model[0] );
+	weaponInfo->viewModel = trap_R_RegisterModel( item->view_model );
 
 	// calc midpoint for rotation
 	trap_R_ModelBounds( weaponInfo->weaponModel, mins, maxs, 0, 0, 0 );
@@ -679,7 +680,7 @@ void CG_RegisterWeapon( int weaponNum ) {
 	weaponInfo->handsModel = trap_R_RegisterModel( path );
 
 	if ( !weaponInfo->handsModel ) {
-		weaponInfo->handsModel = trap_R_RegisterModel( "models/weapons2/shotgun/shotgun_hand.md3" );
+		weaponInfo->handsModel = trap_R_RegisterModel( "models/weapons2/prifle/prifle_hand.md3" );
 	}
 
 	switch ( weaponNum ) {
@@ -1242,7 +1243,11 @@ void CG_AddPlayerWeapon( refEntity_t *parent, playerState_t *ps, centity_t *cent
 		}
 	}
 
-	gun.hModel = weapon->weaponModel;
+	if ( ps && weapon->viewModel ) {
+		gun.hModel = weapon->viewModel;
+	} else {
+		gun.hModel = weapon->weaponModel;
+	}
 	if (!gun.hModel) {
 		return;
 	}
