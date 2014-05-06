@@ -274,6 +274,11 @@ void Con_DrawSolidConsole( connstate_t state, float frac ) {
 		y = 0;
 	}
 	else {
+		color[0] = 0;
+		color[1] = 0;
+		color[2] = 0;
+		color[3] = 0.85;
+		trap_R_SetColor( color );
 		CG_DrawPic( 0, 0, SCREEN_WIDTH, y, cgs.media.consoleShader );
 	}
 
