@@ -1122,6 +1122,13 @@ static qboolean UI_ParseAnimationFile( const char *filename, animation_t *animat
 				break;
 			}
 			continue;
+		} else if ( !Q_stricmp( token, "soundpath" ) ) {
+			token = COM_Parse( &text_p );
+			if ( !token ) {
+				break;
+			}
+			// ZTM: PORTFIXME: Support this?
+			continue;
 		}
 
 		// if it is a number, start parsing animations

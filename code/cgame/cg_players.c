@@ -186,6 +186,13 @@ static qboolean	CG_ParseAnimationFile( const char *filename, clientInfo_t *ci ) 
 		} else if ( !Q_stricmp( token, "fixedtorso" ) ) {
 			ci->fixedtorso = qtrue;
 			continue;
+		} else if ( !Q_stricmp( token, "soundpath" ) ) {
+			token = COM_Parse( &text_p );
+			if ( !token ) {
+				break;
+			}
+			// ZTM: PORTFIXME: Support this?
+			continue;
 		}
 
 		// if it is a number, start parsing animations
