@@ -1675,6 +1675,8 @@ int BotInitLibrary(void) {
 	trap_Cvar_VariableStringBuffer("bot_reloadcharacters", buf, sizeof(buf));
 	if (!strlen(buf)) strcpy(buf, "0");
 	trap_BotLibVarSet("bot_reloadcharacters", buf);
+	//elite force has no random chats
+	trap_BotLibVarSet("rchatfile", "");
 	//
 #ifdef MISSIONPACK
 	trap_PC_AddGlobalDefine("MISSIONPACK");
