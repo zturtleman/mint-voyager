@@ -1354,7 +1354,7 @@ void CG_AddPlayerWeapon( refEntity_t *parent, playerState_t *ps, centity_t *cent
 		flash.shaderRGBA[2] = 255 * ci->color1[2];
 	}
 
-	CG_PositionRotatedEntityOnTag( &flash, &gun, weapon->weaponModel, "tag_flash");
+	CG_PositionRotatedEntityOnTag( &flash, &gun, gun.hModel, "tag_flash");
 	CG_AddRefEntityWithMinLight( &flash );
 
 	if ( ps || cg.cur_lc->renderingThirdPerson ||
