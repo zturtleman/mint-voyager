@@ -853,21 +853,21 @@ typedef struct animation_s {
 #define DEFAULT_CLIENT_COLOR2	5
 
 // Default player model names for the splitscreen clients
-#define DEFAULT_MODEL			"sarge"
-#define DEFAULT_HEAD			"sarge"
+#define DEFAULT_MODEL			"munro"
+#define DEFAULT_HEAD			"munro"
 
-#define DEFAULT_MODEL2			"grunt"
-#define DEFAULT_HEAD2			"grunt"
+#define DEFAULT_MODEL2			"chell"
+#define DEFAULT_HEAD2			"chell"
 
-#define DEFAULT_MODEL3			"major"
-#define DEFAULT_HEAD3			"major"
+#define DEFAULT_MODEL3			"alexandria"
+#define DEFAULT_HEAD3			"alexandria"
 
-#define DEFAULT_MODEL4			"visor"
-#define DEFAULT_HEAD4			"visor"
+#define DEFAULT_MODEL4			"doctor"
+#define DEFAULT_HEAD4			"doctor"
 
 // For fallback sounds
-#define DEFAULT_MODEL_MALE		"sarge"
-#define DEFAULT_MODEL_FEMALE	"major"
+#define DEFAULT_MODEL_MALE		"hm_male"
+#define DEFAULT_MODEL_FEMALE	"hm_female"
 
 #ifdef MISSIONPACK
 // Default team player model names
