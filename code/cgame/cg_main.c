@@ -1343,17 +1343,17 @@ static void CG_RegisterGraphics( void ) {
 	int			i;
 	char		items[MAX_ITEMS+1];
 	static char		*sb_nums[11] = {
-		"gfx/2d/numbers/zero_32b",
-		"gfx/2d/numbers/one_32b",
-		"gfx/2d/numbers/two_32b",
-		"gfx/2d/numbers/three_32b",
-		"gfx/2d/numbers/four_32b",
-		"gfx/2d/numbers/five_32b",
-		"gfx/2d/numbers/six_32b",
-		"gfx/2d/numbers/seven_32b",
-		"gfx/2d/numbers/eight_32b",
-		"gfx/2d/numbers/nine_32b",
-		"gfx/2d/numbers/minus_32b",
+		"gfx/2d/numbers/zero",
+		"gfx/2d/numbers/one",
+		"gfx/2d/numbers/two",
+		"gfx/2d/numbers/three",
+		"gfx/2d/numbers/four",
+		"gfx/2d/numbers/five",
+		"gfx/2d/numbers/six",
+		"gfx/2d/numbers/seven",
+		"gfx/2d/numbers/eight",
+		"gfx/2d/numbers/nine",
+		"gfx/2d/numbers/minus",
 	};
 
 	// clear any references to old media
