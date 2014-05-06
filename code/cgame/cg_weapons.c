@@ -679,7 +679,14 @@ void CG_RegisterWeapon( int weaponNum ) {
 	strcpy( path, baseModel );
 	COM_StripExtension(path, path, sizeof(path));
 	strcat( path, "_barrel.md3" );
-	weaponInfo->barrelModel = trap_R_RegisterModel( path );
+	weaponInfo->barrelModel[0] = trap_R_RegisterModel( path );
+
+	for ( i = 1; i < 4; i++ ) {
+		strcpy( path, baseModel );
+		COM_StripExtension(path, path, sizeof(path));
+		strcat( path, va( "_barrel%d.md3", i+1 ) );
+		weaponInfo->barrelModel[i] = trap_R_RegisterModel( path );
+	}
 
 	strcpy( path, baseModel );
 	COM_StripExtension(path, path, sizeof(path));
@@ -1141,6 +1148,7 @@ static void CG_LightningBolt( centity_t *cent, vec3_t origin ) {
 */
 
 
+#if 0
 /*
 ======================
 CG_MachinegunSpinAngle
@@ -1178,6 +1186,7 @@ static float	CG_MachinegunSpinAngle( centity_t *cent ) {
 
 	return angle;
 }
+#endif
 
 
 /*
@@ -1223,6 +1232,7 @@ void CG_AddPlayerWeapon( refEntity_t *parent, playerState_t *ps, centity_t *cent
 	weaponInfo_t	*weapon;
 	centity_t	*nonPredictedCent;
 	orientation_t	lerped;
+	int			i;
 
 	weaponNum = cent->currentState.weapon;
 
@@ -1290,22 +1300,29 @@ void CG_AddPlayerWeapon( refEntity_t *parent, playerState_t *ps, centity_t *cent
 
 	CG_AddWeaponWithPowerups( &gun, cent->currentState.powerups );
 
-	// add the spinning barrel
-	if ( weapon->barrelModel ) {
+	// add the first person barrel models
+	if ( ps && weapon->barrelModel[0] ) {
 		memset( &barrel, 0, sizeof( barrel ) );
 		VectorCopy( parent->lightingOrigin, barrel.lightingOrigin );
 		barrel.shadowPlane = parent->shadowPlane;
 		barrel.renderfx = parent->renderfx;
 
-		barrel.hModel = weapon->barrelModel;
+		barrel.hModel = weapon->barrelModel[0];
 		angles[YAW] = 0;
 		angles[PITCH] = 0;
-		angles[ROLL] = CG_MachinegunSpinAngle( cent );
+		angles[ROLL] = 0; //CG_MachinegunSpinAngle( cent );
 		AnglesToAxis( angles, barrel.axis );
 
-		CG_PositionRotatedEntityOnTag( &barrel, &gun, weapon->weaponModel, "tag_barrel" );
+		CG_PositionRotatedEntityOnTag( &barrel, &gun, gun.hModel, "tag_flash" );
 
-		CG_AddWeaponWithPowerups( &barrel, cent->currentState.powerups );
+		for ( i = 0; i < 4; i++ ) {
+			barrel.hModel = weapon->barrelModel[i];
+			if ( !barrel.hModel ) {
+				continue;
+			}
+
+			CG_AddWeaponWithPowerups( &barrel, cent->currentState.powerups );
+		}
 	}
 
 	// make sure we aren't looking at cg.cur_lc->predictedPlayerEntity for LG
