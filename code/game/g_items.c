@@ -631,6 +631,11 @@ void FinishSpawningItem( gentity_t *ent ) {
 	VectorSet( ent->s.mins, -ITEM_RADIUS, -ITEM_RADIUS, -ITEM_RADIUS );
 	VectorSet( ent->s.maxs, ITEM_RADIUS, ITEM_RADIUS, ITEM_RADIUS );
 
+	if ( ent->item->giType == IT_TEAM ) {
+		ent->s.mins[2] = 0;
+		ent->s.maxs[2] = 48;
+	}
+
 	ent->s.eType = ET_ITEM;
 	ent->s.modelindex = ent->item - bg_itemlist;		// store item number in modelindex
 	ent->s.modelindex2 = 0; // zero indicates this isn't a dropped item

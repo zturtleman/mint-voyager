@@ -1714,6 +1714,8 @@ void BotFreeGoalState(int handle)
 //===========================================================================
 int BotSetupGoalAI(void)
 {
+	int i;
+
 	//load the item configuration
 	itemconfig = LoadItemConfig("items.c");
 	if (!itemconfig)
@@ -1721,6 +1723,15 @@ int BotSetupGoalAI(void)
 		BotAI_Print(PRT_FATAL, "couldn't load item config\n");
 		return BLERR_CANNOTLOADITEMCONFIG;
 	} //end if
+
+	//item hacks
+	for ( i = 0; i < itemconfig->numiteminfo; i++ ) {
+		if ( !Q_stricmp( itemconfig->iteminfo[i].classname, "team_CTF_blueflag" )
+			|| !Q_stricmp( itemconfig->iteminfo[i].classname, "team_CTF_redflag" ) ) {
+			itemconfig->iteminfo[i].mins[2] = 0;
+			itemconfig->iteminfo[i].maxs[2] = 48;
+		}
+	}
 
 	//everything went ok
 	return BLERR_NOERROR;
