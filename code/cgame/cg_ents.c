@@ -399,10 +399,16 @@ static void CG_Item( centity_t *cent ) {
 
 	// items bob up and down continuously
 	scale = 0.005 + cent->currentState.number * 0.00001;
-	cent->lerpOrigin[2] += 4 + cos( ( cg.time + 1000 ) *  scale ) * 4;
+	if ( item->giType != IT_TEAM ) {
+		cent->lerpOrigin[2] += 4 + cos( ( cg.time + 1000 ) *  scale ) * 4;
+	}
 
 	memset (&ent, 0, sizeof(ent));
 
+	if ( item->giType == IT_TEAM ) {
+		VectorCopy( es->angles, cent->lerpAngles );
+		AnglesToAxis( cent->lerpAngles, ent.axis );
+	} else
 	// autorotate at one of two speeds
 	if ( item->giType == IT_HEALTH ) {
 		VectorCopy( cg.autoAnglesFast, cent->lerpAngles );
