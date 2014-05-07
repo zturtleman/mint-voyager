@@ -141,8 +141,7 @@ int BotValidWeaponNumber(int weaponnum)
 {
 	if (weaponnum <= 0 || weaponnum > weaponconfig.numweapons)
 	{
-		// ZTM: PORTNOTE: Elite Force only has 1-9, so warning is shown a lot when using Q3 weapons
-		//BotAI_Print(PRT_ERROR, "weapon number out of range\n");
+		BotAI_Print(PRT_ERROR, "weapon number out of range\n");
 		return qfalse;
 	} //end if
 	return qtrue;
@@ -373,8 +372,11 @@ int BotLoadWeaponWeights(int weaponstate, char *filename)
 void BotGetWeaponInfo(int weaponstate, int weapon, weaponinfo_t *weaponinfo)
 {
 	(void)weaponstate;
-	if (!BotValidWeaponNumber(weapon)) return;
-	if (!weaponconfig.valid) return;
+	if (!BotValidWeaponNumber(weapon) || !weaponconfig.valid)
+	{
+		Com_Memset( weaponinfo, 0, sizeof(weaponinfo_t));
+		return;
+	}
 	Com_Memcpy(weaponinfo, &weaponconfig.weaponinfo[weapon], sizeof(weaponinfo_t));
 } //end of the function BotGetWeaponInfo
 //===========================================================================
