@@ -1801,7 +1801,6 @@ char *eventnames[] = {
 	"EV_POWERUP_BATTLESUIT",
 	"EV_POWERUP_REGEN",
 
-	"EV_GIB_PLAYER",			// gib a previously living player
 	"EV_SCOREPLUM",			// score plum
 
 //#ifdef MISSIONPACK
@@ -1910,8 +1909,6 @@ void BG_PlayerStateToEntityState( playerState_t *ps, entityState_t *s, qboolean 
 
 	if ( !ps->linked ) {
 		s->eType = ET_INVISIBLE;
-	} else if ( ps->stats[STAT_HEALTH] <= GIB_HEALTH ) {
-		s->eType = ET_INVISIBLE;
 	} else {
 		s->eType = ET_PLAYER;
 	}
@@ -1997,8 +1994,6 @@ void BG_PlayerStateToEntityStateExtraPolate( playerState_t *ps, entityState_t *s
 	int		i;
 
 	if ( !ps->linked ) {
-		s->eType = ET_INVISIBLE;
-	} else if ( ps->stats[STAT_HEALTH] <= GIB_HEALTH ) {
 		s->eType = ET_INVISIBLE;
 	} else {
 		s->eType = ET_PLAYER;
