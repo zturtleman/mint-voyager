@@ -885,7 +885,9 @@ static qboolean G_SayTo( gentity_t *ent, gentity_t *other, int mode ) {
 	return qtrue;
 }
 
-#define EC		"\x19"
+// elite force doesn't use the chat escape chatacter in it's botlib/match.c file,
+// having it here would break bot chat parsing
+#define EC		"" // "\x19"
 
 void G_Say( gentity_t *ent, gentity_t *target, int mode, const char *chatText ) {
 	int			i, j;
