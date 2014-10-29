@@ -95,7 +95,6 @@ gitem_t	bg_itemlist[] =
 		0,
 		0,
 		0,
-/* precache */ "",
 /* sounds */ ""
 	},	// leave index 0 alone
 
@@ -116,7 +115,6 @@ gitem_t	bg_itemlist[] =
 		AMMO_PHASER_CLIP,
 		IT_WEAPON,
 		WP_PHASER,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -133,7 +131,6 @@ gitem_t	bg_itemlist[] =
 		AMMO_COMPRESSION_CLIP,
 		IT_WEAPON,
 		WP_COMPRESSION_RIFLE,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -150,7 +147,6 @@ gitem_t	bg_itemlist[] =
 		AMMO_IMOD_CLIP,
 		IT_WEAPON,
 		WP_IMOD,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -167,7 +163,6 @@ gitem_t	bg_itemlist[] =
 		AMMO_SCAVENGER_CLIP,
 		IT_WEAPON,
 		WP_SCAVENGER_RIFLE,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -184,7 +179,6 @@ gitem_t	bg_itemlist[] =
 		AMMO_STASIS_CLIP,
 		IT_WEAPON,
 		WP_STASIS,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -201,7 +195,6 @@ gitem_t	bg_itemlist[] =
 		AMMO_GRENADE_CLIP,
 		IT_WEAPON,
 		WP_GRENADE_LAUNCHER,
-/* precache */ "",
 /* sounds */ "sound/weapons/glauncher/bounce1.wav sound/weapons/glauncher/bounce2.wav"
 	},
 
@@ -218,7 +211,6 @@ gitem_t	bg_itemlist[] =
 		AMMO_TETRION_CLIP,
 		IT_WEAPON,
 		WP_TETRION_DISRUPTOR,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -235,7 +227,6 @@ gitem_t	bg_itemlist[] =
 		AMMO_QUANTUM_CLIP,
 		IT_WEAPON,
 		WP_QUANTUM_BURST,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -252,7 +243,6 @@ gitem_t	bg_itemlist[] =
 		AMMO_DREADNOUGHT_CLIP,
 		IT_WEAPON,
 		WP_DREADNOUGHT,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -274,7 +264,6 @@ gitem_t	bg_itemlist[] =
 		AMMO_COMPRESSION_CLIP,
 		IT_AMMO,
 		WP_COMPRESSION_RIFLE,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -292,7 +281,6 @@ gitem_t	bg_itemlist[] =
 		AMMO_IMOD_CLIP,
 		IT_AMMO,
 		WP_IMOD,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -310,7 +298,6 @@ gitem_t	bg_itemlist[] =
 		AMMO_SCAVENGER_CLIP,
 		IT_AMMO,
 		WP_SCAVENGER_RIFLE,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -328,7 +315,6 @@ gitem_t	bg_itemlist[] =
 		AMMO_STASIS_CLIP,
 		IT_AMMO,
 		WP_STASIS,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -346,7 +332,6 @@ gitem_t	bg_itemlist[] =
 		AMMO_GRENADE_CLIP,
 		IT_AMMO,
 		WP_GRENADE_LAUNCHER,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -364,7 +349,6 @@ gitem_t	bg_itemlist[] =
 		AMMO_TETRION_CLIP,
 		IT_AMMO,
 		WP_TETRION_DISRUPTOR,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -382,7 +366,6 @@ gitem_t	bg_itemlist[] =
 		AMMO_QUANTUM_CLIP,
 		IT_AMMO,
 		WP_QUANTUM_BURST,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -400,7 +383,6 @@ gitem_t	bg_itemlist[] =
 		AMMO_DREADNOUGHT_CLIP,
 		IT_AMMO,
 		WP_DREADNOUGHT,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -423,7 +405,6 @@ gitem_t	bg_itemlist[] =
 		5,
 		IT_ARMOR,
 		0,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -441,7 +422,6 @@ gitem_t	bg_itemlist[] =
 		50,
 		IT_ARMOR,
 		0,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -459,7 +439,6 @@ gitem_t	bg_itemlist[] =
 		100,
 		IT_ARMOR,
 		0,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -481,7 +460,6 @@ gitem_t	bg_itemlist[] =
 		5,
 		IT_HEALTH,
 		0,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -499,7 +477,6 @@ gitem_t	bg_itemlist[] =
 		25,
 		IT_HEALTH,
 		0,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -521,7 +498,6 @@ kind of resides in your inventory. when you use it _again_ it activates and anyo
 		60,
 		IT_HOLDABLE,
 		HI_TRANSPORTER,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -539,7 +515,6 @@ pick it up and it stays in your inventory until used, at which time it sets your
 		60,
 		IT_HOLDABLE,
 		HI_MEDKIT,
-/* precache */ "",
 /* sounds */ "sound/items/use_medkit.wav"
 	},
 
@@ -560,8 +535,7 @@ multiplies your weapon's damage for 30 seconds
 		30,
 		IT_POWERUP,
 		PW_QUAD,
-/* precache */ "",
-/* sounds */ "sound/items/damage3.wav"
+/* sounds */ "sound/items/damage2.wav sound/items/damage3.wav"
 	},
 
 /*QUAKED item_enviro (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
@@ -578,8 +552,7 @@ multiplies your weapon's damage for 30 seconds
 		20,
 		IT_POWERUP,
 		PW_BATTLESUIT,
-/* precache */ "",
-/* sounds */ "sound/items/protect3.wav"
+/* sounds */ "sound/items/airout.wav sound/items/protect3.wav"
 	},
 
 /*QUAKED item_haste (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
@@ -596,7 +569,6 @@ for 30 seconds you run at %150 of your normal speed and your firing delays are 3
 		30,
 		IT_POWERUP,
 		PW_HASTE,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -614,7 +586,6 @@ for 30 seconds you run at %150 of your normal speed and your firing delays are 3
 		20,
 		IT_POWERUP,
 		PW_INVIS,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -632,7 +603,6 @@ for 30 seconds you get 5 health every second, up to 200 health
 		30,
 		IT_POWERUP,
 		PW_REGEN,
-/* precache */ "",
 /* sounds */ "sound/items/regen.wav"
 	},
 
@@ -650,7 +620,6 @@ for 30 seconds you get 5 health every second, up to 200 health
 		30,
 		IT_POWERUP,
 		PW_FLIGHT,
-/* precache */ "",
 /* sounds */ "sound/items/flight.wav"
 	},
 
@@ -668,7 +637,6 @@ Only in CTF games
 		0,
 		IT_TEAM,
 		PW_REDFLAG,
-/* precache */ "",
 /* sounds */ "sound/voice/computer/misc/stolen.wav sound/voice/computer/misc/stolen_e.wav sound/voice/computer/misc/returned.wav sound/voice/computer/misc/returned_e.wav"
 	},
 
@@ -686,7 +654,6 @@ Only in CTF games
 		0,
 		IT_TEAM,
 		PW_BLUEFLAG,
-/* precache */ "",
 /* sounds */ "sound/voice/computer/misc/dropped.wav sound/voice/computer/misc/dropped_e.wav sound/voice/computer/misc/scored.wav sound/voice/computer/misc/scored_e.wav"
 	},
 
@@ -704,7 +671,6 @@ BLAMMO!
 		1,		// 5,
 		IT_HOLDABLE,
 		HI_DETPACK,
-/* precache */ "",
 /* sounds */ "sound/weapons/detpacklatch.wav sound/weapons/explosions/detpakexplode.wav"
 	},
 
@@ -722,7 +688,6 @@ BLAMMO!
 		30,
 		IT_POWERUP,
 		PW_SEEKER,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -740,7 +705,6 @@ About 25 seconds or 250 hit points of a portashield.
 		1,
 		IT_HOLDABLE,
 		HI_SHIELD,
-/* precache */ "",
 /* sounds */ "sound/weapons/detpacklatch.wav sound/movers/forceup.wav sound/ambience/spark5.wav"
 	},	
 
@@ -759,7 +723,6 @@ About 1 minute of a holographic decoy.
 		1,
 		IT_HOLDABLE,
 		HI_DECOY,
-/* precache */ "",
 /* sounds */ ""
 	},	
 
@@ -780,7 +743,6 @@ About 1 minute of a holographic decoy.
 		AMMO_PHASER_CLIP,
 		IT_WEAPON,
 		WP_VOYAGER_HYPO,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -797,7 +759,6 @@ About 1 minute of a holographic decoy.
 		AMMO_PHASER_CLIP,
 		IT_WEAPON,
 		WP_BORG_ASSIMILATOR,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -814,7 +775,6 @@ About 1 minute of a holographic decoy.
 		AMMO_PHASER_CLIP,
 		IT_WEAPON,
 		WP_BORG_WEAPON,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -832,7 +792,6 @@ About 1 minute of a holographic decoy.
 		60,
 		IT_HOLDABLE,
 		HI_KAMIKAZE,
-/* precache */ "",
 /* sounds */ "sound/items/kamikazerespawn.wav"
 	},
 
@@ -849,7 +808,6 @@ About 1 minute of a holographic decoy.
 		60,
 		IT_HOLDABLE,
 		HI_PORTAL,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -866,7 +824,6 @@ About 1 minute of a holographic decoy.
 		60,
 		IT_HOLDABLE,
 		HI_INVULNERABILITY,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -883,7 +840,6 @@ About 1 minute of a holographic decoy.
 		20,
 		IT_AMMO,
 		WP_NAILGUN,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -900,7 +856,6 @@ About 1 minute of a holographic decoy.
 		10,
 		IT_AMMO,
 		WP_PROX_LAUNCHER,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -917,7 +872,6 @@ About 1 minute of a holographic decoy.
 		100,
 		IT_AMMO,
 		WP_CHAINGUN,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -937,7 +891,6 @@ About 1 minute of a holographic decoy.
 		30,
 		IT_PERSISTANT_POWERUP,
 		PW_SCOUT,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -954,7 +907,6 @@ About 1 minute of a holographic decoy.
 		30,
 		IT_PERSISTANT_POWERUP,
 		PW_GUARD,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -971,7 +923,6 @@ About 1 minute of a holographic decoy.
 		30,
 		IT_PERSISTANT_POWERUP,
 		PW_DOUBLER,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -988,7 +939,6 @@ About 1 minute of a holographic decoy.
 		30,
 		IT_PERSISTANT_POWERUP,
 		PW_AMMOREGEN,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -1006,7 +956,6 @@ Only in One Flag CTF games
 		0,
 		IT_TEAM,
 		PW_NEUTRALFLAG,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -1021,7 +970,6 @@ Only in One Flag CTF games
 		0,
 		IT_TEAM,
 		0,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -1036,7 +984,6 @@ Only in One Flag CTF games
 		0,
 		IT_TEAM,
 		0,
-/* precache */ "",
 /* sounds */ ""
 	},
 /*QUAKED weapon_nailgun (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
@@ -1052,7 +999,6 @@ Only in One Flag CTF games
 		10,
 		IT_WEAPON,
 		WP_NAILGUN,
-/* precache */ "",
 /* sounds */ ""
 	},
 
@@ -1069,7 +1015,6 @@ Only in One Flag CTF games
 		5,
 		IT_WEAPON,
 		WP_PROX_LAUNCHER,
-/* precache */ "",
 /* sounds */ "sound/weapons/proxmine/wstbtick.wav "
 			"sound/weapons/proxmine/wstbactv.wav "
 			"sound/weapons/proxmine/wstbimpl.wav "
@@ -1091,7 +1036,6 @@ Only in One Flag CTF games
 		80,
 		IT_WEAPON,
 		WP_CHAINGUN,
-/* precache */ "",
 /* sounds */ "sound/weapons/vulcan/wvulwind.wav"
 	},
 #endif
