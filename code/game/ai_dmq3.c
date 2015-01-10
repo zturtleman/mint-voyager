@@ -4612,6 +4612,9 @@ void BotAIBlocked(bot_state_t *bs, bot_moveresult_t *moveresult, int activate) {
 				return;
 			}
 		}
+
+		// always try right side first
+		bs->flags &= ~BFL_AVOIDRIGHT;
 	}
 	// else if blocked by a bsp model
 	else if (entinfo.modelindex > 0 && entinfo.modelindex <= max_bspmodelindex) {
@@ -4664,19 +4667,23 @@ void BotAIBlocked(bot_state_t *bs, bot_moveresult_t *moveresult, int activate) {
 	movetype = MOVE_WALK;
 	// get the sideward vector
 	CrossProduct(hordir, up, sideward);
-	//
-	if (bs->flags & BFL_AVOIDRIGHT) VectorNegate(sideward, sideward);
+	// flip the direction
+	if (bs->flags & BFL_AVOIDRIGHT)	{
+		VectorNegate(sideward, sideward);
+	}
 	//try to crouch or jump over barrier
 	if (!BotMoveInDirection(bs->ms, hordir, 400, movetype)) {
-		// perform the movement
+		// try to move to the right
 		if (!BotMoveInDirection(bs->ms, sideward, 400, movetype)) {
 			// flip the avoid direction flag
 			bs->flags ^= BFL_AVOIDRIGHT;
 			// flip the direction
-			// VectorNegate(sideward, sideward);
-			VectorMA(sideward, -1, hordir, sideward);
-			// move in the other direction
-			BotMoveInDirection(bs->ms, sideward, 400, movetype);
+			VectorNegate(sideward, sideward);
+			// try to move to the left
+			if (!BotMoveInDirection(bs->ms, sideward, 400, movetype)) {
+				// move in a random direction in the hope to get out
+				BotRandomMove(bs, moveresult);
+			}
 		}
 	}
 	//
