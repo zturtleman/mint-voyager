@@ -662,25 +662,21 @@ void CG_RegisterWeapon( int weaponNum ) {
 		baseModel = item->world_model[0];
 	}
 
-	strcpy( path, baseModel );
-	COM_StripExtension(path, path, sizeof(path));
+	COM_StripExtension( baseModel, path, sizeof(path) );
 	strcat( path, "_flash.md3" );
 	weaponInfo->flashModel = trap_R_RegisterModel( path );
 
-	strcpy( path, baseModel );
-	COM_StripExtension(path, path, sizeof(path));
+	COM_StripExtension( baseModel, path, sizeof(path) );
 	strcat( path, "_barrel.md3" );
 	weaponInfo->barrelModel[0] = trap_R_RegisterModel( path );
 
 	for ( i = 1; i < 4; i++ ) {
-		strcpy( path, baseModel );
-		COM_StripExtension(path, path, sizeof(path));
+		COM_StripExtension( baseModel, path, sizeof(path) );
 		strcat( path, va( "_barrel%d.md3", i+1 ) );
 		weaponInfo->barrelModel[i] = trap_R_RegisterModel( path );
 	}
 
-	strcpy( path, baseModel );
-	COM_StripExtension(path, path, sizeof(path));
+	COM_StripExtension( baseModel, path, sizeof(path) );
 	strcat( path, "_hand.md3" );
 	weaponInfo->handsModel = trap_R_RegisterModel( path );
 
@@ -870,8 +866,7 @@ void CG_RegisterItemVisuals( int itemNum ) {
 	//
 	// powerups have an accompanying ring or sphere
 	//
-	if ( item->giType == IT_POWERUP || item->giType == IT_HEALTH || 
-		item->giType == IT_ARMOR || item->giType == IT_HOLDABLE ) {
+	if ( item->giType == IT_POWERUP || item->giType == IT_HEALTH ) {
 		if ( item->world_model[1] ) {
 			itemInfo->models[1] = trap_R_RegisterModel( item->world_model[1] );
 		}
