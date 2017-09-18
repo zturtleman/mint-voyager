@@ -36,15 +36,15 @@ char	*cg_customSoundNames[MAX_CUSTOM_SOUNDS] = {
 	"*death2.wav",
 	"*death3.wav",
 	"*jump1.wav",
-	"*pain25_1.wav",
-	"*pain50_1.wav",
-	"*pain75_1.wav",
-	"*pain100_1.wav",
+	"*pain25.wav",
+	"*pain50.wav",
+	"*pain75.wav",
+	"*pain100.wav",
 	"*falling1.wav",
 	"*gasp.wav",
 	"*drown.wav",
 	"*fall1.wav",
-	"*taunt.wav"
+	"*taunt1.wav"
 };
 
 
@@ -931,11 +931,7 @@ static void CG_LoadPlayerInfo( int playerNum, playerInfo_t *pi ) {
 
 	// sounds
 	dir = pi->modelName;
-	if (cgs.gametype >= GT_TEAM) {
-		fallback = (pi->gender == GENDER_FEMALE) ? cg_defaultFemaleTeamModel.string : cg_defaultMaleTeamModel.string;
-	} else {
-		fallback = (pi->gender == GENDER_FEMALE) ? cg_defaultFemaleModel.string : cg_defaultMaleModel.string;
-	}
+	fallback = (pi->gender == GENDER_FEMALE) ? DEFAULT_VOICE_FEMALE : DEFAULT_VOICE_MALE;
 
 	for ( i = 0 ; i < MAX_CUSTOM_SOUNDS ; i++ ) {
 		s = cg_customSoundNames[i];
@@ -945,7 +941,7 @@ static void CG_LoadPlayerInfo( int playerNum, playerInfo_t *pi ) {
 		pi->sounds[i] = 0;
 		// if the model didn't load use the sounds of the default model
 		if (modelloaded) {
-			pi->sounds[i] = trap_S_RegisterSound( va("sound/player/%s/%s", dir, s + 1), qfalse );
+			pi->sounds[i] = trap_S_RegisterSound( va("sound/voice/%s/misc/%s", dir, s + 1), qfalse );
 		}
 		if ( !pi->sounds[i] ) {
 			pi->sounds[i] = trap_S_RegisterSound( va("sound/player/%s/%s", fallback, s + 1), qfalse );

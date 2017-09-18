@@ -513,13 +513,13 @@ void CG_PainEvent( centity_t *cent, int health ) {
 	}
 
 	if ( health < 25 ) {
-		snd = "*pain25_1.wav";
+		snd = "*pain25.wav";
 	} else if ( health < 50 ) {
-		snd = "*pain50_1.wav";
+		snd = "*pain50.wav";
 	} else if ( health < 75 ) {
-		snd = "*pain75_1.wav";
+		snd = "*pain75.wav";
 	} else {
-		snd = "*pain100_1.wav";
+		snd = "*pain100.wav";
 	}
 	// play a gurp sound instead of a normal pain sound
 	if (CG_WaterLevel(cent) == 3) {
@@ -630,7 +630,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 	case EV_FALL_MEDIUM:
 		DEBUGNAME("EV_FALL_MEDIUM");
 		// use normal pain sound
-		trap_S_StartSound( NULL, es->number, CHAN_VOICE, CG_CustomSound( es->number, "*pain100_1.wav" ) );
+		trap_S_StartSound( NULL, es->number, CHAN_VOICE, CG_CustomSound( es->number, "*pain100.wav" ) );
 		for (i = 0; i < CG_MaxSplitView(); i++) {
 			if ( playerNum == cg.snap->pss[i].playerNum ) {
 				// smooth landing z changes
@@ -723,7 +723,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		break;
 	case EV_TAUNT:
 		DEBUGNAME("EV_TAUNT");
-		trap_S_StartSound (NULL, es->number, CHAN_VOICE, CG_CustomSound( es->number, "*taunt.wav" ) );
+		trap_S_StartSound (NULL, es->number, CHAN_VOICE, CG_CustomSound( es->number, "*taunt1.wav" ) );
 		break;
 #ifdef MISSIONPACK
 	case EV_TAUNT_YES:
