@@ -181,6 +181,7 @@ static qboolean	CG_ParseAnimationFile( const char *filename, playerInfo_t *pi ) 
 	pi->gender = GENDER_MALE;
 	pi->fixedlegs = qfalse;
 	pi->fixedtorso = qfalse;
+	pi->soundPath[0] = 0;
 
 	// read optional parameters
 	while ( 1 ) {
@@ -241,7 +242,7 @@ static qboolean	CG_ParseAnimationFile( const char *filename, playerInfo_t *pi ) 
 			if ( !token ) {
 				break;
 			}
-			// ZTM: PORTFIXME: Support this?
+			Q_strncpyz( pi->soundPath, token, sizeof( pi->soundPath ) );
 			continue;
 		}
 
@@ -930,7 +931,7 @@ static void CG_LoadPlayerInfo( int playerNum, playerInfo_t *pi ) {
 	}
 
 	// sounds
-	dir = pi->modelName;
+	dir = pi->soundPath[0] ? pi->soundPath : pi->modelName;
 	fallback = (pi->gender == GENDER_FEMALE) ? DEFAULT_VOICE_FEMALE : DEFAULT_VOICE_MALE;
 
 	for ( i = 0 ; i < MAX_CUSTOM_SOUNDS ; i++ ) {

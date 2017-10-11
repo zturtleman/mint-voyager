@@ -452,6 +452,7 @@ typedef struct {
 	animation_t		animations[MAX_TOTALANIMATIONS];
 
 	sfxHandle_t		sounds[MAX_CUSTOM_SOUNDS];
+	char			soundPath[MAX_QPATH];
 } playerInfo_t;
 
 

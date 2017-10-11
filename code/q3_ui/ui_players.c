@@ -1137,7 +1137,6 @@ static qboolean UI_ParseAnimationFile( const char *filename, uiPlayerInfo_t *pi 
 			if ( !token[0] ) {
 				break;
 			}
-			// ZTM: PORTFIXME: Support this?
 			continue;
 		}
 
