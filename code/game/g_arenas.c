@@ -235,9 +235,9 @@ static void CelebrateStart( gentity_t *player ) {
 }
 
 
-static vec3_t	offsetFirst  = {0, 0, 74};
-static vec3_t	offsetSecond = {-10, 60, 54};
-static vec3_t	offsetThird  = {-19, -60, 45};
+static vec3_t	offsetFirst  = {0, 0, 40 - MINS_Z};
+static vec3_t	offsetSecond = {-10, 60, 20 - MINS_Z};
+static vec3_t	offsetThird  = {-19, -60, 11 - MINS_Z};
 
 static void PodiumPlacementThink( gentity_t *podium ) {
 	vec3_t		vec;
