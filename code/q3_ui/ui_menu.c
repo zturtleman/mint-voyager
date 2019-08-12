@@ -319,4 +319,6 @@ void UI_MainMenu( void ) {
 	uis.menusp = 0;
 	UI_PushMenu ( &s_main.menu );
 		
+
+	trap_S_StartLocalSound( trap_S_RegisterSound( "sound/voice/computer/misc/intro_01.mp3", qfalse ), CHAN_ANNOUNCER );
 }
