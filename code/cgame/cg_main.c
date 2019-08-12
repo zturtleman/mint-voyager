@@ -1340,10 +1340,9 @@ static void CG_RegisterSounds( void ) {
 	cgs.media.landSound = trap_S_RegisterSound( "sound/player/land1.wav", qfalse);
 
 	cgs.media.hitSound = trap_S_RegisterSound( "sound/feedback/hit.wav", qfalse );
-#ifdef MISSIONPACK
-	cgs.media.hitSoundHighArmor = trap_S_RegisterSound( "sound/feedback/hithi.wav", qfalse );
-	cgs.media.hitSoundLowArmor = trap_S_RegisterSound( "sound/feedback/hitlo.wav", qfalse );
-#endif
+	cgs.media.hitSoundHighArmor = trap_S_RegisterSound( "sound/feedback/shieldhit.wav", qfalse );
+	cgs.media.hitSoundLowArmor = cgs.media.hitSoundHighArmor;
+	cgs.media.hitSoundPierceArmor = trap_S_RegisterSound( "sound/feedback/shieldpierce.wav", qfalse );
 
 	cgs.media.impressiveSound = trap_S_RegisterSound( "sound/voice/computer/misc/impressive.wav", qtrue );
 	cgs.media.excellentSound = trap_S_RegisterSound( "sound/voice/computer/misc/excellent.wav", qtrue );

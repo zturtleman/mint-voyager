@@ -899,6 +899,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 #ifdef MISSIONPACK
 	vec3_t		bouncedir, impactpoint;
 #endif
+	int			attackeeArmor;
 
 	if (!targ->takedamage) {
 		return;
@@ -1043,19 +1044,6 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 		damage *= 0.5;
 	}
 
-	// add to the attacker's hit counter (if the target isn't a general entity like a prox mine)
-	if ( attacker->player && player
-			&& targ != attacker && targ->health > 0
-			&& targ->s.eType != ET_MISSILE
-			&& targ->s.eType != ET_GENERAL) {
-		if ( OnSameTeam( targ, attacker ) ) {
-			attacker->player->ps.persistant[PERS_HITS]--;
-		} else {
-			attacker->player->ps.persistant[PERS_HITS]++;
-		}
-		attacker->player->ps.persistant[PERS_ATTACKEE_ARMOR] = (targ->health<<8)|(player->ps.stats[STAT_ARMOR]);
-	}
-
 	// always give half damage if hurting self
 	// calculated after knockback, so rocket jumping works
 	if ( targ == attacker) {
@@ -1067,9 +1055,41 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 	}
 	take = damage;
 
+	if ( player ) {
+		attackeeArmor = player->ps.stats[STAT_ARMOR];
+	} else {
+		attackeeArmor = 0;
+	}
+
 	// save some from armor
 	asave = CheckArmor (targ, take, dflags);
 	take -= asave;
+
+	// add to the attacker's hit counter (if the target isn't a general entity like a prox mine)
+	if ( attacker->player && player
+			&& targ != attacker && targ->health > 0
+			&& targ->s.eType != ET_MISSILE
+			&& targ->s.eType != ET_GENERAL) {
+		if ( OnSameTeam( targ, attacker ) ) {
+			attacker->player->ps.persistant[PERS_HITS]--;
+		} else {
+			attacker->player->ps.persistant[PERS_HITS]++;
+		}
+		// TODO: Just send hit type instead of health and armor?
+		if ( asave ) {
+			if ( !player->ps.stats[STAT_ARMOR] ) {
+				// shield pierce
+				attackeeArmor = 255;
+			} else {
+				// shield hit
+			}
+		} else {
+			// hit
+			// have no armor or used DAMAGE_NO_ARMOR
+			attackeeArmor = 0;
+		}
+		attacker->player->ps.persistant[PERS_ATTACKEE_ARMOR] = (targ->health<<8)|(attackeeArmor);
+	}
 
 	if ( g_debugDamage.integer ) {
 		G_Printf( "%i: player:%i health:%i damage:%i armor:%i\n", level.time, targ->s.number,
