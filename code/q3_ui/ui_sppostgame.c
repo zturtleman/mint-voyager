@@ -88,28 +88,28 @@ static postgameMenuInfo_t	postgameMenuInfo;
 static char					arenainfo[MAX_INFO_VALUE];
 
 char	*ui_medalNames[] = {
-	"Accuracy",
+	"Efficiency",
 	"Impressive",
 	"Excellent",
-	"Gauntlet",
-	"Frags",
-	"Perfect"
+	"Gauntlet", // ZTM: PORTNOTE: Disabled
+	"Frags", // ZTM: PORTNOTE: Disabled
+	"Untouchable"
 };
 char	*ui_medalPicNames[] = {
-	"menu/medals/medal_accuracy",
+	"menu/medals/medal_efficiency",
 	"menu/medals/medal_impressive",
 	"menu/medals/medal_excellent",
-	"menu/medals/medal_gauntlet",
-	"menu/medals/medal_frags",
-	"menu/medals/medal_victory"
+	"menu/medals/medal_gauntlet", // ZTM: PORTNOTE: Disabled
+	"menu/medals/medal_frags", // ZTM: PORTNOTE: Disabled
+	"menu/medals/medal_untouchable"
 };
 char	*ui_medalSounds[] = {
-	"sound/feedback/accuracy.wav",
-	"sound/feedback/impressive_a.wav",
-	"sound/feedback/excellent_a.wav",
-	"sound/feedback/gauntlet.wav",
-	"sound/feedback/frags.wav",
-	"sound/feedback/perfect.wav"
+	"sound/voice/computer/misc/effic.mp3",
+	"sound/voice/computer/misc/impressive.mp3",
+	"sound/voice/computer/misc/excellent.mp3",
+	"sound/feedback/gauntlet.wav", // ZTM: PORTNOTE: Disabled
+	"sound/feedback/frags.wav", // ZTM: PORTNOTE: Disabled
+	"sound/voice/computer/misc/untouch.mp3"
 };
 
 
@@ -593,6 +593,7 @@ void UI_SPPostgameMenu_f( void ) {
 		postgameMenuInfo.numAwards++;
 	}
 
+#if 0
 	if( awardValues[AWARD_GAUNTLET] ) {
 		UI_LogAwardData( AWARD_GAUNTLET, awardValues[AWARD_GAUNTLET] );
 		postgameMenuInfo.awardsEarned[postgameMenuInfo.numAwards] = AWARD_GAUNTLET;
@@ -608,6 +609,7 @@ void UI_SPPostgameMenu_f( void ) {
 		postgameMenuInfo.awardsLevels[postgameMenuInfo.numAwards] = newFrags * 100;
 		postgameMenuInfo.numAwards++;
 	}
+#endif
 
 	if( awardValues[AWARD_PERFECT] ) {
 		UI_LogAwardData( AWARD_PERFECT, 1 );
