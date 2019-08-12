@@ -1835,10 +1835,10 @@ void Menu_Cache( void )
 	uis.menuBackShader	= trap_R_RegisterShaderNoMip( "gfx/2d/conback" );
 	uis.menuBackNoLogoShader = trap_R_RegisterShaderNoMip( "gfx/colors/black" );
 
-	menu_in_sound	= trap_S_RegisterSound( "sound/misc/menu1.wav", qfalse );
-	menu_move_sound	= trap_S_RegisterSound( "sound/misc/menu2.wav", qfalse );
-	menu_out_sound	= trap_S_RegisterSound( "sound/misc/menu3.wav", qfalse );
-	menu_buzz_sound	= trap_S_RegisterSound( "sound/misc/menu4.wav", qfalse );
+	menu_in_sound	= trap_S_RegisterSound( "sound/interface/button2.wav", qfalse );
+	menu_move_sound	= trap_S_RegisterSound( "sound/interface/button1.wav", qfalse );
+	menu_out_sound	= trap_S_RegisterSound( "sound/interface/button2.wav", qfalse );
+	menu_buzz_sound	= trap_S_RegisterSound( "sound/interface/button2.wav", qfalse );
 	weaponChangeSound	= trap_S_RegisterSound( "sound/weapons/change.wav", qfalse );
 
 	// need a nonzero sound, make an empty sound for this
