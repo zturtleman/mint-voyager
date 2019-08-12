@@ -170,61 +170,6 @@ TTimo: this function is common to the main menu and errorMessage menu
 */
 
 static void Main_MenuDraw( void ) {
-	refdef_t		refdef;
-	refEntity_t		ent;
-	vec3_t			origin;
-	vec3_t			angles;
-	float			adjust;
-	float			x, y, w, h;
-	vec4_t			color = {0.5, 0, 0, 1};
-
-	// setup the refdef
-
-	memset( &refdef, 0, sizeof( refdef ) );
-
-	refdef.rdflags = RDF_NOWORLDMODEL;
-
-	AxisClear( refdef.viewaxis );
-
-	x = 0;
-	y = 0;
-	w = 640;
-	h = 120;
-	CG_AdjustFrom640( &x, &y, &w, &h );
-	refdef.x = x;
-	refdef.y = y;
-	refdef.width = w;
-	refdef.height = h;
-
-	adjust = 0; // JDC: Kenneth asked me to stop this 1.0 * sin( (float)uis.realtime / 1000 );
-	refdef.fov_x = 60 + adjust;
-	refdef.fov_y = 19.6875 + adjust;
-
-	refdef.time = uis.realtime;
-
-	origin[0] = 300;
-	origin[1] = 0;
-	origin[2] = -32;
-
-	trap_R_ClearScene();
-
-	// add the model
-
-	memset( &ent, 0, sizeof(ent) );
-
-	adjust = 5.0 * sin( (float)uis.realtime / 5000 );
-	VectorSet( angles, 0, 180 + adjust, 0 );
-	AnglesToAxis( angles, ent.axis );
-	ent.hModel = s_main.bannerModel;
-	VectorCopy( origin, ent.origin );
-	VectorCopy( origin, ent.lightingOrigin );
-	ent.renderfx = RF_LIGHTING_ORIGIN | RF_NOSHADOW;
-	VectorCopy( ent.origin, ent.oldorigin );
-
-	CG_AddRefEntityWithMinLight( &ent );
-
-	trap_R_RenderScene( &refdef );
-	
 	if (strlen(s_errorMessage.errorMessage))
 	{
 		UI_DrawProportionalString_AutoWrapped( 320, 192, 600, 20, s_errorMessage.errorMessage, UI_CENTER|UI_SMALLFONT|UI_DROPSHADOW, menu_text_color );
@@ -234,43 +179,7 @@ static void Main_MenuDraw( void ) {
 		// standard menu drawing
 		Menu_Draw( &s_main.menu );		
 	}
-
-	if (uis.demoversion) {
-		UI_DrawProportionalString( 320, 372, "DEMO      FOR MATURE AUDIENCES      DEMO", UI_CENTER|UI_SMALLFONT, color );
-		UI_DrawString( 320, 400, "Quake III Arena(c) 1999-2000, Id Software, Inc.  All Rights Reserved", UI_CENTER|UI_SMALLFONT, color );
-	} else {
-		UI_DrawString( 320, 450, "Quake III Arena(c) 1999-2000, Id Software, Inc.  All Rights Reserved", UI_CENTER|UI_SMALLFONT, color );
-	}
 }
-
-
-#ifndef MISSIONPACK
-/*
-===============
-UI_TeamArenaExists
-===============
-*/
-static qboolean UI_TeamArenaExists( void ) {
-	int		numdirs;
-	char	dirlist[2048];
-	char	*dirptr;
-  char  *descptr;
-	int		i;
-	int		dirlen;
-
-	numdirs = trap_FS_GetFileList( "$modlist", "", dirlist, sizeof(dirlist) );
-	dirptr  = dirlist;
-	for( i = 0; i < numdirs; i++ ) {
-		dirlen = strlen( dirptr ) + 1;
-    descptr = dirptr + dirlen;
-		if (Q_stricmp(dirptr, BASETA) == 0) {
-			return qtrue;
-		}
-    dirptr += dirlen + strlen(descptr) + 1;
-	}
-	return qfalse;
-}
-#endif
 
 
 /*
@@ -284,9 +193,6 @@ and that local cinematics are killed
 */
 void UI_MainMenu( void ) {
 	int		y;
-#ifndef MISSIONPACK
-	qboolean teamArena = qfalse;
-#endif
 	int		style = UI_CENTER | UI_DROPSHADOW;
 
 	CG_KillServer();
@@ -361,6 +267,7 @@ void UI_MainMenu( void ) {
 	s_main.demos.color						= text_big_color;
 	s_main.demos.style						= style;
 
+#if 0
 	y += MAIN_MENU_VERTICAL_SPACING;
 	s_main.cinematics.generic.type			= MTYPE_PTEXT;
 	s_main.cinematics.generic.flags			= QMF_CENTER_JUSTIFY|QMF_PULSEIFFOCUS;
@@ -371,21 +278,6 @@ void UI_MainMenu( void ) {
 	s_main.cinematics.string				= "CINEMATICS";
 	s_main.cinematics.color					= text_big_color;
 	s_main.cinematics.style					= style;
-
-#ifndef MISSIONPACK
-	if ( !uis.demoversion && UI_TeamArenaExists() ) {
-		teamArena = qtrue;
-		y += MAIN_MENU_VERTICAL_SPACING;
-		s_main.teamArena.generic.type			= MTYPE_PTEXT;
-		s_main.teamArena.generic.flags			= QMF_CENTER_JUSTIFY|QMF_PULSEIFFOCUS;
-		s_main.teamArena.generic.x				= 320;
-		s_main.teamArena.generic.y				= y;
-		s_main.teamArena.generic.id				= ID_TEAMARENA;
-		s_main.teamArena.generic.callback		= Main_MenuEvent; 
-		s_main.teamArena.string					= "TEAM ARENA";
-		s_main.teamArena.color					= text_big_color;
-		s_main.teamArena.style					= style;
-	}
 #endif
 
 	if ( !uis.demoversion ) {
@@ -416,11 +308,8 @@ void UI_MainMenu( void ) {
 	Menu_AddItem( &s_main.menu,	&s_main.multiplayer );
 	Menu_AddItem( &s_main.menu,	&s_main.setup );
 	Menu_AddItem( &s_main.menu,	&s_main.demos );
+#if 0
 	Menu_AddItem( &s_main.menu,	&s_main.cinematics );
-#ifndef MISSIONPACK
-	if (teamArena) {
-		Menu_AddItem( &s_main.menu,	&s_main.teamArena );
-	}
 #endif
 	if ( !uis.demoversion ) {
 		Menu_AddItem( &s_main.menu,	&s_main.mods );
