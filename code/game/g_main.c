@@ -159,7 +159,7 @@ static cvarTable_t		gameCvarTable[] = {
 
 	{ &g_dedicated, "dedicated", "0", 0, 0, RANGE_ALL },
 
-	{ &g_speed, "g_speed", "320", 0, GCF_TRACK_CHANGE, RANGE_ALL },
+	{ &g_speed, "g_speed", "250", 0, GCF_TRACK_CHANGE, RANGE_ALL },
 	{ &g_gravity, "g_gravity", "800", 0, GCF_TRACK_CHANGE, RANGE_ALL },
 	{ &g_knockback, "g_knockback", "1000", 0, GCF_TRACK_CHANGE, RANGE_ALL },
 	{ &g_quadfactor, "g_quadfactor", "3", 0, GCF_TRACK_CHANGE, RANGE_ALL },
