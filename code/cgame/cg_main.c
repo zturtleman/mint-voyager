@@ -369,8 +369,8 @@ static cvarTable_t cgameCvarTable[] = {
 
 	{ &cg_ignore, "cg_ignore", "0", 0, RANGE_ALL },	// used for debugging
 	{ &cg_zoomFov, "cg_zoomfov", "22.5", CVAR_ARCHIVE, RANGE_FLOAT(1, 160) },
-	{ &cg_fov, "cg_fov", "90", CVAR_ARCHIVE, RANGE_FLOAT(1, 160) },
-	{ &cg_weaponFov, "cg_weaponFov", "90", CVAR_ARCHIVE, RANGE_FLOAT( 0, 160 ) },
+	{ &cg_fov, "cg_fov", "80", CVAR_ARCHIVE, RANGE_FLOAT(1, 160) },
+	{ &cg_weaponFov, "cg_weaponFov", "80", CVAR_ARCHIVE, RANGE_FLOAT( 0, 160 ) },
 	{ &cg_viewsize, "cg_viewsize", "100", CVAR_ARCHIVE, RANGE_INT( 30, 100 ) },
 	{ &cg_shadows, "cg_shadows", "1", CVAR_ARCHIVE, RANGE_ALL  },
 	{ &cg_gibs, "cg_gibs", "0", CVAR_ARCHIVE, RANGE_BOOL },

@@ -605,8 +605,8 @@ static void CG_CalcFov2( const refdef_t *refdef, float *input_fov, float *out_fo
 		// user selectable
 		if ( cgs.dmflags & DF_FIXED_FOV ) {
 			// dmflag to prevent wide fov for all players
-			fov_x = 90;
-			*input_fov = 90;
+			fov_x = 80;
+			*input_fov = 80;
 		} else {
 			fov_x = *input_fov;
 		}
