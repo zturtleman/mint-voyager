@@ -603,6 +603,7 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 		} else {
 			AddScore( attacker, self->r.currentOrigin, 1 );
 
+#if 0 // ZTM: PORTNOTE: Disabled award
 			if( meansOfDeath == MOD_GAUNTLET ) {
 				
 				// play humiliation on player
@@ -616,6 +617,7 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 				// also play humiliation on target
 				self->player->ps.persistant[PERS_PLAYEREVENTS] ^= PLAYEREVENT_GAUNTLETREWARD;
 			}
+#endif
 
 			// check for two kills in a short amount of time
 			// if this is close enough to the last kill, give a reward sound
