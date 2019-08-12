@@ -1683,8 +1683,9 @@ static void CG_RegisterGraphics( void ) {
 	}
 
 	// wall marks
-	cgs.media.bulletMarkShader = trap_R_RegisterShader( "gfx/damage/bullet_mrk" );
-	cgs.media.burnMarkShader = trap_R_RegisterShader( "gfx/damage/burn_med_mrk" );
+	// ZTM: PORTNOTE: Using burnmark3 is probably wrong but better than missing shaders.
+	cgs.media.bulletMarkShader = trap_R_RegisterShader( "gfx/damage/burnmark3" );
+	cgs.media.burnMarkShader = trap_R_RegisterShader( "gfx/damage/burnmark2" );
 	cgs.media.holeMarkShader = trap_R_RegisterShader( "gfx/damage/hole_lg_mrk" );
 	cgs.media.energyMarkShader = trap_R_RegisterShader( "gfx/damage/plasma_mrk" );
 	cgs.media.shadowMarkShader = trap_R_RegisterShader( "markShadow" );
