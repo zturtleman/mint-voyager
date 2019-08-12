@@ -1432,7 +1432,10 @@ qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const play
 
 	switch( item->giType ) {
 	case IT_WEAPON:
-		return qtrue;	// weapons are always picked up
+		if ( ( ps->stats[ STAT_WEAPONS ] & ( 1 << item->giTag ) ) ) {
+			return qfalse;
+		}
+		return qtrue;
 
 	case IT_AMMO:
 		if ( ps->ammo[ item->giTag ] >= 200 ) {
