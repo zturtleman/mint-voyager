@@ -1382,20 +1382,23 @@ static void CG_RegisterSounds( void ) {
 		Com_sprintf (name, sizeof(name), "sound/player/footsteps/boot%i.wav", i+1);
 		cgs.media.footsteps[FOOTSTEP_BOOT][i] = trap_S_RegisterSound (name, qfalse);
 
-		Com_sprintf (name, sizeof(name), "sound/player/footsteps/flesh%i.wav", i+1);
-		cgs.media.footsteps[FOOTSTEP_FLESH][i] = trap_S_RegisterSound (name, qfalse);
-
 		Com_sprintf (name, sizeof(name), "sound/player/footsteps/mech%i.wav", i+1);
 		cgs.media.footsteps[FOOTSTEP_MECH][i] = trap_S_RegisterSound (name, qfalse);
-
-		Com_sprintf (name, sizeof(name), "sound/player/footsteps/energy%i.wav", i+1);
-		cgs.media.footsteps[FOOTSTEP_ENERGY][i] = trap_S_RegisterSound (name, qfalse);
 
 		Com_sprintf (name, sizeof(name), "sound/player/footsteps/splash%i.wav", i+1);
 		cgs.media.footsteps[FOOTSTEP_SPLASH][i] = trap_S_RegisterSound (name, qfalse);
 
 		Com_sprintf (name, sizeof(name), "sound/player/footsteps/clank%i.wav", i+1);
 		cgs.media.footsteps[FOOTSTEP_METAL][i] = trap_S_RegisterSound (name, qfalse);
+
+		Com_sprintf (name, sizeof(name), "sound/player/footsteps/borg%i.wav", i+1);
+		cgs.media.footsteps[FOOTSTEP_BORG][i] = trap_S_RegisterSound (name, qfalse);
+
+		Com_sprintf (name, sizeof(name), "sound/player/footsteps/species%i.wav", i+1);
+		cgs.media.footsteps[FOOTSTEP_SPECIES][i] = trap_S_RegisterSound (name, qfalse);
+
+		Com_sprintf (name, sizeof(name), "sound/player/footsteps/reaver%i.wav", i+1);
+		cgs.media.footsteps[FOOTSTEP_REAVER][i] = trap_S_RegisterSound (name, qfalse);
 	}
 
 	// only register the items that the server says we need

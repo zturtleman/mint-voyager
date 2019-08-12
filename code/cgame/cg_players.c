@@ -199,12 +199,14 @@ static qboolean	CG_ParseAnimationFile( const char *filename, playerInfo_t *pi ) 
 				pi->footsteps = FOOTSTEP_NORMAL;
 			} else if ( !Q_stricmp( token, "boot" ) ) {
 				pi->footsteps = FOOTSTEP_BOOT;
-			} else if ( !Q_stricmp( token, "flesh" ) ) {
-				pi->footsteps = FOOTSTEP_FLESH;
 			} else if ( !Q_stricmp( token, "mech" ) ) {
 				pi->footsteps = FOOTSTEP_MECH;
-			} else if ( !Q_stricmp( token, "energy" ) ) {
-				pi->footsteps = FOOTSTEP_ENERGY;
+			} else if ( !Q_stricmp( token, "borg" ) ) {
+				pi->footsteps = FOOTSTEP_BORG;
+			} else if ( !Q_stricmp( token, "species" ) ) {
+				pi->footsteps = FOOTSTEP_SPECIES;
+			} else if ( !Q_stricmp( token, "reaver" ) ) {
+				pi->footsteps = FOOTSTEP_REAVER;
 			} else {
 				CG_Printf( "Bad footsteps parm in %s: %s\n", filename, token );
 			}
