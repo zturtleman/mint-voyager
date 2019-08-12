@@ -983,8 +983,8 @@ void SP_func_door (gentity_t *ent) {
 	vec3_t	size;
 	float	lip;
 
-	ent->sound1to2 = ent->sound2to1 = G_SoundIndex("sound/movers/doors/dr1_strt.wav");
-	ent->soundPos1 = ent->soundPos2 = G_SoundIndex("sound/movers/doors/dr1_end.wav");
+	ent->sound1to2 = ent->sound2to1 = G_SoundIndex("sound/movers/doors/largedoorstart.wav");
+	ent->soundPos1 = ent->soundPos2 = G_SoundIndex("sound/movers/doors/largedoorstop.wav");
 
 	ent->blocked = Blocked_Door;
 
@@ -1150,8 +1150,8 @@ Plats are always drawn in the extended position so they will light correctly.
 void SP_func_plat (gentity_t *ent) {
 	float		lip, height;
 
-	ent->sound1to2 = ent->sound2to1 = G_SoundIndex("sound/movers/plats/pt1_strt.wav");
-	ent->soundPos1 = ent->soundPos2 = G_SoundIndex("sound/movers/plats/pt1_end.wav");
+	ent->sound1to2 = ent->sound2to1 = G_SoundIndex("sound/movers/plats/largeplatstart.wav");
+	ent->soundPos1 = ent->soundPos2 = G_SoundIndex("sound/movers/plats/largeplatstop.wav");
 
 	VectorClear (ent->s.angles);
 
