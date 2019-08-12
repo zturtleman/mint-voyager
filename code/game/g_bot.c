@@ -230,7 +230,7 @@ static void PlayerIntroSound( const char *modelAndSkin ) {
 		skin = model;
 	}
 
-	trap_Cmd_ExecuteText( EXEC_APPEND, va( "play sound/player/announce/%s.wav\n", skin ) );
+	trap_Cmd_ExecuteText( EXEC_APPEND, va( "play sound/voice/computer/misc/%s.mp3\n", skin ) );
 }
 
 /*

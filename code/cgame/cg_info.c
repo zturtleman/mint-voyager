@@ -143,7 +143,7 @@ void CG_LoadingPlayer( int playerNum ) {
 	Q_CleanStr( personality );
 
 	if( cgs.gametype == GT_SINGLE_PLAYER ) {
-		trap_S_RegisterSound( va( "sound/player/announce/%s.wav", personality ), qtrue );
+		trap_S_RegisterSound( va( "sound/voice/computer/misc/%s.mp3", personality ), qtrue );
 	}
 
 	CG_LoadingString( personality );

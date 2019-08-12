@@ -1238,17 +1238,17 @@ static void CG_RegisterSounds( void ) {
 	CG_LoadVoiceChats();
 #endif
 
-	cgs.media.oneMinuteSound = trap_S_RegisterSound( "sound/feedback/1_minute.wav", qtrue );
-	cgs.media.fiveMinuteSound = trap_S_RegisterSound( "sound/feedback/5_minute.wav", qtrue );
-	cgs.media.suddenDeathSound = trap_S_RegisterSound( "sound/feedback/sudden_death.wav", qtrue );
-	cgs.media.oneFragSound = trap_S_RegisterSound( "sound/feedback/1_frag.wav", qtrue );
-	cgs.media.twoFragSound = trap_S_RegisterSound( "sound/feedback/2_frags.wav", qtrue );
-	cgs.media.threeFragSound = trap_S_RegisterSound( "sound/feedback/3_frags.wav", qtrue );
-	cgs.media.count3Sound = trap_S_RegisterSound( "sound/feedback/three.wav", qtrue );
-	cgs.media.count2Sound = trap_S_RegisterSound( "sound/feedback/two.wav", qtrue );
-	cgs.media.count1Sound = trap_S_RegisterSound( "sound/feedback/one.wav", qtrue );
-	cgs.media.countFightSound = trap_S_RegisterSound( "sound/feedback/fight.wav", qtrue );
-	cgs.media.countPrepareSound = trap_S_RegisterSound( "sound/feedback/prepare.wav", qtrue );
+	cgs.media.oneMinuteSound = trap_S_RegisterSound( "sound/voice/computer/misc/1_minute.wav", qtrue );
+	cgs.media.fiveMinuteSound = trap_S_RegisterSound( "sound/voice/computer/misc/5_minute.wav", qtrue );
+	cgs.media.suddenDeathSound = trap_S_RegisterSound( "sound/voice/computer/misc/sudden_death.wav", qtrue );
+	cgs.media.oneFragSound = trap_S_RegisterSound( "sound/voice/computer/misc/1_frag.wav", qtrue );
+	cgs.media.twoFragSound = trap_S_RegisterSound( "sound/voice/computer/misc/2_frags.wav", qtrue );
+	cgs.media.threeFragSound = trap_S_RegisterSound( "sound/voice/computer/misc/3_frags.wav", qtrue );
+	cgs.media.count3Sound = trap_S_RegisterSound( "sound/voice/computer/misc/three.wav", qtrue );
+	cgs.media.count2Sound = trap_S_RegisterSound( "sound/voice/computer/misc/two.wav", qtrue );
+	cgs.media.count1Sound = trap_S_RegisterSound( "sound/voice/computer/misc/one.wav", qtrue );
+	cgs.media.countFightSound = trap_S_RegisterSound( "sound/voice/computer/misc/fight.wav", qtrue );
+	cgs.media.countPrepareSound = trap_S_RegisterSound( "sound/voice/computer/misc/prepare.wav", qtrue );
 #ifdef MISSIONPACK
 	cgs.media.countPrepareTeamSound = trap_S_RegisterSound( "sound/feedback/prepare_team.wav", qtrue );
 #endif
@@ -1259,11 +1259,12 @@ static void CG_RegisterSounds( void ) {
 		//      this might make sense if it was a different sound, but you'd probably want to
 		//      silence GTS_*_CAPTURE which is a callange of its own
 		//cgs.media.captureAwardSound = trap_S_RegisterSound( "sound/teamplay/flagcapture_yourteam.wav", qtrue );
-		cgs.media.redLeadsSound = trap_S_RegisterSound( "sound/feedback/redleads.wav", qtrue );
-		cgs.media.blueLeadsSound = trap_S_RegisterSound( "sound/feedback/blueleads.wav", qtrue );
-		cgs.media.teamsTiedSound = trap_S_RegisterSound( "sound/feedback/teamstied.wav", qtrue );
+		cgs.media.redLeadsSound = trap_S_RegisterSound( "sound/voice/computer/misc/redleads.wav", qtrue );
+		cgs.media.blueLeadsSound = trap_S_RegisterSound( "sound/voice/computer/misc/blueleads.wav", qtrue );
+		cgs.media.teamsTiedSound = trap_S_RegisterSound( "sound/voice/computer/misc/teamstied.wav", qtrue );
 		cgs.media.hitTeamSound = trap_S_RegisterSound( "sound/feedback/hit_teammate.wav", qtrue );
 
+		// ZTM: PORTNOTE: Elite Force has older CTF sounds (sound/voice/computer/misc/ + flagtk_blu, flagcap_blu, flagret_blu)
 		cgs.media.redScoredSound = trap_S_RegisterSound( "sound/teamplay/voc_red_scores.wav", qtrue );
 		cgs.media.blueScoredSound = trap_S_RegisterSound( "sound/teamplay/voc_blue_scores.wav", qtrue );
 
@@ -1346,9 +1347,9 @@ static void CG_RegisterSounds( void ) {
 	cgs.media.hitSoundLowArmor = trap_S_RegisterSound( "sound/feedback/hitlo.wav", qfalse );
 #endif
 
-	cgs.media.impressiveSound = trap_S_RegisterSound( "sound/feedback/impressive.wav", qtrue );
-	cgs.media.excellentSound = trap_S_RegisterSound( "sound/feedback/excellent.wav", qtrue );
-	cgs.media.deniedSound = trap_S_RegisterSound( "sound/feedback/denied.wav", qtrue );
+	cgs.media.impressiveSound = trap_S_RegisterSound( "sound/voice/computer/misc/impressive.wav", qtrue );
+	cgs.media.excellentSound = trap_S_RegisterSound( "sound/voice/computer/misc/excellent.wav", qtrue );
+	cgs.media.deniedSound = trap_S_RegisterSound( "sound/voice/computer/misc/denied.wav", qtrue );
 	cgs.media.humiliationSound = trap_S_RegisterSound( "sound/feedback/humiliation.wav", qtrue );
 	cgs.media.assistSound = trap_S_RegisterSound( "sound/feedback/assist.wav", qtrue );
 	cgs.media.defendSound = trap_S_RegisterSound( "sound/feedback/defense.wav", qtrue );
@@ -1358,9 +1359,9 @@ static void CG_RegisterSounds( void ) {
 	cgs.media.firstHumiliationSound = trap_S_RegisterSound( "sound/feedback/first_gauntlet.wav", qtrue );
 #endif
 
-	cgs.media.takenLeadSound = trap_S_RegisterSound( "sound/feedback/takenlead.wav", qtrue);
-	cgs.media.tiedLeadSound = trap_S_RegisterSound( "sound/feedback/tiedlead.wav", qtrue);
-	cgs.media.lostLeadSound = trap_S_RegisterSound( "sound/feedback/lostlead.wav", qtrue);
+	cgs.media.takenLeadSound = trap_S_RegisterSound( "sound/voice/computer/misc/takenlead.wav", qtrue);
+	cgs.media.tiedLeadSound = trap_S_RegisterSound( "sound/voice/computer/misc/tiedlead.wav", qtrue);
+	cgs.media.lostLeadSound = trap_S_RegisterSound( "sound/voice/computer/misc/lostlead.wav", qtrue);
 
 #ifdef MISSIONPACK
 	cgs.media.voteNow = trap_S_RegisterSound( "sound/feedback/vote_now.wav", qtrue);
