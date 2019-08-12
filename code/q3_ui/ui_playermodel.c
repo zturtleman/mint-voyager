@@ -602,7 +602,7 @@ static void PlayerModel_MenuInit( int localPlayerNum )
 			s_playermodel.pics[k].focuscolor       = colorRed;
 
 			s_playermodel.picbuttons[k].generic.type	 = MTYPE_BITMAP;
-			s_playermodel.picbuttons[k].generic.flags    = QMF_LEFT_JUSTIFY|QMF_NODEFAULTINIT|QMF_PULSEIFFOCUS;
+			s_playermodel.picbuttons[k].generic.flags    = QMF_LEFT_JUSTIFY|QMF_NODEFAULTINIT|QMF_PULSEIFFOCUS|QMF_NODEFAULTSHADER;
 			s_playermodel.picbuttons[k].generic.id	     = ID_PLAYERPIC0+k;
 			s_playermodel.picbuttons[k].generic.callback = PlayerModel_PicEvent;
 			s_playermodel.picbuttons[k].generic.x    	 = x - 16;

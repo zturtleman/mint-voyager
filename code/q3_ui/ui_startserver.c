@@ -488,7 +488,7 @@ static void StartServer_MenuInit( qboolean multiplayer ) {
 		s_startserver.mappics[i].generic.ownerdraw = StartServer_LevelshotDraw;
 
 		s_startserver.mapbuttons[i].generic.type     = MTYPE_BITMAP;
-		s_startserver.mapbuttons[i].generic.flags    = QMF_LEFT_JUSTIFY|QMF_PULSEIFFOCUS|QMF_NODEFAULTINIT;
+		s_startserver.mapbuttons[i].generic.flags    = QMF_LEFT_JUSTIFY|QMF_PULSEIFFOCUS|QMF_NODEFAULTINIT|QMF_NODEFAULTSHADER;
 		s_startserver.mapbuttons[i].generic.id       = ID_PICTURES+i;
 		s_startserver.mapbuttons[i].generic.callback = StartServer_MapEvent;
 		s_startserver.mapbuttons[i].generic.x	     = x - 30;

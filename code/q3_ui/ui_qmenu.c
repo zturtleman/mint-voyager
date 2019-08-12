@@ -327,7 +327,7 @@ void Bitmap_Draw( menubitmap_s *b )
 
 	if (b->generic.flags & QMF_GRAYED)
 	{
-		if (b->shader)
+		if (b->shader || !(b->generic.flags & (QMF_NODEFAULTSHADER|QMF_SILENT|QMF_INACTIVE)))
 		{
 			trap_R_SetColor( colorMdGrey );
 			CG_DrawPic( x, y, w, h, b->shader );
@@ -336,8 +336,10 @@ void Bitmap_Draw( menubitmap_s *b )
 	}
 	else
 	{
-		if (b->shader)
+		if (b->shader || !(b->generic.flags & (QMF_NODEFAULTSHADER|QMF_SILENT|QMF_INACTIVE)))
+		{
 			CG_DrawPic( x, y, w, h, b->shader );
+		}
 
 		if (  ( (b->generic.flags & QMF_PULSE) 
 			|| (b->generic.flags & QMF_PULSEIFFOCUS) )
