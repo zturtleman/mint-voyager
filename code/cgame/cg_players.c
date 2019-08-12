@@ -96,8 +96,12 @@ void CG_CachePlayerSounds( const char *modelName ) {
 			break;
 		}
 
-		Com_sprintf( filename, sizeof( filename ), "sound/player/%s/%s", modelName, s + 1 );
+		Com_sprintf( filename, sizeof( filename ), "sound/voice/%s/misc/%s", modelName, s + 1 );
 		trap_S_RegisterSound( filename, qfalse );
+
+		// ZTM: PORTNOTE: Fallback hm_male / hm_female.
+		//Com_sprintf( filename, sizeof( filename ), "sound/player/%s/%s", modelName, s + 1 );
+		//trap_S_RegisterSound( filename, qfalse );
 	}
 }
 
@@ -111,20 +115,20 @@ Used to cache missionpack player models at start up.
 void CG_CachePlayerModels( const char *modelName, const char *headModelName ) {
 	char filename[MAX_QPATH];
 
-	Com_sprintf( filename, sizeof( filename ), "models/players/%s/lower.md3", modelName );
+	Com_sprintf( filename, sizeof( filename ), "models/players2/%s/lower.md3", modelName );
 	trap_R_RegisterModel( filename );
 
-	Com_sprintf( filename, sizeof( filename ), "models/players/%s/upper.md3", modelName );
+	Com_sprintf( filename, sizeof( filename ), "models/players2/%s/upper.md3", modelName );
 	trap_R_RegisterModel( filename );
 
 	if ( headModelName[0] == '*' ) {
-		Com_sprintf( filename, sizeof( filename ), "models/players/heads/%s/%s.md3", &headModelName[1], &headModelName[1] );
+		Com_sprintf( filename, sizeof( filename ), "models/players2/heads/%s/%s.md3", &headModelName[1], &headModelName[1] );
 	} else {
-		Com_sprintf( filename, sizeof( filename ), "models/players/%s/head.md3", headModelName );
+		Com_sprintf( filename, sizeof( filename ), "models/players2/%s/head.md3", headModelName );
 	}
 
 	if ( !trap_R_RegisterModel( filename ) && headModelName[0] != '*' ) {
-		Com_sprintf( filename, sizeof( filename ), "models/players/heads/%s/%s.md3", headModelName, headModelName );
+		Com_sprintf( filename, sizeof( filename ), "models/players2/heads/%s/%s.md3", headModelName, headModelName );
 		trap_R_RegisterModel( filename );
 	}
 }

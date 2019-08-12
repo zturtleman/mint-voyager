@@ -369,7 +369,7 @@ static void CG_Field_CompletePlayerModel( int argNum, qboolean lookingForHead, c
 
 	if ( !lookingForHead || completeModelLength == 0 || completeModel[0] != '*' ) {
 		// iterate directory of all player models
-		numdirs = trap_FS_GetFileList("models/players", "/", dirlist, 2048 );
+		numdirs = trap_FS_GetFileList("models/players2", "/", dirlist, 2048 );
 		dirptr  = dirlist;
 		for (i=0; i<numdirs; i++,dirptr+=dirlen+1)
 		{
@@ -390,14 +390,14 @@ static void CG_Field_CompletePlayerModel( int argNum, qboolean lookingForHead, c
 			}
 
 			// iterate all skin files in directory
-			numfiles = trap_FS_GetFileList( va("models/players/%s",dirptr), "skin", filelist, 2048 );
+			numfiles = trap_FS_GetFileList( va("models/players2/%s",dirptr), "skin", filelist, 2048 );
 			fileptr  = filelist;
 			for (j=0; j<numfiles;j++,fileptr+=filelen+1)
 			{
 				filelen = strlen(fileptr);
 				skinptr = fileptr;
 
-				// models/players/example/stroggs/upper_lily_red.skin
+				// models/players2/example/stroggs/upper_lily_red.skin
 				if ( teamNameLength > 0 && Q_stricmpn( skinptr, teamName, teamNameLength ) == 0 ) {
 					skinptr += teamNameLength;
 				}
@@ -410,12 +410,12 @@ static void CG_Field_CompletePlayerModel( int argNum, qboolean lookingForHead, c
 				COM_StripExtension( skinptr + skinPrefixLength, skinname, sizeof( skinname ) );
 
 				if ( Q_stricmp( skinname, lookingForSkin ) == 0 ) {
-					// models/players/example/upper_default.skin
+					// models/players2/example/upper_default.skin
 					// add default skin as just the model name
 					// for team models this is red or blue
 					BG_AddStringToList( list, sizeof( list ), &listTotalLength, dirptr );
 				} else if ( lookingForTeam != TEAM_FREE ) {
-					// models/players/example/upper_lily_red.skin
+					// models/players2/example/upper_lily_red.skin
 					// for team model add lily_red skin as lily
 					skinnameLength = strlen( skinname );
 
@@ -426,7 +426,7 @@ static void CG_Field_CompletePlayerModel( int argNum, qboolean lookingForHead, c
 						BG_AddStringToList( list, sizeof( list ), &listTotalLength, va( "%s/%s", dirptr, skinname ) );
 					}
 				} else {
-					// models/players/example/upper_lily.skin
+					// models/players2/example/upper_lily.skin
 					// misc ffa skins
 					BG_AddStringToList( list, sizeof( list ), &listTotalLength, va( "%s/%s", dirptr, skinname ) );
 				}
@@ -436,7 +436,7 @@ static void CG_Field_CompletePlayerModel( int argNum, qboolean lookingForHead, c
 
 	if ( lookingForHead && ( completeModelLength == 0 || completeModel[0] == '*' ) ) {
 		// iterate directory of all head models
-		numdirs = trap_FS_GetFileList("models/players/heads", "/", dirlist, 2048 );
+		numdirs = trap_FS_GetFileList("models/players2/heads", "/", dirlist, 2048 );
 		dirptr  = dirlist;
 		for (i=0; i<numdirs; i++,dirptr+=dirlen+1)
 		{
@@ -458,14 +458,14 @@ static void CG_Field_CompletePlayerModel( int argNum, qboolean lookingForHead, c
 			}
 
 			// iterate all skin files in directory
-			numfiles = trap_FS_GetFileList( va("models/players/heads/%s",dirptr), "skin", filelist, 2048 );
+			numfiles = trap_FS_GetFileList( va("models/players2/heads/%s",dirptr), "skin", filelist, 2048 );
 			fileptr  = filelist;
 			for (j=0; j<numfiles;j++,fileptr+=filelen+1)
 			{
 				filelen = strlen(fileptr);
 				skinptr = fileptr;
 
-				// models/players/heads/example/stroggs/head_lily_red.skin
+				// models/players2/heads/example/stroggs/head_lily_red.skin
 				if ( teamNameLength > 0 && Q_stricmpn( skinptr, teamName, teamNameLength ) == 0 ) {
 					skinptr += teamNameLength;
 				}
@@ -478,12 +478,12 @@ static void CG_Field_CompletePlayerModel( int argNum, qboolean lookingForHead, c
 				COM_StripExtension( skinptr + skinPrefixLength, skinname, sizeof( skinname ) );
 
 				if ( Q_stricmp( skinname, lookingForSkin ) == 0 ) {
-					// models/players/heads/example/head_default.skin
+					// models/players2/heads/example/head_default.skin
 					// add default skin as just the model name
 					// for team models this is red or blue
 					BG_AddStringToList( list, sizeof( list ), &listTotalLength, va( "*%s", dirptr ) );
 				} else if ( lookingForTeam != TEAM_FREE ) {
-					// models/players/heads/example/head_lily_red.skin
+					// models/players2/heads/example/head_lily_red.skin
 					// for team model add lily_red skin as lily
 					skinnameLength = strlen( skinname );
 
@@ -494,7 +494,7 @@ static void CG_Field_CompletePlayerModel( int argNum, qboolean lookingForHead, c
 						BG_AddStringToList( list, sizeof( list ), &listTotalLength, va( "*%s/%s", dirptr, skinname ) );
 					}
 				} else {
-					// models/players/heads/example/head_lily.skin
+					// models/players2/heads/example/head_lily.skin
 					// misc ffa skins
 					BG_AddStringToList( list, sizeof( list ), &listTotalLength, va( "*%s/%s", dirptr, skinname ) );
 				}
