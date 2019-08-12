@@ -121,7 +121,6 @@ vmCvar_t	ui_browserShowEmpty;
 vmCvar_t	ui_browserShowBots;
 vmCvar_t	ui_browserSeparateMasters;
 
-vmCvar_t	ui_brassTime;
 vmCvar_t	ui_drawCrosshair;
 vmCvar_t	ui_drawCrosshairNames;
 vmCvar_t	ui_marks;
@@ -209,7 +208,6 @@ static cvarTable_t		cvarTable[] = {
 	{ &ui_browserShowBots, "ui_browserShowBots", "1", CVAR_ARCHIVE },
 	{ &ui_browserSeparateMasters, "ui_browserSeparateMasters", "0", CVAR_ARCHIVE },
 
-	{ &ui_brassTime, "cg_brassTime", "2500", CVAR_ARCHIVE },
 	{ &ui_drawCrosshair, "cg_drawCrosshair", "4", CVAR_ARCHIVE },
 	{ &ui_drawCrosshairNames, "cg_drawCrosshairNames", "1", CVAR_ARCHIVE },
 	{ &ui_marks, "cg_marks", "1", CVAR_ARCHIVE },

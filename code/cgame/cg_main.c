@@ -193,7 +193,6 @@ vmCvar_t	cg_noPlayerAnims;
 vmCvar_t	cg_showmiss;
 vmCvar_t	cg_footsteps;
 vmCvar_t	cg_addMarks;
-vmCvar_t	cg_brassTime;
 vmCvar_t	cg_viewsize;
 vmCvar_t	cg_gun_frame;
 vmCvar_t	cg_gun_x;
@@ -391,7 +390,6 @@ static cvarTable_t cgameCvarTable[] = {
 	{ &cg_crosshairHealth, "cg_crosshairHealth", "0", CVAR_ARCHIVE, RANGE_BOOL },
 	{ &cg_crosshairX, "cg_crosshairX", "0", CVAR_ARCHIVE, RANGE_ALL },
 	{ &cg_crosshairY, "cg_crosshairY", "0", CVAR_ARCHIVE, RANGE_ALL },
-	{ &cg_brassTime, "cg_brassTime", "2500", CVAR_ARCHIVE, RANGE_ALL },
 	{ &cg_simpleItems, "cg_simpleItems", "0", CVAR_ARCHIVE, RANGE_BOOL },
 	{ &cg_addMarks, "cg_marks", "1", CVAR_ARCHIVE, RANGE_BOOL },
 	{ &cg_railTrailTime, "cg_railTrailTime", "400", CVAR_ARCHIVE, RANGE_ALL },
@@ -1619,9 +1617,6 @@ static void CG_RegisterGraphics( void ) {
 
 	cgs.media.armorModel = trap_R_RegisterModel( "models/powerups/armor/armor_yel.md3" );
 	cgs.media.armorIcon  = trap_R_RegisterShaderNoMip( "icons/iconr_yellow" );
-
-	cgs.media.machinegunBrassModel = trap_R_RegisterModel( "models/weapons2/shells/m_shell.md3" );
-	cgs.media.shotgunBrassModel = trap_R_RegisterModel( "models/weapons2/shells/s_shell.md3" );
 
 	cgs.media.gibAbdomen = trap_R_RegisterModel( "models/gibs/abdomen.md3" );
 	cgs.media.gibArm = trap_R_RegisterModel( "models/gibs/arm.md3" );

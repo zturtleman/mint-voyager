@@ -88,7 +88,6 @@ extern vmCvar_t	ui_browserShowEmpty;
 extern vmCvar_t	ui_browserShowBots;
 extern vmCvar_t	ui_browserSeparateMasters;
 
-extern vmCvar_t	ui_brassTime;
 extern vmCvar_t	ui_drawCrosshair;
 extern vmCvar_t	ui_drawCrosshairNames;
 extern vmCvar_t	ui_marks;

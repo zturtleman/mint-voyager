@@ -484,8 +484,6 @@ typedef struct weaponInfo_s {
 	float			missileDlight;
 	vec3_t			missileDlightColor;
 
-	void			(*ejectBrassFunc)( centity_t * );
-
 	float			trailRadius;
 	float			wiTrailTime;
 
@@ -935,9 +933,6 @@ typedef struct {
 
 	qhandle_t	smoke2;
 
-	qhandle_t	machinegunBrassModel;
-	qhandle_t	shotgunBrassModel;
-
 	qhandle_t	railRingsShader;
 	qhandle_t	railCoreShader;
 
@@ -1360,7 +1355,6 @@ extern	vmCvar_t		cg_noPlayerAnims;
 extern	vmCvar_t		cg_showmiss;
 extern	vmCvar_t		cg_footsteps;
 extern	vmCvar_t		cg_addMarks;
-extern	vmCvar_t		cg_brassTime;
 extern	vmCvar_t		cg_gun_frame;
 extern	vmCvar_t		cg_gun_x;
 extern	vmCvar_t		cg_gun_y;

@@ -53,7 +53,6 @@ enum {
 	ID_VIEWBOB,
 	ID_SIMPLEITEMS,
 	ID_HIGHQUALITYSKY,
-	ID_EJECTINGBRASS,
 	ID_WALLMARKS,
 	ID_DYNAMICLIGHTS,
 	ID_IDENTIFYTARGET,
@@ -84,7 +83,6 @@ typedef struct {
 	menuradiobutton_s	crosshairhealth;
 	menuradiobutton_s	viewbob;
 	menuradiobutton_s	simpleitems;
-	menuradiobutton_s	brass;
 	menuradiobutton_s	wallmarks;
 	menuradiobutton_s	dynamiclights;
 	menuradiobutton_s	identifytarget;
@@ -141,7 +139,6 @@ static void Preferences_SetMenuItems( void ) {
 	s_preferences.crosshairhealth.curvalue	= trap_Cvar_VariableValue( "cg_crosshairHealth" ) != 0;
 	s_preferences.viewbob.curvalue			= trap_Cvar_VariableValue( "cg_viewbob" ) != 0;
 	s_preferences.simpleitems.curvalue		= trap_Cvar_VariableValue( "cg_simpleItems" ) != 0;
-	s_preferences.brass.curvalue			= trap_Cvar_VariableValue( "cg_brassTime" ) != 0;
 	s_preferences.wallmarks.curvalue		= trap_Cvar_VariableValue( "cg_marks" ) != 0;
 	s_preferences.identifytarget.curvalue	= trap_Cvar_VariableValue( "cg_drawCrosshairNames" ) != 0;
 	s_preferences.dynamiclights.curvalue	= trap_Cvar_VariableValue( "r_dynamiclight" ) != 0;
@@ -189,13 +186,6 @@ static void Preferences_Event( void* ptr, int notification ) {
 
 	case ID_HIGHQUALITYSKY:
 		trap_Cvar_SetValue( "r_fastsky", !s_preferences.highqualitysky.curvalue );
-		break;
-
-	case ID_EJECTINGBRASS:
-		if ( s_preferences.brass.curvalue )
-			trap_Cvar_Reset( "cg_brassTime" );
-		else
-			trap_Cvar_SetValue( "cg_brassTime", 0 );
 		break;
 
 	case ID_WALLMARKS:
@@ -390,15 +380,6 @@ static void Preferences_MenuInit( void ) {
 	s_preferences.wallmarks.generic.y	          = y;
 
 	y += BIGCHAR_HEIGHT+2;
-	s_preferences.brass.generic.type              = MTYPE_RADIOBUTTON;
-	s_preferences.brass.generic.name	          = "Ejecting Brass:";
-	s_preferences.brass.generic.flags	          = QMF_PULSEIFFOCUS|QMF_SMALLFONT;
-	s_preferences.brass.generic.callback          = Preferences_Event;
-	s_preferences.brass.generic.id                = ID_EJECTINGBRASS;
-	s_preferences.brass.generic.x	              = PREFERENCES_X_POS;
-	s_preferences.brass.generic.y	              = y;
-
-	y += BIGCHAR_HEIGHT+2;
 	s_preferences.dynamiclights.generic.type      = MTYPE_RADIOBUTTON;
 	s_preferences.dynamiclights.generic.name	  = "Dynamic Lights:";
 	s_preferences.dynamiclights.generic.flags     = QMF_PULSEIFFOCUS|QMF_SMALLFONT;
@@ -512,7 +493,6 @@ static void Preferences_MenuInit( void ) {
 	Menu_AddItem( &s_preferences.menu, &s_preferences.viewbob );
 	Menu_AddItem( &s_preferences.menu, &s_preferences.simpleitems );
 	Menu_AddItem( &s_preferences.menu, &s_preferences.wallmarks );
-	Menu_AddItem( &s_preferences.menu, &s_preferences.brass );
 	Menu_AddItem( &s_preferences.menu, &s_preferences.dynamiclights );
 	Menu_AddItem( &s_preferences.menu, &s_preferences.identifytarget );
 	Menu_AddItem( &s_preferences.menu, &s_preferences.highqualitysky );
