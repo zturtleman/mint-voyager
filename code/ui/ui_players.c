@@ -940,7 +940,7 @@ void UI_DrawPlayer( float x, float y, float w, float h, uiPlayerInfo_t *pi, int 
 	// add the chat icon
 	//
 	if ( pi->chat ) {
-		UI_PlayerFloatSprite( pi, torso.origin, trap_R_RegisterShaderNoMip( "sprites/balloon3" ) );
+		UI_PlayerFloatSprite( pi, torso.origin, trap_R_RegisterShaderNoMip( "sprites/chat" ) );
 	}
 
 	//
