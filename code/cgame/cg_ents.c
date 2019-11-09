@@ -372,7 +372,6 @@ static void CG_Item( centity_t *cent ) {
 	gitem_t			*item;
 	int				msec;
 	float			frac;
-	float			scale;
 	weaponInfo_t	*wi;
 
 	es = &cent->currentState;
@@ -398,12 +397,6 @@ static void CG_Item( centity_t *cent ) {
 		ent.shaderRGBA[3] = 255;
 		CG_AddRefEntityWithMinLight(&ent);
 		return;
-	}
-
-	// items bob up and down continuously
-	scale = 0.005 + cent->currentState.number * 0.00001;
-	if ( item->giType != IT_TEAM ) {
-		cent->lerpOrigin[2] += 4 + cos( ( cg.time + 1000 ) *  scale ) * 4;
 	}
 
 	memset (&ent, 0, sizeof(ent));
