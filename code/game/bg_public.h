@@ -417,12 +417,15 @@ usercmd_t->button bits definitions
 #define	BUTTON_USE_HOLDABLE	(1<<2)
 #define	BUTTON_GESTURE		(1<<3)
 
-#define	BUTTON_AFFIRMATIVE	(1<<5)
-#define	BUTTON_NEGATIVE		(1<<6)
-#define	BUTTON_GETFLAG		(1<<7)
-#define	BUTTON_GUARDBASE	(1<<8)
-#define	BUTTON_PATROL		(1<<9)
-#define	BUTTON_FOLLOWME		(1<<10)
+#define	BUTTON_ALTATTACK	(1<<5)
+
+// PORTNOTE: These are from Team Arena and not in Elite Force; I just moved up a button so altattack matches EF.
+#define	BUTTON_AFFIRMATIVE	(1<<6)
+#define	BUTTON_NEGATIVE		(1<<7)
+#define	BUTTON_GETFLAG		(1<<8)
+#define	BUTTON_GUARDBASE	(1<<9)
+#define	BUTTON_PATROL		(1<<10)
+#define	BUTTON_FOLLOWME		(1<<11)
 
 #define	BUTTON_TALK			(1<<13)		// displays talk balloon and disables actions
 
@@ -777,7 +780,9 @@ typedef enum {
 	EV_TAUNT_FOLLOWME,
 	EV_TAUNT_GETFLAG,
 	EV_TAUNT_GUARDBASE,
-	EV_TAUNT_PATROL
+	EV_TAUNT_PATROL,
+
+	EV_ALT_FIRE,
 
 } entity_event_t;
 

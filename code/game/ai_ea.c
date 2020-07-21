@@ -196,6 +196,20 @@ void EA_Attack(int playerNum)
 // Returns:				-
 // Changes Globals:		-
 //===========================================================================
+void EA_AltAttack(int playerNum)
+{
+	bot_input_t *bi;
+
+	bi = &botinputs[playerNum];
+
+	bi->actionflags |= ACTION_ALTATTACK;
+} //end of the function EA_AltAttack
+//===========================================================================
+//
+// Parameter:			-
+// Returns:				-
+// Changes Globals:		-
+//===========================================================================
 void EA_Talk(int playerNum)
 {
 	bot_input_t *bi;

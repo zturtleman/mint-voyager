@@ -44,6 +44,7 @@ Suite 120, Rockville, Maryland 20850 USA.
 //action flags
 #define ACTION_ATTACK			0x00000001
 #define ACTION_USE			0x00000002
+#define ACTION_ALTATTACK		0x00000004
 #define ACTION_RESPAWN			0x00000008
 #define ACTION_JUMP			0x00000010
 #define ACTION_MOVEUP			0x00000020
@@ -90,6 +91,7 @@ void EA_MoveBack(int playerNum);
 void EA_MoveLeft(int playerNum);
 void EA_MoveRight(int playerNum);
 void EA_Attack(int playerNum);
+void EA_AltAttack(int playerNum);
 void EA_Respawn(int playerNum);
 void EA_Talk(int playerNum);
 void EA_Gesture(int playerNum);

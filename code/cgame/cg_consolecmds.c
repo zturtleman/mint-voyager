@@ -1609,6 +1609,8 @@ typedef struct {
 static playerConsoleCommand_t	playerCommands[] = {
 	{ "+attack", IN_Button0Down, 0 },
 	{ "-attack", IN_Button0Up, 0 },
+	{ "+altattack", IN_Button5Down, 0 },
+	{ "-altattack", IN_Button5Up, 0 },
 	{ "+back",IN_BackDown, 0 },
 	{ "-back",IN_BackUp, 0 },
 	{ "+button0", IN_Button0Down, 0 },

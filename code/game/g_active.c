@@ -388,7 +388,7 @@ qboolean PlayerInactivityTimer( gplayer_t *player ) {
 	} else if ( player->pers.cmd.forwardmove || 
 		player->pers.cmd.rightmove || 
 		player->pers.cmd.upmove ||
-		(player->pers.cmd.buttons & BUTTON_ATTACK) ) {
+		(player->pers.cmd.buttons & (BUTTON_ATTACK|BUTTON_ALTATTACK)) ) {
 		player->inactivityTime = level.time + g_inactivity.integer * 1000;
 		player->inactivityWarning = qfalse;
 	} else if ( !player->pers.localClient ) {
@@ -562,6 +562,9 @@ void PlayerEvents( gentity_t *ent, int oldEventSequence ) {
 			break;
 
 		case EV_FIRE_WEAPON:
+			FireWeapon( ent );
+			break;
+		case EV_ALT_FIRE:
 			FireWeapon( ent );
 			break;
 
