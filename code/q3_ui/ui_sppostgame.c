@@ -521,7 +521,9 @@ void UI_SPPostgameMenu_f( void ) {
 	int			playerGameRank;
 	int			playerNum;
 	int			n;
+#if 0
 	int			oldFrags, newFrags;
+#endif
 	const char	*arena;
 	int			awardValues[MAX_UI_AWARDS];
 	char		map[MAX_QPATH];
