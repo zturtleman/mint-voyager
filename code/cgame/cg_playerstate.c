@@ -51,7 +51,7 @@ void CG_CheckAmmo( void ) {
 	// see about how many seconds of ammo we have remaining
 	weapons = cg.cur_ps->stats[ STAT_WEAPONS ];
 	total = 0;
-	for ( i = WP_MACHINEGUN ; i < WP_NUM_WEAPONS ; i++ ) {
+	for ( i = WP_NONE+1 ; i < WP_NUM_WEAPONS ; i++ ) {
 		if ( ! ( weapons & ( 1 << i ) ) ) {
 			continue;
 		}
@@ -59,6 +59,7 @@ void CG_CheckAmmo( void ) {
 			continue;
 		}
 		switch ( i ) {
+#if 0
 		case WP_ROCKET_LAUNCHER:
 		case WP_GRENADE_LAUNCHER:
 		case WP_RAILGUN:
@@ -68,6 +69,7 @@ void CG_CheckAmmo( void ) {
 #endif
 			total += cg.cur_ps->ammo[i] * 1000;
 			break;
+#endif
 		default:
 			total += cg.cur_ps->ammo[i] * 200;
 			break;

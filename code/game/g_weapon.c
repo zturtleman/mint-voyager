@@ -65,6 +65,7 @@ GAUNTLET
 ======================================================================
 */
 
+#if 0
 void Weapon_Gauntlet( gentity_t *ent ) {
 
 }
@@ -134,6 +135,7 @@ qboolean CheckGauntletAttack( gentity_t *ent ) {
 
 	return qtrue;
 }
+#endif
 
 
 /*
@@ -234,6 +236,7 @@ void Bullet_Fire (gentity_t *ent, float spread, int damage, int mod ) {
 }
 
 
+#if 0
 /*
 ======================================================================
 
@@ -251,6 +254,7 @@ void BFG_Fire ( gentity_t *ent ) {
 
 //	VectorAdd( m->s.pos.trDelta, ent->player->ps.velocity, m->s.pos.trDelta );	// "real" physics
 }
+#endif
 
 
 /*
@@ -386,6 +390,7 @@ void weapon_grenadelauncher_fire (gentity_t *ent) {
 //	VectorAdd( m->s.pos.trDelta, ent->player->ps.velocity, m->s.pos.trDelta );	// "real" physics
 }
 
+#if 0
 /*
 ======================================================================
 
@@ -422,6 +427,7 @@ void Weapon_Plasmagun_Fire (gentity_t *ent) {
 
 //	VectorAdd( m->s.pos.trDelta, ent->player->ps.velocity, m->s.pos.trDelta );	// "real" physics
 }
+#endif
 
 /*
 ======================================================================
@@ -722,7 +728,7 @@ void Weapon_Nailgun_Fire (gentity_t *ent) {
 
 //	VectorAdd( m->s.pos.trDelta, ent->player->ps.velocity, m->s.pos.trDelta );	// "real" physics
 }
-
+#endif
 
 /*
 ======================================================================
@@ -746,7 +752,198 @@ void weapon_proxlauncher_fire (gentity_t *ent) {
 //	VectorAdd( m->s.pos.trDelta, ent->player->ps.velocity, m->s.pos.trDelta );	// "real" physics
 }
 
-#endif
+
+//======================================================================
+
+/*
+WP_PHASER - primary: lightning gun (or machine gun?) -- is there a difference game logic wise?
+WP_PHASER - alt: lightning gun (or machine gun?)
+
+WP_COMPRESSION_RIFLE - primary: missile
+WP_COMPRESSION_RIFLE - alt: railgun (kill player: EV_DISINTEGRATION (different death shader on player), always: EV_COMPRESSION_RIFLE_ALT)
+
+WP_IMOD - primary: pink railgun trail (hit player: EV_IMOD_HIT, always: EV_IMOD)
+WP_IMOD - primary: blue railgun trail (hit player: EV_IMOD_ALTFIRE_HIT, always: EV_IMOD_ALTFIRE)
+
+WP_SCAVENGER - primary: missile, plasma based on shooter_plasma
+WP_SCAVENGER - primary: gravity affected missile, doesn't bounce like grenade though.
+
+WP_STASIS_WEAPON - primary: 3 missiles
+WP_STASIS_WEAPON - primary: 5x rail gun (always: EV_STASIS)
+
+WP_GRENADE_LAUNCHER - primary: GRENADE
+WP_GRENADE_LAUNCHER - alt: proxy mine
+
+WP_TETRION_DISRUPTOR - primary: shotgun (EV_TETRION)
+WP_TETRION_DISRUPTOR - alt: missile, full bounce
+
+WP_QUANTUM_BURST - primary: missile (player kill: EV_EXPLODESHELL -- gibbed)
+WP_QUANTUM_BURST - alt: missile (player kill: EV_DISINTEGRATION2 -- gibbed)
+
+WP_DREADNOUGHT - primary: lightning gun
+	(wall: EV_DREADNOUGHT_MISS, player: EV_PAIN(?), player death: EV_ARCWELD_DISINT (different death shader on player))
+WP_DREADNOUGHT - alt: missile, bounce (once?) based on surface normal.
+	(wall: EV_MISSILE_HIT, player: EV_MISSILE_HIT, player death: EV_ARCWELD_DISINT (different death shader on player))
+
+WP_VOYAGER_HYPO
+
+WP_BORG_ASSIMILATOR
+
+WP_BORG_WEAPON - primary: missile
+WP_BORG_WEAPON - alt: fast railgun (EV_BORG_ALT_WEAPON)
+
+
+It seems any weapon can gib corpse and send event EV_EXPLODESHELL.
+
+*/
+
+// placeholder so that weapons that shoot a railgun trail, shoot a railgun trail
+void placeholder_rail( gentity_t *ent ) {
+	weapon_railgun_fire( ent );
+}
+
+void weapon_phaser_fire( gentity_t *ent ) {
+	if ( g_gametype.integer != GT_TEAM ) {
+		Bullet_Fire( ent, MACHINEGUN_SPREAD, MACHINEGUN_DAMAGE, MOD_MACHINEGUN );
+	} else {
+		Bullet_Fire( ent, MACHINEGUN_SPREAD, MACHINEGUN_TEAM_DAMAGE, MOD_MACHINEGUN );
+	}
+}
+
+void weapon_phaser_altfire( gentity_t *ent ) {
+	weapon_phaser_fire( ent );
+}
+
+void weapon_compressionrifle_fire( gentity_t *ent ) {
+	gentity_t	*m;
+
+	m = fire_compressionrifle (ent, muzzle, forward);
+	m->damage *= s_quadFactor;
+	m->splashDamage *= s_quadFactor;
+
+//	VectorAdd( m->s.pos.trDelta, ent->player->ps.velocity, m->s.pos.trDelta );	// "real" physics
+}
+
+void weapon_compressionrifle_altfire( gentity_t *ent ) {
+	// PORTNOTE: FIXME: compression rifle alt shouldn't shoot multiple players at once, i.e. MAX_RAIL_HITS = 1
+	// I didn't check the others weapons.
+	placeholder_rail( ent );
+}
+
+void weapon_imod_fire( gentity_t *ent ) {
+	placeholder_rail( ent );
+}
+
+void weapon_imod_altfire( gentity_t *ent ) {
+	placeholder_rail( ent );
+}
+
+void weapon_scavenger_fire( gentity_t *ent ) {
+	gentity_t	*m;
+
+	m = fire_scavenger (ent, muzzle, forward);
+	m->damage *= s_quadFactor;
+	m->splashDamage *= s_quadFactor;
+
+//	VectorAdd( m->s.pos.trDelta, ent->player->ps.velocity, m->s.pos.trDelta );	// "real" physics
+}
+
+void weapon_scavenger_altfire( gentity_t *ent ) {
+	gentity_t	*m;
+
+	// extra vertical velocity
+	//forward[2] += 0.2f;
+	//VectorNormalize( forward );
+
+	m = fire_scavenger_alt (ent, muzzle, forward);
+	m->damage *= s_quadFactor;
+	m->splashDamage *= s_quadFactor;
+
+//	VectorAdd( m->s.pos.trDelta, ent->player->ps.velocity, m->s.pos.trDelta );	// "real" physics
+}
+
+void weapon_stasis_fire( gentity_t *ent ) {
+	gentity_t	*m;
+	int			count;
+
+	for( count = 0; count < 3; count++ ) {
+		m = fire_stasis (ent, muzzle, forward );
+		m->damage *= s_quadFactor;
+		m->splashDamage *= s_quadFactor;
+
+//	VectorAdd( m->s.pos.trDelta, ent->player->ps.velocity, m->s.pos.trDelta );	// "real" physics
+	}
+}
+
+void weapon_stasis_altfire( gentity_t *ent ) {
+	// TODO: 5 rails
+	placeholder_rail( ent );
+}
+
+//weapon_grenadelauncher_fire
+
+void weapon_grenadelauncher_altfire( gentity_t *ent ) {
+	weapon_proxlauncher_fire( ent );
+}
+
+//weapon_supershotgun_fire
+
+void weapon_supershotgun_altfire( gentity_t *ent ) {
+	gentity_t	*m;
+
+	m = fire_tetrion (ent, muzzle, forward);
+	m->damage *= s_quadFactor;
+	m->splashDamage *= s_quadFactor;
+
+//	VectorAdd( m->s.pos.trDelta, ent->player->ps.velocity, m->s.pos.trDelta );	// "real" physics
+}
+
+void weapon_quantumburst_fire( gentity_t *ent ) {
+	gentity_t	*m;
+
+	m = fire_quantum (ent, muzzle, forward);
+	m->damage *= s_quadFactor;
+	m->splashDamage *= s_quadFactor;
+
+//	VectorAdd( m->s.pos.trDelta, ent->player->ps.velocity, m->s.pos.trDelta );	// "real" physics
+}
+
+void weapon_quantumburst_altfire( gentity_t *ent ) {
+	gentity_t	*m;
+
+	m = fire_quantum_alt (ent, muzzle, forward);
+	m->damage *= s_quadFactor;
+	m->splashDamage *= s_quadFactor;
+
+//	VectorAdd( m->s.pos.trDelta, ent->player->ps.velocity, m->s.pos.trDelta );	// "real" physics
+}
+
+// Weapon_LightningFire
+
+void weapon_dreadnought_altfire( gentity_t *ent ) {
+	gentity_t	*m;
+
+	m = fire_dreadnought_alt (ent, muzzle, forward);
+	m->damage *= s_quadFactor;
+	m->splashDamage *= s_quadFactor;
+
+//	VectorAdd( m->s.pos.trDelta, ent->player->ps.velocity, m->s.pos.trDelta );	// "real" physics
+}
+
+void weapon_borg_fire( gentity_t *ent ) {
+	gentity_t	*m;
+
+	m = fire_borg_weapon (ent, muzzle, forward);
+	m->damage *= s_quadFactor;
+	m->splashDamage *= s_quadFactor;
+
+//	VectorAdd( m->s.pos.trDelta, ent->player->ps.velocity, m->s.pos.trDelta );	// "real" physics
+}
+
+void weapon_borg_altfire( gentity_t *ent ) {
+	placeholder_rail( ent );
+}
+
 
 //======================================================================
 
@@ -822,7 +1019,7 @@ void CalcMuzzlePointOrigin ( gentity_t *ent, vec3_t origin, vec3_t forward, vec3
 FireWeapon
 ===============
 */
-void FireWeapon( gentity_t *ent ) {
+void FireWeapon( gentity_t *ent, qboolean altAttack ) {
 	if ( g_instagib.integer ) {
 		s_quadFactor = 100;
 	} else if ( ent->player->ps.powerups[PW_QUAD] ) {
@@ -837,7 +1034,7 @@ void FireWeapon( gentity_t *ent ) {
 #endif
 
 	// track shots taken for accuracy tracking.  Grapple is not a weapon and gauntet is just not tracked
-	if( ent->s.weapon != WP_GRAPPLING_HOOK && ent->s.weapon != WP_GAUNTLET ) {
+	if( ent->s.weapon != WP_GRAPPLING_HOOK/* && ent->s.weapon != WP_GAUNTLET */) {
 #ifdef MISSIONPACK
 		if( ent->s.weapon == WP_NAILGUN ) {
 			ent->player->accuracy_shots += NUM_NAILSHOTS;
@@ -854,53 +1051,92 @@ void FireWeapon( gentity_t *ent ) {
 
 	CalcMuzzlePointOrigin ( ent, ent->player->oldOrigin, forward, right, up, muzzle );
 
+	if ( altAttack ) {
+		switch( ent->s.weapon ) {
+		case WP_PHASER:
+			weapon_phaser_altfire( ent );
+			break;
+		case WP_COMPRESSION_RIFLE:
+			weapon_compressionrifle_altfire( ent );
+			break;
+		case WP_IMOD:
+			weapon_imod_altfire( ent );
+			break;
+		case WP_SCAVENGER:
+			weapon_scavenger_altfire( ent );
+			break;
+		case WP_STASIS_WEAPON:
+			weapon_stasis_altfire( ent );
+			break;
+		case WP_GRENADE_LAUNCHER:
+			weapon_grenadelauncher_altfire( ent );
+			break;
+		case WP_TETRION_DISRUPTOR:
+			weapon_supershotgun_altfire( ent );
+			break;
+		case WP_QUANTUM_BURST:
+			weapon_quantumburst_altfire( ent );
+			break;
+		case WP_DREADNOUGHT:
+			weapon_dreadnought_altfire( ent );
+			break;
+		case WP_VOYAGER_HYPO:
+			break;
+		case WP_BORG_ASSIMILATOR:
+			break;
+		case WP_BORG_WEAPON:
+			weapon_borg_altfire( ent );
+			break;
+		case WP_GRAPPLING_HOOK:
+			Weapon_GrapplingHook_Fire( ent );
+			break;
+		default:
+	// FIXME		G_Error( "Bad ent->s.weapon" );
+			break;
+		}
+
+		return;
+	}
+
 	// fire the specific weapon
 	switch( ent->s.weapon ) {
-	case WP_GAUNTLET:
-		Weapon_Gauntlet( ent );
+	case WP_PHASER:
+		weapon_phaser_fire( ent );
 		break;
-	case WP_LIGHTNING:
-		Weapon_LightningFire( ent );
+	case WP_COMPRESSION_RIFLE:
+		weapon_compressionrifle_fire( ent );
 		break;
-	case WP_SHOTGUN:
-		weapon_supershotgun_fire( ent );
+	case WP_IMOD:
+		weapon_imod_fire( ent );
 		break;
-	case WP_MACHINEGUN:
-		if ( g_gametype.integer != GT_TEAM ) {
-			Bullet_Fire( ent, MACHINEGUN_SPREAD, MACHINEGUN_DAMAGE, MOD_MACHINEGUN );
-		} else {
-			Bullet_Fire( ent, MACHINEGUN_SPREAD, MACHINEGUN_TEAM_DAMAGE, MOD_MACHINEGUN );
-		}
+	case WP_SCAVENGER:
+		weapon_scavenger_fire( ent );
+		break;
+	case WP_STASIS_WEAPON:
+		weapon_stasis_fire( ent );
 		break;
 	case WP_GRENADE_LAUNCHER:
 		weapon_grenadelauncher_fire( ent );
 		break;
-	case WP_ROCKET_LAUNCHER:
-		Weapon_RocketLauncher_Fire( ent );
+	case WP_TETRION_DISRUPTOR:
+		weapon_supershotgun_fire( ent );
 		break;
-	case WP_PLASMAGUN:
-		Weapon_Plasmagun_Fire( ent );
+	case WP_QUANTUM_BURST:
+		weapon_quantumburst_fire( ent );
 		break;
-	case WP_RAILGUN:
-		weapon_railgun_fire( ent );
+	case WP_DREADNOUGHT:
+		Weapon_LightningFire( ent );
 		break;
-	case WP_BFG:
-		BFG_Fire( ent );
+	case WP_VOYAGER_HYPO:
+		break;
+	case WP_BORG_ASSIMILATOR:
+		break;
+	case WP_BORG_WEAPON:
+		weapon_borg_fire( ent );
 		break;
 	case WP_GRAPPLING_HOOK:
 		Weapon_GrapplingHook_Fire( ent );
 		break;
-#ifdef MISSIONPACK
-	case WP_NAILGUN:
-		Weapon_Nailgun_Fire( ent );
-		break;
-	case WP_PROX_LAUNCHER:
-		weapon_proxlauncher_fire( ent );
-		break;
-	case WP_CHAINGUN:
-		Bullet_Fire( ent, CHAINGUN_SPREAD, CHAINGUN_DAMAGE, MOD_CHAINGUN );
-		break;
-#endif
 	default:
 // FIXME		G_Error( "Bad ent->s.weapon" );
 		break;

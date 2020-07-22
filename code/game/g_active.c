@@ -458,7 +458,17 @@ void PlayerTimerActions( gentity_t *ent, int msec ) {
 		if ( player->ps.stats[STAT_ARMOR] > player->ps.stats[STAT_MAX_HEALTH] ) {
 			player->ps.stats[STAT_ARMOR]--;
 		}
+
+		// phaser ammo auto regenerates
+		// PORTNOTE: This counts up by 1 more often than once a second in EF.
+		if ( player->ps.ammo[WP_PHASER] != -1 && player->ps.ammo[WP_PHASER] < 50 ) {
+			player->ps.ammo[WP_PHASER] += 7;
+			if ( player->ps.ammo[WP_PHASER] > 50 ) {
+				player->ps.ammo[WP_PHASER] = 50;
+			}
+		}
 	}
+
 #ifdef MISSIONPACK
 	if( BG_ItemForItemNum( player->ps.stats[STAT_PERSISTANT_POWERUP] )->giTag == PW_AMMOREGEN ) {
 		int w, max, inc, t, i;
@@ -507,6 +517,7 @@ PlayerIntermissionThink
 void PlayerIntermissionThink( gplayer_t *player ) {
 	player->ps.eFlags &= ~EF_TALK;
 	player->ps.eFlags &= ~EF_FIRING;
+	player->ps.eFlags &= ~EF_FIRING_ALT;
 
 	// the level will exit when everyone wants to or after timeouts
 
@@ -562,10 +573,10 @@ void PlayerEvents( gentity_t *ent, int oldEventSequence ) {
 			break;
 
 		case EV_FIRE_WEAPON:
-			FireWeapon( ent );
+			FireWeapon( ent, qfalse );
 			break;
 		case EV_ALT_FIRE:
-			FireWeapon( ent );
+			FireWeapon( ent, qtrue );
 			break;
 
 		case EV_USE_ITEM0:
@@ -851,12 +862,14 @@ void PlayerThink_real( gentity_t *ent ) {
 
 	memset (&pm, 0, sizeof(pm));
 
+#if 0
 	// check for the hit-scan gauntlet, don't let the action
 	// go through as an attack unless it actually hits something
 	if ( player->ps.weapon == WP_GAUNTLET && !( ucmd->buttons & BUTTON_TALK ) &&
 		( ucmd->buttons & BUTTON_ATTACK ) && player->ps.weaponTime <= 0 ) {
 		pm.gauntletHit = CheckGauntletAttack( ent );
 	}
+#endif
 
 	if ( ent->flags & FL_FORCE_GESTURE ) {
 		ent->flags &= ~FL_FORCE_GESTURE;

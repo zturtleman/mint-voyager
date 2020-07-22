@@ -499,7 +499,9 @@ typedef struct {
 	int			tracemask;			// collide against these types of surfaces
 	int			debugLevel;			// if set, diagnostic output will be printed
 	qboolean	noFootsteps;		// if the game is setup for no footsteps by the server
+#if 0
 	qboolean	gauntletHit;		// true if a gauntlet attack would actually hit something
+#endif
 
 	int			framecount;
 
@@ -596,6 +598,7 @@ typedef enum {
 #define EF_AWARD_DENIED		0x00040000		// denied
 #define EF_TEAMVOTED		0x00080000		// already cast a team vote
 #define EF_GIBBED			0x00100000		// player has been gibbed, client only renders player if com_blood or cg_gibs is 0
+#define	EF_FIRING_ALT		0x00200000		// for phaser
 
 // NOTE: may not have more than MAX_POWERUPS
 typedef enum {
@@ -635,10 +638,31 @@ typedef enum {
 } holdable_t;
 
 
+#define DEFAULT_WEAPON WP_PHASER // WP_MACHINEGUN
+#define ANIM2_WEAPON WP_PHASER // WP_GAUNTLET
 // NOTE: may not have more than MAX_WEAPONS
 typedef enum {
 	WP_NONE,
 
+#if 1
+	// NOTE: TossPlayerItems() only drops WP_COMPRESSION_RIFLE to WP_DREADNOUGHT
+	WP_PHASER,
+	WP_COMPRESSION_RIFLE,
+	WP_IMOD,
+	WP_SCAVENGER,
+	WP_STASIS_WEAPON,
+	WP_GRENADE_LAUNCHER,
+	WP_TETRION_DISRUPTOR,
+	WP_QUANTUM_BURST,
+	WP_DREADNOUGHT,
+
+	WP_VOYAGER_HYPO,
+	WP_BORG_ASSIMILATOR,
+	WP_BORG_WEAPON,
+
+	// not in EF
+	WP_GRAPPLING_HOOK,
+#else
 	WP_GAUNTLET,
 	WP_MACHINEGUN,
 	WP_SHOTGUN,
@@ -653,6 +677,7 @@ typedef enum {
 	WP_NAILGUN,
 	WP_PROX_LAUNCHER,
 	WP_CHAINGUN,
+#endif
 #endif
 
 	WP_NUM_WEAPONS

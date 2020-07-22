@@ -41,6 +41,7 @@ Suite 120, Rockville, Maryland 20850 USA.
 #define HI_SHIELD HI_MEDKIT
 #define HI_DECOY HI_TELEPORTER
 
+#if 0
 #define WP_PHASER WP_GAUNTLET
 #define WP_COMPRESSION_RIFLE WP_MACHINEGUN
 #define WP_IMOD WP_LIGHTNING
@@ -53,6 +54,10 @@ Suite 120, Rockville, Maryland 20850 USA.
 #define WP_VOYAGER_HYPO WP_PHASER
 #define WP_BORG_ASSIMILATOR WP_PHASER
 #define WP_BORG_WEAPON WP_PHASER
+#endif
+
+#define WP_SCAVENGER_RIFLE WP_SCAVENGER
+#define WP_STASIS WP_STASIS_WEAPON
 #endif
 
 #define AMMO_PHASER_CLIP		50
@@ -159,7 +164,7 @@ gitem_t	bg_itemlist[] =
 		NULL, NULL, NULL},
 		"models/weapons2/scavenger/scavenger.md3",
 /* icon */		"icons/w_icon_scav",
-/* pickup */	"Scavenger Weapon",
+/* pickup */	"Scavenger Rifle",
 		AMMO_SCAVENGER_CLIP,
 		IT_WEAPON,
 		WP_SCAVENGER_RIFLE,

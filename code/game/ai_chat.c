@@ -265,6 +265,7 @@ char *BotWeaponNameForMeansOfDeath(int mod) {
 	gitem_t		*item;
 
 	switch(mod) {
+#if 0 // PORTNOTE: TODO: means of death to weapon name.
 		case MOD_SHOTGUN:
 			weapon = WP_SHOTGUN;
 			break;
@@ -310,6 +311,7 @@ char *BotWeaponNameForMeansOfDeath(int mod) {
 			return "Kamikaze";
 		case MOD_JUICED:
 			return "Prox mine";
+#endif
 #endif
 		case MOD_GRAPPLE:
 			return "Grapple";

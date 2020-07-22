@@ -1171,19 +1171,14 @@ void PlayerSpawn(gentity_t *ent) {
 	player->ps.playerNum = index;
 
 	if ( g_instagib.integer ) {
-		player->ps.stats[STAT_WEAPONS] = ( 1 << WP_RAILGUN );
-		player->ps.ammo[WP_RAILGUN] = 999;
+		player->ps.stats[STAT_WEAPONS] = ( 1 << WP_COMPRESSION_RIFLE );
+		player->ps.ammo[WP_COMPRESSION_RIFLE] = 999; // PORTNOTE: TODO: Disintegration mode has 128 ammo and never decreases.
 	} else {
-		player->ps.stats[STAT_WEAPONS] = ( 1 << WP_MACHINEGUN );
-		if ( g_gametype.integer == GT_TEAM ) {
-			player->ps.ammo[WP_MACHINEGUN] = 50;
-		} else {
-			player->ps.ammo[WP_MACHINEGUN] = 100;
-		}
+		// DEFAULT_WEAPON
+		player->ps.stats[STAT_WEAPONS] = ( 1 << WP_PHASER );
+		player->ps.ammo[WP_PHASER] = 50;
 	}
 
-	player->ps.stats[STAT_WEAPONS] |= ( 1 << WP_GAUNTLET );
-	player->ps.ammo[WP_GAUNTLET] = -1;
 	player->ps.ammo[WP_GRAPPLING_HOOK] = -1;
 
 	// health will count down towards max_health
@@ -1213,7 +1208,7 @@ void PlayerSpawn(gentity_t *ent) {
 		if (ent->player->sess.sessionTeam != TEAM_SPECTATOR) {
 			G_KillBox(ent);
 			// force the base weapon up
-			player->ps.weapon = WP_MACHINEGUN;
+			player->ps.weapon = DEFAULT_WEAPON;
 			player->ps.weaponstate = WEAPON_READY;
 			// fire the targets of the spawn point
 			G_UseTargets(spawnPoint, ent);

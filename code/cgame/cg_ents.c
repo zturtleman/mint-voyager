@@ -608,6 +608,7 @@ static void CG_Missile( centity_t *cent ) {
 	VectorCopy( cent->lerpOrigin, ent.origin);
 	VectorCopy( cent->lerpOrigin, ent.oldorigin);
 
+#if 0
 	if ( cent->currentState.weapon == WP_PLASMAGUN ) {
 		ent.reType = RT_SPRITE;
 		ent.radius = 16;
@@ -616,6 +617,7 @@ static void CG_Missile( centity_t *cent ) {
 		CG_AddRefEntityWithMinLight( &ent );
 		return;
 	}
+#endif
 
 	// flicker between two skins
 	ent.skinNum = cg.clientFrame & 1;
@@ -652,6 +654,22 @@ static void CG_Missile( centity_t *cent ) {
 
 	// add to refresh list, possibly with quad glow
 	CG_AddRefEntityWithPowerups( &ent, s1 );
+
+	if ( weapon->missileFlare ) {
+		// create the render entity
+		memset (&ent, 0, sizeof(ent));
+		VectorCopy( cent->lerpOrigin, ent.origin);
+		VectorCopy( cent->lerpOrigin, ent.oldorigin);
+
+		// PORTNOTE: random guess for grenade RGBA and radius.
+		memset (&ent.shaderRGBA, 0x80, sizeof( ent.shaderRGBA ) );
+
+		ent.reType = RT_SPRITE;
+		ent.radius = 22 + 10 * crandom();
+		ent.rotation = 0;
+		ent.customShader = weapon->missileFlare;
+		CG_AddRefEntityWithMinLight( &ent );
+	}
 }
 
 /*

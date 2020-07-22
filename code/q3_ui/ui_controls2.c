@@ -106,11 +106,10 @@ enum {
 	ID_WEAPON7,
 	ID_WEAPON8,
 	ID_WEAPON9,
-#ifdef MISSIONPACK
+	ID_WEAPON10,
 	ID_WEAPON11,
 	ID_WEAPON12,
 	ID_WEAPON13,
-#endif
 	ID_ATTACK,
 	ID_WEAPPREV,
 	ID_WEAPNEXT,
@@ -157,11 +156,9 @@ enum {
 	ANIM_WEAPON8,
 	ANIM_WEAPON9,
 	ANIM_WEAPON10,
-#ifdef MISSIONPACK
 	ANIM_WEAPON11,
 	ANIM_WEAPON12,
 	ANIM_WEAPON13,
-#endif
 	ANIM_ATTACK,
 	ANIM_GESTURE,
 	ANIM_DIE,
@@ -202,11 +199,9 @@ typedef struct
 	menuaction_s		railgun;
 	menuaction_s		plasma;
 	menuaction_s		bfg;
-#ifdef MISSIONPACK
 	menuaction_s		nailgun;
 	menuaction_s		proxylauncher;
 	menuaction_s		chaingun;
-#endif
 	menuaction_s		attack;
 	menuaction_s		prevweapon;
 	menuaction_s		nextweapon;
@@ -222,7 +217,6 @@ typedef struct
 	menuradiobutton_s	smoothmouse;
 	menuradiobutton_s	alwaysrun;
 	menuaction_s		showscores;
-	menuradiobutton_s	cyclepastgauntlet;
 	menuradiobutton_s	autoswitch;
 	menuaction_s		useitem;
 	uiPlayerInfo_t		playerinfo;
@@ -277,20 +271,19 @@ static bind_t g_bindings[] =
 	{"+mlook", 			"mouse look",		ID_MOUSELOOK,	ANIM_IDLE,		'/',			-1,		-1, -1},
 	{"centerview", 		"center view",		ID_CENTERVIEW,	ANIM_IDLE,		K_END,			-1,		-1, -1},
 	{"+zoom", 			"zoom view",		ID_ZOOMVIEW,	ANIM_IDLE,		-1,				-1,		-1, -1},
-	{"weapon 1",		"gauntlet",			ID_WEAPON1,		ANIM_WEAPON1,	'1',			-1,		-1, -1},
-	{"weapon 2",		"machinegun",		ID_WEAPON2,		ANIM_WEAPON2,	'2',			-1,		-1, -1},
-	{"weapon 3",		"shotgun",			ID_WEAPON3,		ANIM_WEAPON3,	'3',			-1,		-1, -1},
-	{"weapon 4",		"grenade launcher",	ID_WEAPON4,		ANIM_WEAPON4,	'4',			-1,		-1, -1},
-	{"weapon 5",		"rocket launcher",	ID_WEAPON5,		ANIM_WEAPON5,	'5',			-1,		-1, -1},
-	{"weapon 6",		"lightning",		ID_WEAPON6,		ANIM_WEAPON6,	'6',			-1,		-1, -1},
-	{"weapon 7",		"railgun",			ID_WEAPON7,		ANIM_WEAPON7,	'7',			-1,		-1, -1},
-	{"weapon 8",		"plasma gun",		ID_WEAPON8,		ANIM_WEAPON8,	'8',			-1,		-1, -1},
-	{"weapon 9",		"BFG",				ID_WEAPON9,		ANIM_WEAPON9,	'9',			-1,		-1, -1},
-#ifdef MISSIONPACK
-	{"weapon 11",		"nail gun",			ID_WEAPON11,	ANIM_WEAPON11,	-1,				-1,		-1, -1},
-	{"weapon 12",		"proximity mine",	ID_WEAPON12,	ANIM_WEAPON12,	-1,				-1,		-1, -1},
-	{"weapon 13",		"chain gun",		ID_WEAPON13,	ANIM_WEAPON13,	-1,				-1,		-1, -1},
-#endif
+	{"weapon 1",		"phaser",			ID_WEAPON1,		ANIM_WEAPON1,	'1',			-1,		-1, -1},
+	{"weapon 2",		"compression rifle",ID_WEAPON2,		ANIM_WEAPON2,	'2',			-1,		-1, -1},
+	{"weapon 3",		"imod",				ID_WEAPON3,		ANIM_WEAPON3,	'3',			-1,		-1, -1},
+	{"weapon 4",		"scavenger rifle",	ID_WEAPON4,		ANIM_WEAPON4,	'4',			-1,		-1, -1},
+	{"weapon 5",		"stasis weapon",	ID_WEAPON5,		ANIM_WEAPON5,	'5',			-1,		-1, -1},
+	{"weapon 6",		"grenade launcher",	ID_WEAPON6,		ANIM_WEAPON6,	'6',			-1,		-1, -1},
+	{"weapon 7",		"tetrion distuptor",ID_WEAPON7,		ANIM_WEAPON7,	'7',			-1,		-1, -1},
+	{"weapon 8",		"photon burst",		ID_WEAPON8,		ANIM_WEAPON8,	'8',			-1,		-1, -1},
+	{"weapon 9",		"dreadnought",		ID_WEAPON9,		ANIM_WEAPON9,	'9',			-1,		-1, -1},
+	{"weapon 10",		"hypo",				ID_WEAPON10,	ANIM_WEAPON10,	-1,				-1,		-1, -1},
+	{"weapon 11",		"borg assimilator",	ID_WEAPON11,	ANIM_WEAPON11,	-1,				-1,		-1, -1},
+	{"weapon 12",		"borg weapon",		ID_WEAPON12,	ANIM_WEAPON12,	-1,				-1,		-1, -1},
+	{"weapon 13",		"grappling hook",	ID_WEAPON13,	ANIM_WEAPON13,	-1,				-1,		-1, -1},
 	{"+attack", 		"attack",			ID_ATTACK,		ANIM_ATTACK,	K_LEFTCTRL,		K_RIGHTCTRL, -1, -1},
 	{"weapprev",		"previous weapon",	ID_WEAPPREV,	ANIM_IDLE,		'[',			-1,		-1, -1},
 	{"weapnext", 		"next weapon",		ID_WEAPNEXT,	ANIM_IDLE,		']',			-1,		-1, -1},
@@ -333,11 +326,9 @@ static bind_t g_bindings2[] =
 	MINIBIND(ID_WEAPON7, -1, -1),
 	MINIBIND(ID_WEAPON8, -1, -1),
 	MINIBIND(ID_WEAPON9, -1, -1),
-#ifdef MISSIONPACK
 	MINIBIND(ID_WEAPON11, -1, -1),
 	MINIBIND(ID_WEAPON12, -1, -1),
 	MINIBIND(ID_WEAPON13, -1, -1),
-#endif
 	MINIBIND(ID_ATTACK, -1, -1),
 	MINIBIND(ID_WEAPPREV, -1, -1),
 	MINIBIND(ID_WEAPNEXT, -1, -1),
@@ -377,11 +368,9 @@ static bind_t g_bindings3[] =
 	MINIBIND(ID_WEAPON7, -1, -1),
 	MINIBIND(ID_WEAPON8, -1, -1),
 	MINIBIND(ID_WEAPON9, -1, -1),
-#ifdef MISSIONPACK
 	MINIBIND(ID_WEAPON11, -1, -1),
 	MINIBIND(ID_WEAPON12, -1, -1),
 	MINIBIND(ID_WEAPON13, -1, -1),
-#endif
 	MINIBIND(ID_ATTACK, -1, -1),
 	MINIBIND(ID_WEAPPREV, -1, -1),
 	MINIBIND(ID_WEAPNEXT, -1, -1),
@@ -421,11 +410,9 @@ static bind_t g_bindings4[] =
 	MINIBIND(ID_WEAPON7, -1, -1),
 	MINIBIND(ID_WEAPON8, -1, -1),
 	MINIBIND(ID_WEAPON9, -1, -1),
-#ifdef MISSIONPACK
 	MINIBIND(ID_WEAPON11, -1, -1),
 	MINIBIND(ID_WEAPON12, -1, -1),
 	MINIBIND(ID_WEAPON13, -1, -1),
-#endif
 	MINIBIND(ID_ATTACK, -1, -1),
 	MINIBIND(ID_WEAPPREV, -1, -1),
 	MINIBIND(ID_WEAPNEXT, -1, -1),
@@ -465,7 +452,6 @@ static menucommon_s *g_weapons_controls[] = {
 	(menucommon_s *)&s_controls.attack,           
 	(menucommon_s *)&s_controls.nextweapon,
 	(menucommon_s *)&s_controls.prevweapon,
-	(menucommon_s *)&s_controls.cyclepastgauntlet,
 	(menucommon_s *)&s_controls.autoswitch,    
 	(menucommon_s *)&s_controls.gauntlet,         
 	(menucommon_s *)&s_controls.machinegun,
@@ -654,58 +640,56 @@ static void Controls_UpdateModel( int anim ) {
 		break;
 
 	case ANIM_WEAPON1:
-		s_controls.playerWeapon = WP_GAUNTLET;
+		s_controls.playerWeapon = WP_PHASER;
 		break;
 
 	case ANIM_WEAPON2:
-		s_controls.playerWeapon = WP_MACHINEGUN;
+		s_controls.playerWeapon = WP_COMPRESSION_RIFLE;
 		break;
 
 	case ANIM_WEAPON3:
-		s_controls.playerWeapon = WP_SHOTGUN;
+		s_controls.playerWeapon = WP_IMOD;
 		break;
 
 	case ANIM_WEAPON4:
-		s_controls.playerWeapon = WP_GRENADE_LAUNCHER;
+		s_controls.playerWeapon = WP_SCAVENGER;
 		break;
 
 	case ANIM_WEAPON5:
-		s_controls.playerWeapon = WP_ROCKET_LAUNCHER;
+		s_controls.playerWeapon = WP_STASIS_WEAPON;
 		break;
 
 	case ANIM_WEAPON6:
-		s_controls.playerWeapon = WP_LIGHTNING;
+		s_controls.playerWeapon = WP_GRENADE_LAUNCHER;
 		break;
 
 	case ANIM_WEAPON7:
-		s_controls.playerWeapon = WP_RAILGUN;
+		s_controls.playerWeapon = WP_TETRION_DISRUPTOR;
 		break;
 
 	case ANIM_WEAPON8:
-		s_controls.playerWeapon = WP_PLASMAGUN;
+		s_controls.playerWeapon = WP_QUANTUM_BURST;
 		break;
 
 	case ANIM_WEAPON9:
-		s_controls.playerWeapon = WP_BFG;
+		s_controls.playerWeapon = WP_DREADNOUGHT;
 		break;
 
 	case ANIM_WEAPON10:
-		s_controls.playerWeapon = WP_GRAPPLING_HOOK;
+		s_controls.playerWeapon = WP_VOYAGER_HYPO;
 		break;
 
-#ifdef MISSIONPACK
 	case ANIM_WEAPON11:
-		s_controls.playerWeapon = WP_NAILGUN;
+		s_controls.playerWeapon = WP_BORG_ASSIMILATOR;
 		break;
 
 	case ANIM_WEAPON12:
-		s_controls.playerWeapon = WP_PROX_LAUNCHER;
+		s_controls.playerWeapon = WP_BORG_WEAPON;
 		break;
 
 	case ANIM_WEAPON13:
-		s_controls.playerWeapon = WP_CHAINGUN;
+		s_controls.playerWeapon = WP_GRAPPLING_HOOK;
 		break;
-#endif
 
 	case ANIM_ATTACK:
 		s_controls.playerTorso = TORSO_ATTACK;
@@ -1042,7 +1026,6 @@ static void Controls_GetConfig( void )
 	}
 
 	s_controls.alwaysrun.curvalue = Com_Clamp( 0, 1, Controls_GetCvarValue( Com_LocalPlayerCvarName(s_controls.localPlayerNum, "cl_run" ) ) );
-	s_controls.cyclepastgauntlet.curvalue = Com_Clamp( 0, 1, Controls_GetCvarValue( Com_LocalPlayerCvarName(s_controls.localPlayerNum, "cg_cyclePastGauntlet" ) ) );
 	s_controls.autoswitch.curvalue = Com_Clamp( 0, 1, Controls_GetCvarValue( Com_LocalPlayerCvarName(s_controls.localPlayerNum, "cg_autoswitch" ) ) );
 	s_controls.joythreshold.curvalue = Com_Clamp( 0.05f, 0.75f, Controls_GetCvarValue( Com_LocalPlayerCvarName(s_controls.localPlayerNum, "in_joystickThreshold" ) ) );
 	s_controls.joyanalog.curvalue = Com_Clamp( 0, 1, Controls_GetCvarValue( Com_LocalPlayerCvarName(s_controls.localPlayerNum, "in_joystickUseAnalog" ) ) );
@@ -1091,7 +1074,6 @@ static void Controls_SetConfig( void )
 	}
 
 	trap_Cvar_SetValue( Com_LocalPlayerCvarName( s_controls.localPlayerNum, "cl_run" ), s_controls.alwaysrun.curvalue );
-	trap_Cvar_SetValue( Com_LocalPlayerCvarName( s_controls.localPlayerNum, "cg_cyclePastGauntlet" ), s_controls.cyclepastgauntlet.curvalue );
 	trap_Cvar_SetValue( Com_LocalPlayerCvarName( s_controls.localPlayerNum, "cg_autoswitch" ), s_controls.autoswitch.curvalue );
 	trap_Cvar_SetValue( Com_LocalPlayerCvarName( s_controls.localPlayerNum, "in_joystickThreshold" ), s_controls.joythreshold.curvalue );
 	trap_Cvar_SetValue( Com_LocalPlayerCvarName( s_controls.localPlayerNum, "in_joystickUseAnalog" ), s_controls.joyanalog.curvalue );
@@ -1128,7 +1110,6 @@ static void Controls_SetDefaults( void )
 	}
 
 	s_controls.alwaysrun.curvalue = Controls_GetCvarDefault( Com_LocalPlayerCvarName(s_controls.localPlayerNum, "cl_run" ) );
-	s_controls.cyclepastgauntlet.curvalue = Controls_GetCvarDefault( Com_LocalPlayerCvarName(s_controls.localPlayerNum, "cg_cyclePastGauntlet" ) );
 	s_controls.autoswitch.curvalue = Controls_GetCvarDefault( Com_LocalPlayerCvarName(s_controls.localPlayerNum, "cg_autoswitch" ) );
 	trap_Cvar_SetValue(Com_LocalPlayerCvarName(s_controls.localPlayerNum, "in_joystick"), 0);
 	trap_Cvar_SetValue(Com_LocalPlayerCvarName(s_controls.localPlayerNum, "in_joystickNo"), 0);
@@ -1735,7 +1716,6 @@ static void Controls_MenuInit( int localPlayerNum )
 	s_controls.bfg.generic.ownerdraw = Controls_DrawKeyBinding;
 	s_controls.bfg.generic.id        = ID_WEAPON9;
 
-#ifdef MISSIONPACK
 	s_controls.nailgun.generic.type	     = MTYPE_ACTION;
 	s_controls.nailgun.generic.flags     = QMF_LEFT_JUSTIFY|QMF_PULSEIFFOCUS|QMF_GRAYED|QMF_HIDDEN;
 	s_controls.nailgun.generic.callback  = Controls_ActionEvent;
@@ -1753,7 +1733,6 @@ static void Controls_MenuInit( int localPlayerNum )
 	s_controls.chaingun.generic.callback  = Controls_ActionEvent;
 	s_controls.chaingun.generic.ownerdraw = Controls_DrawKeyBinding;
 	s_controls.chaingun.generic.id        = ID_WEAPON13;
-#endif
 
 	s_controls.attack.generic.type	    = MTYPE_ACTION;
 	s_controls.attack.generic.flags     = QMF_LEFT_JUSTIFY|QMF_PULSEIFFOCUS|QMF_GRAYED|QMF_HIDDEN;
@@ -1846,14 +1825,6 @@ static void Controls_MenuInit( int localPlayerNum )
 	s_controls.alwaysrun.generic.id        = ID_ALWAYSRUN;
 	s_controls.alwaysrun.generic.callback  = Controls_MenuEvent;
 	s_controls.alwaysrun.generic.statusbar = Controls_StatusBar;
-
-	s_controls.cyclepastgauntlet.generic.type      = MTYPE_RADIOBUTTON;
-	s_controls.cyclepastgauntlet.generic.flags     = QMF_SMALLFONT;
-	s_controls.cyclepastgauntlet.generic.x         = SCREEN_WIDTH/2;
-	s_controls.cyclepastgauntlet.generic.name      = "skip gauntlet";
-	s_controls.cyclepastgauntlet.generic.id        = ID_CYCLEPASTGAUNTLET;
-	s_controls.cyclepastgauntlet.generic.callback  = Controls_MenuEvent;
-	s_controls.cyclepastgauntlet.generic.statusbar = Controls_StatusBar;
 
 	s_controls.autoswitch.generic.type      = MTYPE_RADIOBUTTON;
 	s_controls.autoswitch.generic.flags	    = QMF_SMALLFONT;
@@ -1985,7 +1956,6 @@ static void Controls_MenuInit( int localPlayerNum )
 	Menu_AddItem( &s_controls.menu, &s_controls.attack );
 	Menu_AddItem( &s_controls.menu, &s_controls.nextweapon );
 	Menu_AddItem( &s_controls.menu, &s_controls.prevweapon );
-	Menu_AddItem( &s_controls.menu, &s_controls.cyclepastgauntlet );
 	Menu_AddItem( &s_controls.menu, &s_controls.autoswitch );
 	Menu_AddItem( &s_controls.menu, &s_controls.gauntlet );
 	Menu_AddItem( &s_controls.menu, &s_controls.machinegun );

@@ -249,7 +249,7 @@ EntityIsShooting
 ==================
 */
 qboolean EntityIsShooting(aas_entityinfo_t *entinfo) {
-	if (entinfo->flags & EF_FIRING) {
+	if (entinfo->flags & (EF_FIRING|EF_FIRING_ALT)) {
 		return qtrue;
 	}
 	return qfalse;
@@ -1767,6 +1767,7 @@ void BotUpdateInventory(bot_state_t *bs) {
 	memcpy(oldinventory, bs->inventory, sizeof(oldinventory));
 	//armor
 	bs->inventory[INVENTORY_ARMOR] = bs->cur_ps.stats[STAT_ARMOR];
+#if 0
 	//weapons
 	bs->inventory[INVENTORY_GAUNTLET] = (bs->cur_ps.stats[STAT_WEAPONS] & (1 << WP_GAUNTLET)) != 0;
 	bs->inventory[INVENTORY_SHOTGUN] = (bs->cur_ps.stats[STAT_WEAPONS] & (1 << WP_SHOTGUN)) != 0;
@@ -1796,6 +1797,7 @@ void BotUpdateInventory(bot_state_t *bs) {
 	bs->inventory[INVENTORY_NAILS] = bs->cur_ps.ammo[WP_NAILGUN];
 	bs->inventory[INVENTORY_MINES] = bs->cur_ps.ammo[WP_PROX_LAUNCHER];
 	bs->inventory[INVENTORY_BELT] = bs->cur_ps.ammo[WP_CHAINGUN];
+#endif
 #endif
 	//powerups
 	bs->inventory[INVENTORY_HEALTH] = bs->cur_ps.stats[STAT_HEALTH];
@@ -2285,7 +2287,7 @@ float BotAggression(bot_state_t *bs) {
 	//if the bot has quad
 	if (bs->inventory[INVENTORY_QUAD]) {
 		//if the bot is not holding the gauntlet or the enemy is really nearby
-		if (bs->weaponnum != WP_GAUNTLET ||
+		if (/*bs->weaponnum != WP_GAUNTLET ||*/
 			bs->inventory[ENEMY_HORIZONTAL_DIST] < 80) {
 			return 70;
 		}
@@ -2330,13 +2332,15 @@ BotFeelingBad
 ==================
 */
 float BotFeelingBad(bot_state_t *bs) {
+#if 0
 	if (bs->weaponnum == WP_GAUNTLET) {
 		return 100;
 	}
+#endif
 	if (bs->inventory[INVENTORY_HEALTH] < 40) {
 		return 100;
 	}
-	if (bs->weaponnum == WP_MACHINEGUN) {
+	if (bs->weaponnum == WP_PHASER) {
 		return 90;
 	}
 	if (bs->inventory[INVENTORY_HEALTH] < 60) {
@@ -2806,11 +2810,14 @@ bot_moveresult_t BotAttackMove(bot_state_t *bs, int tfl) {
 			bs->attackjump_time = FloatTime() + 1;
 		}
 	}
+#if 0
 	if (bs->cur_ps.weapon == WP_GAUNTLET) {
 		attack_dist = 0;
 		attack_range = 0;
 	}
-	else {
+	else
+#endif
+	{
 		attack_dist = IDEAL_ATTACKDIST;
 		attack_range = 40;
 	}
@@ -3496,6 +3503,7 @@ void BotAimAtEnemy(bot_state_t *bs) {
 	if ( !wi.number ) {
 		return;
 	}
+#if 0 // PORTNOTE: EF botfiles has these but different weapons/char values.
 	//get the weapon specific aim accuracy and or aim skill
 	if (wi.number == WP_MACHINEGUN) {
 		aim_accuracy = Characteristic_BFloat(bs->character, CHARACTERISTIC_AIM_ACCURACY_MACHINEGUN, 0, 1);
@@ -3525,6 +3533,7 @@ void BotAimAtEnemy(bot_state_t *bs) {
 		aim_accuracy = Characteristic_BFloat(bs->character, CHARACTERISTIC_AIM_ACCURACY_BFG10K, 0, 1);
 		aim_skill = Characteristic_BFloat(bs->character, CHARACTERISTIC_AIM_SKILL_BFG10K, 0, 1);
 	}
+#endif
 	//
 	if (aim_skill > 0.95) {
 		//don't aim too early
@@ -3675,6 +3684,7 @@ void BotAimAtEnemy(bot_state_t *bs) {
 		bestorigin[2] += 8;
 		//if the bot is skilled enough
 		if (aim_skill > 0.5) {
+#if 0 // PORTNOTE: TODO: weapons that are missiles.
 			//do prediction shots around corners
 			if (wi.number == WP_BFG ||
 				wi.number == WP_ROCKET_LAUNCHER ||
@@ -3695,6 +3705,7 @@ void BotAimAtEnemy(bot_state_t *bs) {
 				}
 				aim_accuracy = 1;
 			}
+#endif
 		}
 	}
 	//
@@ -3708,10 +3719,9 @@ void BotAimAtEnemy(bot_state_t *bs) {
 	//get aim direction
 	VectorSubtract(bestorigin, bs->eye, dir);
 	//
-	if (wi.number == WP_MACHINEGUN ||
-		wi.number == WP_SHOTGUN ||
-		wi.number == WP_LIGHTNING ||
-		wi.number == WP_RAILGUN) {
+	// PORTNOTE: (incomplete) list of instant hit weapons.
+	if (wi.number == WP_PHASER ||
+		wi.number == WP_DREADNOUGHT) {
 		//distance towards the enemy
 		dist = VectorLength(dir);
 		if (dist > 150) dist = 150;
@@ -3798,11 +3808,13 @@ void BotCheckAttack(bot_state_t *bs) {
 	//
 	VectorSubtract(bs->aimtarget, bs->eye, dir);
 	//
+#if 0
 	if (bs->weaponnum == WP_GAUNTLET) {
 		if (VectorLengthSquared(dir) > Square(60)) {
 			return;
 		}
 	}
+#endif
 	if (VectorLengthSquared(dir) < Square(100))
 		fov = 120;
 	else

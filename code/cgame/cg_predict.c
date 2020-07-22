@@ -672,9 +672,11 @@ void CG_PredictPlayerState( void ) {
 			}
 		}
 
+#if 0
 		// don't predict gauntlet firing, which is only supposed to happen
 		// when it actually inflicts damage
 		cg_pmove.gauntletHit = qfalse;
+#endif
 
 		if ( cg_pmove.pmove_fixed ) {
 			cg_pmove.cmd.serverTime = ((cg_pmove.cmd.serverTime + pmove_msec.integer-1) / pmove_msec.integer) * pmove_msec.integer;

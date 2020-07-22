@@ -438,7 +438,7 @@ static void CG_ItemPickup( int localPlayerNum, int itemNum ) {
 	// see if it should be the grabbed weapon
 	if ( item->giType == IT_WEAPON ) {
 		// select it immediately
-		if ( cg_autoswitch[localPlayerNum].integer && item->giTag != WP_MACHINEGUN ) {
+		if ( cg_autoswitch[localPlayerNum].integer && item->giTag != DEFAULT_WEAPON ) {
 			player->weaponSelectTime = cg.time;
 			player->weaponSelect = bg_itemlist[itemNum].giTag;
 		}
@@ -855,11 +855,11 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		break;
 	case EV_FIRE_WEAPON:
 		DEBUGNAME("EV_FIRE_WEAPON");
-		CG_FireWeapon( cent );
+		CG_FireWeapon( cent, qfalse );
 		break;
 	case EV_ALT_FIRE:
 		DEBUGNAME("EV_ALT_FIRE");
-		CG_FireWeapon( cent );
+		CG_FireWeapon( cent, qtrue );
 		break;
 
 	case EV_USE_ITEM0:
@@ -987,7 +987,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 
 	case EV_RAILTRAIL:
 		DEBUGNAME("EV_RAILTRAIL");
-		cent->currentState.weapon = WP_RAILGUN;
+		cent->currentState.weapon = WP_IMOD;
 
 		if ( es->playerNum >= 0 && es->playerNum < MAX_CLIENTS ) {
 			for (i = 0; i < CG_MaxSplitView(); i++) {

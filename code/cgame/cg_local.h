@@ -479,6 +479,7 @@ typedef struct weaponInfo_s {
 	qhandle_t		ammoModel;
 
 	qhandle_t		missileModel;
+	qhandle_t		missileFlare;
 	sfxHandle_t		missileSound;
 	void			(*missileTrailFunc)( centity_t *, const struct weaponInfo_s *wi );
 	float			missileDlight;
@@ -1205,6 +1206,15 @@ typedef struct {
 	sfxHandle_t	wstbimpdSound;
 	sfxHandle_t	wstbactvSound;
 
+
+	// EF weapons
+	qhandle_t phaserTrail;
+	qhandle_t phaserAltTrail;
+
+	qhandle_t scavengerExplosion;
+
+	qhandle_t imodExplosion;
+
 } cgMedia_t;
 
 #define MAX_STATIC_GAMEMODELS   1024
@@ -1475,7 +1485,6 @@ extern	vmCvar_t		cg_handicap[MAX_SPLITVIEW];
 extern	vmCvar_t		cg_teamtask[MAX_SPLITVIEW];
 extern	vmCvar_t		cg_teampref[MAX_SPLITVIEW];
 extern	vmCvar_t		cg_autoswitch[MAX_SPLITVIEW];
-extern	vmCvar_t		cg_cyclePastGauntlet[MAX_SPLITVIEW];
 extern	vmCvar_t		cg_drawGun[MAX_SPLITVIEW];
 extern	vmCvar_t		cg_thirdPerson[MAX_SPLITVIEW];
 extern	vmCvar_t		cg_thirdPersonRange[MAX_SPLITVIEW];
@@ -1767,7 +1776,7 @@ void CG_WeaponToggle_f( int localPlayerNum );
 void CG_RegisterWeapon( int weaponNum );
 void CG_RegisterItemVisuals( int itemNum );
 
-void CG_FireWeapon( centity_t *cent );
+void CG_FireWeapon( centity_t *cent, qboolean altAttack );
 void CG_MissileHitWall( int weapon, int playerNum, vec3_t origin, vec3_t dir, impactSound_t soundType );
 void CG_MissileHitPlayer( int weapon, vec3_t origin, vec3_t dir, int entityNum );
 void CG_ShotgunPattern( vec3_t origin, vec3_t origin2, int seed, int otherEntNum );

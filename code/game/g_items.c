@@ -787,11 +787,11 @@ void ClearRegisteredItems( void ) {
 
 	// players always start with the base weapon
 	if ( g_instagib.integer ) {
-		RegisterItem( BG_FindItemForWeapon( WP_RAILGUN ) );
+		RegisterItem( BG_FindItemForWeapon( WP_COMPRESSION_RIFLE ) );
 	} else {
-		RegisterItem( BG_FindItemForWeapon( WP_MACHINEGUN ) );
+		// DEFAULT_WEAPON
+		RegisterItem( BG_FindItemForWeapon( WP_PHASER ) );
 	}
-	RegisterItem( BG_FindItemForWeapon( WP_GAUNTLET ) );
 #ifdef MISSIONPACK
 	if( g_gametype.integer == GT_HARVESTER ) {
 		RegisterItem( BG_FindItem( "Red Cube" ) );

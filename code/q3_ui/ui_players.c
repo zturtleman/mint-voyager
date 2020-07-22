@@ -79,11 +79,11 @@ tryagain:
 	}
 
 	if( pi->weaponModel == 0 ) {
-		if( weaponNum == WP_MACHINEGUN ) {
+		if( weaponNum == DEFAULT_WEAPON ) {
 			weaponNum = WP_NONE;
 			goto tryagain;
 		}
-		weaponNum = WP_MACHINEGUN;
+		weaponNum = DEFAULT_WEAPON;
 		goto tryagain;
 	}
 
@@ -96,6 +96,7 @@ tryagain:
 	pi->flashModel = trap_R_RegisterModel( path );
 
 	switch( weaponNum ) {
+#if 0
 	case WP_GAUNTLET:
 		MAKERGB( pi->flashDlightColor, 0.6f, 0.6f, 1 );
 		break;
@@ -148,6 +149,7 @@ tryagain:
 	case WP_CHAINGUN:
 		MAKERGB( pi->flashDlightColor, 1, 1, 0 );
 		break;
+#endif
 #endif
 
 	default:
@@ -1317,7 +1319,7 @@ UI_PlayerInfo_SetModel
 void UI_PlayerInfo_SetModel( uiPlayerInfo_t *pi, const char *model, const char *headmodel, char *teamName ) {
 	memset( pi, 0, sizeof(*pi) );
 	UI_RegisterPlayerModelname( pi, model, headmodel, teamName );
-	pi->weapon = WP_MACHINEGUN;
+	pi->weapon = DEFAULT_WEAPON;
 	pi->currentWeapon = pi->weapon;
 	pi->lastWeapon = pi->weapon;
 	pi->pendingWeapon = WP_NUM_WEAPONS;
@@ -1428,7 +1430,7 @@ void UI_PlayerInfo_SetInfo( uiPlayerInfo_t *pi, int localPlayerNum, int legsAnim
 
 	// torso animation
 	if ( torsoAnim == TORSO_STAND || torsoAnim == TORSO_STAND2 ) {
-		if ( weaponNum == WP_NONE || weaponNum == WP_GAUNTLET ) {
+		if ( weaponNum == WP_NONE || weaponNum == ANIM2_WEAPON ) {
 			torsoAnim = TORSO_STAND2;
 		}
 		else {
@@ -1437,7 +1439,7 @@ void UI_PlayerInfo_SetInfo( uiPlayerInfo_t *pi, int localPlayerNum, int legsAnim
 	}
 
 	if ( torsoAnim == TORSO_ATTACK || torsoAnim == TORSO_ATTACK2 ) {
-		if ( weaponNum == WP_NONE || weaponNum == WP_GAUNTLET ) {
+		if ( weaponNum == WP_NONE || weaponNum == ANIM2_WEAPON ) {
 			torsoAnim = TORSO_ATTACK2;
 		}
 		else {

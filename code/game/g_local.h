@@ -562,15 +562,30 @@ void TossPlayerCubes( gentity_t *self );
 //
 void G_RunMissile( gentity_t *ent );
 
+#if 1
+gentity_t *fire_compressionrifle (gentity_t *self, vec3_t start, vec3_t dir);
+gentity_t *fire_scavenger (gentity_t *self, vec3_t start, vec3_t dir);
+gentity_t *fire_scavenger_alt (gentity_t *self, vec3_t start, vec3_t dir);
+gentity_t *fire_stasis (gentity_t *self, vec3_t start, vec3_t dir);
+gentity_t *fire_tetrion (gentity_t *self, vec3_t start, vec3_t dir);
+gentity_t *fire_quantum (gentity_t *self, vec3_t start, vec3_t dir);
+gentity_t *fire_quantum_alt (gentity_t *self, vec3_t start, vec3_t dir);
+gentity_t *fire_dreadnought_alt (gentity_t *self, vec3_t start, vec3_t dir);
+gentity_t *fire_borg_weapon (gentity_t *self, vec3_t start, vec3_t dir);
+#else
 gentity_t *fire_plasma (gentity_t *self, vec3_t start, vec3_t aimdir);
+#endif
 gentity_t *fire_grenade (gentity_t *self, vec3_t start, vec3_t aimdir);
+#if 0
 gentity_t *fire_rocket (gentity_t *self, vec3_t start, vec3_t dir);
 gentity_t *fire_bfg (gentity_t *self, vec3_t start, vec3_t dir);
+#endif
 gentity_t *fire_grapple (gentity_t *self, vec3_t start, vec3_t dir);
 #ifdef MISSIONPACK
 gentity_t *fire_nail( gentity_t *self, vec3_t start, vec3_t forward, vec3_t right, vec3_t up );
-gentity_t *fire_prox( gentity_t *self, vec3_t start, vec3_t aimdir );
 #endif
+gentity_t *fire_prox( gentity_t *self, vec3_t start, vec3_t aimdir );
+
 
 
 //
@@ -647,7 +662,7 @@ qboolean G_FilterPacket (char *from);
 //
 // g_weapon.c
 //
-void FireWeapon( gentity_t *ent );
+void FireWeapon( gentity_t *ent, qboolean altAttack );
 #ifdef MISSIONPACK
 void G_StartKamikaze( gentity_t *ent );
 #endif

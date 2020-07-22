@@ -320,7 +320,6 @@ vmCvar_t	cg_handicap[MAX_SPLITVIEW];
 vmCvar_t	cg_teamtask[MAX_SPLITVIEW];
 vmCvar_t	cg_teampref[MAX_SPLITVIEW];
 vmCvar_t	cg_autoswitch[MAX_SPLITVIEW];
-vmCvar_t	cg_cyclePastGauntlet[MAX_SPLITVIEW];
 vmCvar_t	cg_drawGun[MAX_SPLITVIEW];
 vmCvar_t	cg_thirdPerson[MAX_SPLITVIEW];
 vmCvar_t	cg_thirdPersonRange[MAX_SPLITVIEW];
@@ -544,7 +543,6 @@ static userCvarTable_t userCvarTable[] = {
 	{ cg_teampref, "teampref", "", CVAR_USERINFO, RANGE_ALL },
 
 	{ cg_autoswitch, "cg_autoswitch", "1", CVAR_ARCHIVE, RANGE_BOOL },
-	{ cg_cyclePastGauntlet, "cg_cyclePastGauntlet", "1", CVAR_ARCHIVE, RANGE_BOOL },
 	{ cg_drawGun, "cg_drawGun", "1", CVAR_ARCHIVE, RANGE_INT(0, 3) },
 	{ cg_thirdPerson, "cg_thirdPerson", "0", 0, RANGE_BOOL },
 	{ cg_thirdPersonRange, "cg_thirdPersonRange", "40", CVAR_CHEAT, RANGE_ALL },
@@ -2718,7 +2716,7 @@ void CG_Ingame_Init( int serverMessageNum, int serverCommandSequence, int maxSpl
 	cgs.serverCommandSequence = serverCommandSequence;
 
 	for (i = 0; i < CG_MaxSplitView(); i++) {
-		cg.localPlayers[i].weaponSelect = WP_MACHINEGUN;
+		cg.localPlayers[i].weaponSelect = DEFAULT_WEAPON;
 	}
 
 	cgs.redflag = cgs.blueflag = -1; // For compatibily, default to unset for

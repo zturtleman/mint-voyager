@@ -2831,10 +2831,11 @@ bot_moveresult_t BotTravel_RocketJump(bot_movestate_t *ms, aas_reachability_t *r
 	EA_View(ms->playernum, result.ideal_viewangles);
 	//view is important for the movement
 	result.flags |= MOVERESULT_MOVEMENTVIEWSET;
+	// PORTNOTE: I don't know if WP_QUANTUM_BURST has enough kick for this.
 	//select the rocket launcher
-	EA_SelectWeapon(ms->playernum, WP_ROCKET_LAUNCHER);
+	EA_SelectWeapon(ms->playernum, WP_QUANTUM_BURST);
 	//weapon is used for movement
-	result.weapon = WP_ROCKET_LAUNCHER;
+	result.weapon = WP_QUANTUM_BURST;
 	result.flags |= MOVERESULT_MOVEMENTWEAPON;
 	//
 	VectorCopy(hordir, result.movedir);
@@ -2891,10 +2892,11 @@ bot_moveresult_t BotTravel_BFGJump(bot_movestate_t *ms, aas_reachability_t *reac
 	EA_View(ms->playernum, result.ideal_viewangles);
 	//view is important for the movement
 	result.flags |= MOVERESULT_MOVEMENTVIEWSET;
+	// PORTNOTE: I don't know if WP_QUANTUM_BURST has enough kick for this.
 	//select the rocket launcher
-	EA_SelectWeapon(ms->playernum, WP_BFG);
+	EA_SelectWeapon(ms->playernum, WP_QUANTUM_BURST);
 	//weapon is used for movement
-	result.weapon = WP_BFG;
+	result.weapon = WP_QUANTUM_BURST;
 	result.flags |= MOVERESULT_MOVEMENTWEAPON;
 	//
 	VectorCopy(hordir, result.movedir);

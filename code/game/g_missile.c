@@ -101,7 +101,6 @@ void G_ExplodeMissile( gentity_t *ent ) {
 }
 
 
-#ifdef MISSIONPACK
 /*
 ================
 ProximityMine_Explode
@@ -161,7 +160,9 @@ void ProximityMine_Trigger( gentity_t *trigger, gentity_t *other, trace_t *trace
 	// trigger the mine!
 	mine = trigger->parent;
 	mine->s.loopSound = 0;
+#ifdef MISSIONPACK
 	G_AddEvent( mine, EV_PROXIMITY_MINE_TRIGGER, 0 );
+#endif
 	mine->nextthink = level.time + 500;
 
 	G_FreeEntity( trigger );
@@ -177,7 +178,11 @@ static void ProximityMine_Activate( gentity_t *ent ) {
 	float		r;
 
 	ent->think = ProximityMine_Explode;
+#ifdef MISSIONPACK
 	ent->nextthink = level.time + g_proxMineTimeout.integer;
+#else
+	ent->nextthink = level.time + 20000;
+#endif
 
 	ent->takedamage = qtrue;
 	ent->health = 1;
@@ -206,6 +211,7 @@ static void ProximityMine_Activate( gentity_t *ent ) {
 	ent->activator = trigger;
 }
 
+#ifdef MISSIONPACK
 /*
 ================
 ProximityMine_ExplodeOnPlayer
@@ -332,24 +338,32 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace ) {
 		}
 	}
 
-#ifdef MISSIONPACK
-	if( ent->s.weapon == WP_PROX_LAUNCHER ) {
+	if( ent->s.weapon == WP_GRENADE_LAUNCHER
+#ifndef MISSIONPACK
+	  && !( other->s.eType == ET_PLAYER && other->health > 0 )
+#endif
+	  ) {
 		if( ent->s.pos.trType != TR_GRAVITY ) {
 			return;
 		}
 
+#ifdef MISSIONPACK
 		// if it's a player, stick it on to them (flag them and remove this entity)
 		if( other->s.eType == ET_PLAYER && other->health > 0 ) {
 			ProximityMine_Player( ent, other );
 			return;
 		}
+#endif
 
 		SnapVectorTowards( trace->endpos, ent->s.pos.trBase );
 		G_SetOrigin( ent, trace->endpos );
 		ent->s.pos.trType = TR_STATIONARY;
 		VectorClear( ent->s.pos.trDelta );
 
+		// PORTNOTE: In EF there is EV_MISSILE_STICK on impact. (no idea if it has the surface flags).
+#ifdef MISSIONPACK
 		G_AddEvent( ent, EV_PROXIMITY_MINE_STICK, trace->surfaceFlags );
+#endif
 
 		ent->think = ProximityMine_Activate;
 		ent->nextthink = level.time + 2000;
@@ -367,7 +381,6 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace ) {
 
 		return;
 	}
-#endif
 
 	if (!strcmp(ent->classname, "hook")) {
 		gentity_t *nent;
@@ -527,7 +540,7 @@ fire_plasma
 
 =================
 */
-gentity_t *fire_plasma (gentity_t *self, vec3_t start, vec3_t dir) {
+gentity_t *fire_compressionrifle (gentity_t *self, vec3_t start, vec3_t dir) {
 	gentity_t	*bolt;
 
 	VectorNormalize (dir);
@@ -538,7 +551,7 @@ gentity_t *fire_plasma (gentity_t *self, vec3_t start, vec3_t dir) {
 	bolt->think = G_ExplodeMissile;
 	bolt->s.eType = ET_MISSILE;
 	bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN;
-	bolt->s.weapon = WP_PLASMAGUN;
+	bolt->s.weapon = WP_COMPRESSION_RIFLE;
 	bolt->r.ownerNum = self->s.number;
 	bolt->parent = self;
 	bolt->damage = 20;
@@ -564,7 +577,320 @@ gentity_t *fire_plasma (gentity_t *self, vec3_t start, vec3_t dir) {
 	}
 
 	return bolt;
-}	
+}
+
+gentity_t *fire_scavenger (gentity_t *self, vec3_t start, vec3_t dir) {
+	gentity_t	*bolt;
+
+	VectorNormalize (dir);
+
+	bolt = G_Spawn();
+	bolt->classname = "plasma";
+	bolt->nextthink = level.time + 10000;
+	bolt->think = G_ExplodeMissile;
+	bolt->s.eType = ET_MISSILE;
+	bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN;
+	bolt->s.weapon = WP_SCAVENGER;
+	bolt->r.ownerNum = self->s.number;
+	bolt->parent = self;
+	bolt->damage = 20;
+	bolt->splashDamage = 15;
+	bolt->splashRadius = 20;
+	bolt->methodOfDeath = MOD_PLASMA;
+	bolt->splashMethodOfDeath = MOD_PLASMA_SPLASH;
+	bolt->clipmask = MASK_SHOT;
+	bolt->target_ent = NULL;
+
+	bolt->s.pos.trType = TR_LINEAR;
+	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME;		// move a bit on the very first frame
+	VectorCopy( start, bolt->s.pos.trBase );
+	VectorScale( dir, 2000, bolt->s.pos.trDelta );
+	SnapVector( bolt->s.pos.trDelta );			// save net bandwidth
+
+	VectorCopy (start, bolt->r.currentOrigin);
+
+	if ( self->player ) {
+		bolt->s.team = self->player->sess.sessionTeam;
+	} else {
+		bolt->s.team = TEAM_FREE;
+	}
+
+	return bolt;
+}
+
+gentity_t *fire_scavenger_alt (gentity_t *self, vec3_t start, vec3_t dir) {
+	gentity_t	*bolt;
+
+	VectorNormalize (dir);
+
+	bolt = G_Spawn();
+	bolt->classname = "plasma";
+	bolt->nextthink = level.time + 10000;
+	bolt->think = G_ExplodeMissile;
+	bolt->s.eType = ET_MISSILE;
+	bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN;
+	bolt->s.weapon = WP_SCAVENGER;
+	bolt->r.ownerNum = self->s.number;
+	bolt->parent = self;
+	bolt->damage = 20;
+	bolt->splashDamage = 15;
+	bolt->splashRadius = 20;
+	bolt->methodOfDeath = MOD_PLASMA;
+	bolt->splashMethodOfDeath = MOD_PLASMA_SPLASH;
+	bolt->clipmask = MASK_SHOT;
+	bolt->target_ent = NULL;
+
+	bolt->s.pos.trType = TR_GRAVITY;
+	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME;		// move a bit on the very first frame
+	VectorCopy( start, bolt->s.pos.trBase );
+	VectorScale( dir, 950, bolt->s.pos.trDelta );
+	SnapVector( bolt->s.pos.trDelta );			// save net bandwidth
+
+	VectorCopy (start, bolt->r.currentOrigin);
+
+	if ( self->player ) {
+		bolt->s.team = self->player->sess.sessionTeam;
+	} else {
+		bolt->s.team = TEAM_FREE;
+	}
+
+	return bolt;
+}
+
+gentity_t *fire_stasis (gentity_t *self, vec3_t start, vec3_t dir) {
+	gentity_t	*bolt;
+
+	VectorNormalize (dir);
+
+	bolt = G_Spawn();
+	bolt->classname = "plasma";
+	bolt->nextthink = level.time + 10000;
+	bolt->think = G_ExplodeMissile;
+	bolt->s.eType = ET_MISSILE;
+	bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN;
+	bolt->s.weapon = WP_SCAVENGER;
+	bolt->r.ownerNum = self->s.number;
+	bolt->parent = self;
+	bolt->damage = 20;
+	bolt->splashDamage = 15;
+	bolt->splashRadius = 20;
+	bolt->methodOfDeath = MOD_PLASMA;
+	bolt->splashMethodOfDeath = MOD_PLASMA_SPLASH;
+	bolt->clipmask = MASK_SHOT;
+	bolt->target_ent = NULL;
+
+	bolt->s.pos.trType = TR_LINEAR;
+	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME;		// move a bit on the very first frame
+	VectorCopy( start, bolt->s.pos.trBase );
+	VectorScale( dir, 2000, bolt->s.pos.trDelta );
+	SnapVector( bolt->s.pos.trDelta );			// save net bandwidth
+
+	VectorCopy (start, bolt->r.currentOrigin);
+
+	if ( self->player ) {
+		bolt->s.team = self->player->sess.sessionTeam;
+	} else {
+		bolt->s.team = TEAM_FREE;
+	}
+
+	return bolt;
+}
+
+gentity_t *fire_tetrion (gentity_t *self, vec3_t start, vec3_t dir) {
+	gentity_t	*bolt;
+
+	VectorNormalize (dir);
+
+	bolt = G_Spawn();
+	bolt->classname = "plasma";
+	bolt->nextthink = level.time + 10000;
+	bolt->think = G_ExplodeMissile;
+	bolt->s.eType = ET_MISSILE;
+	bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN;
+	bolt->s.weapon = WP_SCAVENGER;
+	bolt->s.eFlags = EF_BOUNCE;
+	bolt->r.ownerNum = self->s.number;
+	bolt->parent = self;
+	bolt->damage = 20;
+	bolt->splashDamage = 15;
+	bolt->splashRadius = 20;
+	bolt->methodOfDeath = MOD_PLASMA;
+	bolt->splashMethodOfDeath = MOD_PLASMA_SPLASH;
+	bolt->clipmask = MASK_SHOT;
+	bolt->target_ent = NULL;
+
+	bolt->s.pos.trType = TR_LINEAR;
+	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME;		// move a bit on the very first frame
+	VectorCopy( start, bolt->s.pos.trBase );
+	VectorScale( dir, 2000, bolt->s.pos.trDelta );
+	SnapVector( bolt->s.pos.trDelta );			// save net bandwidth
+
+	VectorCopy (start, bolt->r.currentOrigin);
+
+	if ( self->player ) {
+		bolt->s.team = self->player->sess.sessionTeam;
+	} else {
+		bolt->s.team = TEAM_FREE;
+	}
+
+	return bolt;
+}
+
+gentity_t *fire_quantum (gentity_t *self, vec3_t start, vec3_t dir) {
+	gentity_t	*bolt;
+
+	VectorNormalize (dir);
+
+	bolt = G_Spawn();
+	bolt->classname = "plasma";
+	bolt->nextthink = level.time + 10000;
+	bolt->think = G_ExplodeMissile;
+	bolt->s.eType = ET_MISSILE;
+	bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN;
+	bolt->s.weapon = WP_SCAVENGER;
+	bolt->r.ownerNum = self->s.number;
+	bolt->parent = self;
+	bolt->damage = 20;
+	bolt->splashDamage = 15;
+	bolt->splashRadius = 20;
+	bolt->methodOfDeath = MOD_PLASMA;
+	bolt->splashMethodOfDeath = MOD_PLASMA_SPLASH;
+	bolt->clipmask = MASK_SHOT;
+	bolt->target_ent = NULL;
+
+	bolt->s.pos.trType = TR_LINEAR;
+	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME;		// move a bit on the very first frame
+	VectorCopy( start, bolt->s.pos.trBase );
+	VectorScale( dir, 750, bolt->s.pos.trDelta );
+	SnapVector( bolt->s.pos.trDelta );			// save net bandwidth
+
+	VectorCopy (start, bolt->r.currentOrigin);
+
+	if ( self->player ) {
+		bolt->s.team = self->player->sess.sessionTeam;
+	} else {
+		bolt->s.team = TEAM_FREE;
+	}
+
+	return bolt;
+}
+
+gentity_t *fire_quantum_alt (gentity_t *self, vec3_t start, vec3_t dir) {
+	gentity_t	*bolt;
+
+	VectorNormalize (dir);
+
+	bolt = G_Spawn();
+	bolt->classname = "plasma";
+	bolt->nextthink = level.time + 10000;
+	bolt->think = G_ExplodeMissile;
+	bolt->s.eType = ET_MISSILE;
+	bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN;
+	bolt->s.weapon = WP_SCAVENGER;
+	bolt->r.ownerNum = self->s.number;
+	bolt->parent = self;
+	bolt->damage = 20;
+	bolt->splashDamage = 15;
+	bolt->splashRadius = 20;
+	bolt->methodOfDeath = MOD_PLASMA;
+	bolt->splashMethodOfDeath = MOD_PLASMA_SPLASH;
+	bolt->clipmask = MASK_SHOT;
+	bolt->target_ent = NULL;
+
+	bolt->s.pos.trType = TR_LINEAR;
+	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME;		// move a bit on the very first frame
+	VectorCopy( start, bolt->s.pos.trBase );
+	VectorScale( dir, 500, bolt->s.pos.trDelta );
+	SnapVector( bolt->s.pos.trDelta );			// save net bandwidth
+
+	VectorCopy (start, bolt->r.currentOrigin);
+
+	if ( self->player ) {
+		bolt->s.team = self->player->sess.sessionTeam;
+	} else {
+		bolt->s.team = TEAM_FREE;
+	}
+
+	return bolt;
+}
+
+gentity_t *fire_dreadnought_alt (gentity_t *self, vec3_t start, vec3_t dir) {
+	gentity_t	*bolt;
+
+	VectorNormalize (dir);
+
+	bolt = G_Spawn();
+	bolt->classname = "plasma";
+	bolt->nextthink = level.time + 10000;
+	bolt->think = G_ExplodeMissile;
+	bolt->s.eType = ET_MISSILE;
+	bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN;
+	bolt->s.weapon = WP_SCAVENGER;
+	bolt->r.ownerNum = self->s.number;
+	bolt->parent = self;
+	bolt->damage = 20;
+	bolt->splashDamage = 15;
+	bolt->splashRadius = 20;
+	bolt->methodOfDeath = MOD_PLASMA;
+	bolt->splashMethodOfDeath = MOD_PLASMA_SPLASH;
+	bolt->clipmask = MASK_SHOT;
+	bolt->target_ent = NULL;
+
+	bolt->s.pos.trType = TR_LINEAR;
+	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME;		// move a bit on the very first frame
+	VectorCopy( start, bolt->s.pos.trBase );
+	VectorScale( dir, 2000, bolt->s.pos.trDelta );
+	SnapVector( bolt->s.pos.trDelta );			// save net bandwidth
+
+	VectorCopy (start, bolt->r.currentOrigin);
+
+	if ( self->player ) {
+		bolt->s.team = self->player->sess.sessionTeam;
+	} else {
+		bolt->s.team = TEAM_FREE;
+	}
+
+	return bolt;
+}
+
+gentity_t *fire_borg_weapon (gentity_t *self, vec3_t start, vec3_t dir) {
+	gentity_t	*bolt;
+
+	VectorNormalize (dir);
+
+	bolt = G_Spawn();
+	bolt->classname = "plasma";
+	bolt->nextthink = level.time + 10000;
+	bolt->think = G_ExplodeMissile;
+	bolt->s.eType = ET_MISSILE;
+	bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN;
+	bolt->s.weapon = WP_SCAVENGER;
+	bolt->r.ownerNum = self->s.number;
+	bolt->parent = self;
+	bolt->damage = 20;
+	bolt->splashDamage = 15;
+	bolt->splashRadius = 20;
+	bolt->methodOfDeath = MOD_PLASMA;
+	bolt->splashMethodOfDeath = MOD_PLASMA_SPLASH;
+	bolt->clipmask = MASK_SHOT;
+	bolt->target_ent = NULL;
+
+	bolt->s.pos.trType = TR_LINEAR;
+	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME;		// move a bit on the very first frame
+	VectorCopy( start, bolt->s.pos.trBase );
+	VectorScale( dir, 2000, bolt->s.pos.trDelta );
+	SnapVector( bolt->s.pos.trDelta );			// save net bandwidth
+
+	VectorCopy (start, bolt->r.currentOrigin);
+
+	if ( self->player ) {
+		bolt->s.team = self->player->sess.sessionTeam;
+	} else {
+		bolt->s.team = TEAM_FREE;
+	}
+
+	return bolt;
+}
 
 //=============================================================================
 
@@ -617,6 +943,7 @@ gentity_t *fire_grenade (gentity_t *self, vec3_t start, vec3_t dir) {
 //=============================================================================
 
 
+#if 0
 /*
 =================
 fire_bfg
@@ -705,6 +1032,7 @@ gentity_t *fire_rocket (gentity_t *self, vec3_t start, vec3_t dir) {
 
 	return bolt;
 }
+#endif
 
 /*
 =================
@@ -805,6 +1133,7 @@ gentity_t *fire_nail( gentity_t *self, vec3_t start, vec3_t forward, vec3_t righ
 
 	return bolt;
 }	
+#endif
 
 
 /*
@@ -823,15 +1152,15 @@ gentity_t *fire_prox( gentity_t *self, vec3_t start, vec3_t dir ) {
 	bolt->think = G_ExplodeMissile;
 	bolt->s.eType = ET_MISSILE;
 	bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN;
-	bolt->s.weapon = WP_PROX_LAUNCHER;
+	bolt->s.weapon = WP_GRENADE_LAUNCHER;
 	bolt->s.eFlags = 0;
 	bolt->r.ownerNum = self->s.number;
 	bolt->parent = self;
 	bolt->damage = 0;
 	bolt->splashDamage = 100;
 	bolt->splashRadius = 150;
-	bolt->methodOfDeath = MOD_PROXIMITY_MINE;
-	bolt->splashMethodOfDeath = MOD_PROXIMITY_MINE;
+	bolt->methodOfDeath = MOD_GRENADE;
+	bolt->splashMethodOfDeath = MOD_GRENADE_SPLASH;
 	bolt->clipmask = MASK_SHOT;
 	bolt->target_ent = NULL;
 	// count is used to check if the prox mine left the player bbox
@@ -854,4 +1183,3 @@ gentity_t *fire_prox( gentity_t *self, vec3_t start, vec3_t dir ) {
 
 	return bolt;
 }
-#endif

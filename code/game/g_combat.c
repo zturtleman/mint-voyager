@@ -97,7 +97,7 @@ void TossPlayerItems( gentity_t *self ) {
 	// weapon that isn't the mg or gauntlet.  Without this, a player
 	// can pick up a weapon, be killed, and not drop the weapon because
 	// their weapon change hasn't completed yet and they are still holding the MG.
-	if ( weapon == WP_MACHINEGUN || weapon == WP_GRAPPLING_HOOK ) {
+	if ( weapon == WP_PHASER || weapon == WP_GRAPPLING_HOOK ) {
 		if ( self->player->ps.weaponstate == WEAPON_DROPPING ) {
 			BG_DecomposeUserCmdValue( self->player->pers.cmd.stateValue, &weapon );
 		}
@@ -106,7 +106,7 @@ void TossPlayerItems( gentity_t *self ) {
 		}
 	}
 
-	if ( weapon > WP_MACHINEGUN && weapon != WP_GRAPPLING_HOOK && 
+	if ( weapon > WP_PHASER && weapon <= WP_DREADNOUGHT && 
 		self->player->ps.ammo[ weapon ] && !g_instagib.integer ) {
 		// find the item type for this weapon
 		item = BG_FindItemForWeapon( weapon );

@@ -362,17 +362,21 @@ void Use_Shooter( gentity_t *ent, gentity_t *other, gentity_t *activator ) {
 
 	VectorNormalize( dir );
 
+#warning "shooter entities don't shoot"
+#if 0
 	switch ( ent->s.weapon ) {
 	case WP_GRENADE_LAUNCHER:
 		fire_grenade( ent, ent->s.origin, dir );
 		break;
-	case WP_ROCKET_LAUNCHER:
+	// PORTNOTE: TODO: Use correct fire functions for EF weapons.
+	case WP_STASIS_WEAPON:
 		fire_rocket( ent, ent->s.origin, dir );
 		break;
-	case WP_PLASMAGUN:
+	case WP_SCAVENGER:
 		fire_plasma( ent, ent->s.origin, dir );
 		break;
 	}
+#endif
 
 	G_AddEvent( ent, EV_FIRE_WEAPON, 0 );
 }
@@ -409,7 +413,7 @@ Fires at either the target or the current direction.
 "random" the number of degrees of deviance from the taget. (1.0 default)
 */
 void SP_shooter_rocket( gentity_t *ent ) {
-	InitShooter( ent, WP_ROCKET_LAUNCHER );
+	InitShooter( ent, WP_STASIS_WEAPON );
 }
 
 /*QUAKED shooter_plasma (1 0 0) (-16 -16 -16) (16 16 16)
@@ -417,7 +421,7 @@ Fires at either the target or the current direction.
 "random" is the number of degrees of deviance from the taget. (1.0 default)
 */
 void SP_shooter_plasma( gentity_t *ent ) {
-	InitShooter( ent, WP_PLASMAGUN);
+	InitShooter( ent, WP_SCAVENGER );
 }
 
 /*QUAKED shooter_grenade (1 0 0) (-16 -16 -16) (16 16 16)

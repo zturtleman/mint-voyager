@@ -1530,7 +1530,7 @@ PM_TorsoAnimation
 */
 static void PM_TorsoAnimation( void ) {
 	if ( pm->ps->weaponstate == WEAPON_READY ) {
-		if ( pm->ps->weapon == WP_GAUNTLET ) {
+		if ( pm->ps->weapon == ANIM2_WEAPON ) {
 			PM_ContinueTorsoAnim( TORSO_STAND2 );
 		} else {
 			PM_ContinueTorsoAnim( TORSO_STAND );
@@ -1550,6 +1550,7 @@ Generates weapon events and modifes the weapon counter
 static void PM_Weapon( void ) {
 	int		addTime;
 	int		newWeapon;
+	int		ammoPerShot;
 
 	// don't allow attack until all buttons are up
 	if ( pm->ps->pm_flags & PMF_RESPAWNED ) {
@@ -1612,7 +1613,7 @@ static void PM_Weapon( void ) {
 
 	if ( pm->ps->weaponstate == WEAPON_RAISING ) {
 		pm->ps->weaponstate = WEAPON_READY;
-		if ( pm->ps->weapon == WP_GAUNTLET ) {
+		if ( pm->ps->weapon == ANIM2_WEAPON ) {
 			PM_StartTorsoAnim( TORSO_STAND2 );
 		} else {
 			PM_StartTorsoAnim( TORSO_STAND );
@@ -1628,13 +1629,7 @@ static void PM_Weapon( void ) {
 	}
 
 	// start the animation even if out of ammo
-	if ( pm->ps->weapon == WP_GAUNTLET ) {
-		// the guantlet only "fires" when it actually hits something
-		if ( !pm->gauntletHit ) {
-			pm->ps->weaponTime = 0;
-			pm->ps->weaponstate = WEAPON_READY;
-			return;
-		}
+	if ( pm->ps->weapon == ANIM2_WEAPON ) {
 		PM_StartTorsoAnim( TORSO_ATTACK2 );
 	} else {
 		PM_StartTorsoAnim( TORSO_ATTACK );
@@ -1642,16 +1637,21 @@ static void PM_Weapon( void ) {
 
 	pm->ps->weaponstate = WEAPON_FIRING;
 
+	ammoPerShot = 1;
+
 	// check for out of ammo
-	if ( ! pm->ps->ammo[ pm->ps->weapon ] ) {
-		PM_AddEvent( EV_NOAMMO );
+	if ( pm->ps->ammo[ pm->ps->weapon ] != -1 && pm->ps->ammo[ pm->ps->weapon ] < ammoPerShot ) {
+		// phaser ammo regenerates
+		if ( pm->ps->weapon != WP_PHASER ) {
+			PM_AddEvent( EV_NOAMMO );
+		}
 		pm->ps->weaponTime += 500;
 		return;
 	}
 
 	// take an ammo away if not infinite
 	if ( pm->ps->ammo[ pm->ps->weapon ] != -1 ) {
-		pm->ps->ammo[ pm->ps->weapon ]--;
+		pm->ps->ammo[ pm->ps->weapon ] -= ammoPerShot;
 	}
 
 	// fire weapon
@@ -1661,6 +1661,25 @@ static void PM_Weapon( void ) {
 		PM_AddEvent( EV_FIRE_WEAPON );
 	}
 
+#if 1
+	// This are just random guesses to make weapons feel somewhat usable.
+	// It needs to be separate for altattack.
+	switch( pm->ps->weapon ) {
+	default:
+		addTime = 400;
+		break;
+	case WP_PHASER:
+	case WP_DREADNOUGHT:
+		addTime = 50;
+		break;
+	case WP_GRAPPLING_HOOK:
+		addTime = 400;
+		break;
+	case WP_TETRION_DISRUPTOR:
+		addTime = 30;
+		break;
+	}
+#else
 	switch( pm->ps->weapon ) {
 	default:
 	case WP_GAUNTLET:
@@ -1705,6 +1724,7 @@ static void PM_Weapon( void ) {
 		break;
 #endif
 	}
+#endif
 
 #ifdef MISSIONPACK
 	if( BG_ItemForItemNum( pm->ps->stats[STAT_PERSISTANT_POWERUP] )->giTag == PW_SCOUT ) {
@@ -1880,10 +1900,18 @@ void PmoveSingle (pmove_t *pmove) {
 
 	// set the firing flag for continuous beam weapons
 	if ( !(pm->ps->pm_flags & PMF_RESPAWNED) && pm->ps->pm_type != PM_INTERMISSION && pm->ps->pm_type != PM_NOCLIP
-		&& ( pm->cmd.buttons & ( BUTTON_ATTACK | BUTTON_ALTATTACK ) ) && pm->ps->ammo[ pm->ps->weapon ] ) {
+		&& ( pm->cmd.buttons & BUTTON_ATTACK ) && pm->ps->ammo[ pm->ps->weapon ] ) {
 		pm->ps->eFlags |= EF_FIRING;
 	} else {
 		pm->ps->eFlags &= ~EF_FIRING;
+	}
+
+	// set the firing flag for continuous beam weapons
+	if ( !(pm->ps->pm_flags & PMF_RESPAWNED) && pm->ps->pm_type != PM_INTERMISSION && pm->ps->pm_type != PM_NOCLIP
+		&& ( pm->cmd.buttons & BUTTON_ALTATTACK ) && pm->ps->ammo[ pm->ps->weapon ] ) {
+		pm->ps->eFlags |= EF_FIRING_ALT;
+	} else {
+		pm->ps->eFlags &= ~EF_FIRING_ALT;
 	}
 
 	// clear the respawned flag if attack and use are cleared
