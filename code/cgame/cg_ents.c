@@ -501,6 +501,12 @@ static void CG_Item( centity_t *cent ) {
 			ent.oldframe = ( ent.frame - 1 ) % 11;
 		}
 		ent.backlerp = 1.0f - ( ( cg.time % 100 ) / 100.0f );
+
+		if ( item->giTag == PW_REDFLAG ) {
+			ent.customShader = cgs.media.redFlagModelShader;
+		} else if ( item->giTag == PW_BLUEFLAG ) {
+			ent.customShader = cgs.media.blueFlagModelShader;
+		}
 	}
 
 	// add to refresh list

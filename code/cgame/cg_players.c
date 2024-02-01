@@ -1945,6 +1945,12 @@ static void CG_TrailItem( centity_t *cent, qhandle_t hModel ) {
 		}
 	}
 
+	if ( hModel == cgs.media.redFlagModel ) {
+		ent.customShader = cgs.media.redFlagModelShader;
+	} else if ( hModel == cgs.media.blueFlagModel ) {
+		ent.customShader = cgs.media.blueFlagModelShader;
+	}
+
 	ent.hModel = hModel;
 	CG_AddRefEntityWithMinLight( &ent );
 }

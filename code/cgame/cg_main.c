@@ -39,10 +39,8 @@ displayContextDef_t cgDC;
 #endif
 
 int forceModelModificationCount = -1;
-#ifdef MISSIONPACK
 int redTeamNameModificationCount = -1;
 int blueTeamNameModificationCount = -1;
-#endif
 
 void CG_Init( connstate_t state, int maxSplitView, int playVideo );
 void CG_Ingame_Init( int serverMessageNum, int serverCommandSequence, int maxSplitView, int playerNum0, int playerNum1, int playerNum2, int playerNum3 );
@@ -293,9 +291,9 @@ vmCvar_t	cg_introPlayed;
 vmCvar_t	cg_joystickDebug;
 vmCvar_t	ui_stretch;
 
-#ifdef MISSIONPACK
 vmCvar_t 	cg_redTeamName;
 vmCvar_t 	cg_blueTeamName;
+#ifdef MISSIONPACK
 vmCvar_t	cg_enableDust;
 vmCvar_t	cg_enableBreath;
 vmCvar_t	cg_recordSPDemo;
@@ -453,9 +451,9 @@ static cvarTable_t cgameCvarTable[] = {
 	{ NULL,  "g_gametype", "0", CVAR_SERVERINFO | CVAR_USERINFO | CVAR_LATCH, RANGE_INT(0, GT_MAX_GAME_TYPE-1) },
 	{ &cg_synchronousClients, "g_synchronousClients", "0", CVAR_SYSTEMINFO, RANGE_BOOL },
 	{ &cg_singlePlayer, "ui_singlePlayerActive", "0", CVAR_SYSTEMINFO | CVAR_ROM, RANGE_ALL },
-#ifdef MISSIONPACK
 	{ &cg_redTeamName, "g_redteam", DEFAULT_REDTEAM_NAME, CVAR_ARCHIVE | CVAR_SYSTEMINFO, RANGE_ALL },
 	{ &cg_blueTeamName, "g_blueteam", DEFAULT_BLUETEAM_NAME, CVAR_ARCHIVE | CVAR_SYSTEMINFO, RANGE_ALL },
+#ifdef MISSIONPACK
 	{ &cg_enableDust, "cg_enableDust", "0", 0, RANGE_BOOL },
 	{ &cg_enableBreath, "cg_enableBreath", "0", 0, RANGE_BOOL },
 	{ &cg_recordSPDemo, "ui_recordSPDemo", "0", CVAR_ARCHIVE, RANGE_ALL },
@@ -664,10 +662,8 @@ void CG_RegisterCvars( void ) {
 	cgs.localServer = atoi( var );
 
 	forceModelModificationCount = cg_forceModel.modificationCount;
-#ifdef MISSIONPACK
 	redTeamNameModificationCount = cg_redTeamName.modificationCount;
 	blueTeamNameModificationCount = cg_blueTeamName.modificationCount;
-#endif
 }
 
 /*																																			
@@ -757,25 +753,36 @@ void CG_UpdateCvars( void ) {
 	}
 #endif
 
-#ifdef MISSIONPACK
-	// if force model or a team name changed
-	if ( forceModelModificationCount != cg_forceModel.modificationCount
-		|| redTeamNameModificationCount != cg_redTeamName.modificationCount
-		|| blueTeamNameModificationCount != cg_blueTeamName.modificationCount )
-	{
-		forceModelModificationCount = cg_forceModel.modificationCount;
-		redTeamNameModificationCount = cg_redTeamName.modificationCount;
-		blueTeamNameModificationCount = cg_blueTeamName.modificationCount;
-		CG_ForceModelChange();
-	}
-#else
 	// if force model changed
 	if ( forceModelModificationCount != cg_forceModel.modificationCount )
 	{
 		forceModelModificationCount = cg_forceModel.modificationCount;
 		CG_ForceModelChange();
 	}
+
+	// if a team name changed
+	if ( redTeamNameModificationCount != cg_redTeamName.modificationCount
+		|| blueTeamNameModificationCount != cg_blueTeamName.modificationCount )
+	{
+		redTeamNameModificationCount = cg_redTeamName.modificationCount;
+		blueTeamNameModificationCount = cg_blueTeamName.modificationCount;
+
+#ifdef MISSIONPACK
+		CG_ForceModelChange();
 #endif
+
+		if ( cg_redTeamName.string[0] ) {
+			cgs.media.redFlagModelShader = trap_R_RegisterShaderEx( va("models/flags/%s_red.jpg", cg_redTeamName.string), LIGHTMAP_NONE, qtrue );
+		} else {
+			cgs.media.redFlagModelShader = 0;
+		}
+
+		if ( cg_blueTeamName.string[0] ) {
+			cgs.media.blueFlagModelShader = trap_R_RegisterShaderEx( va("models/flags/%s_blue.jpg", cg_blueTeamName.string), LIGHTMAP_NONE, qtrue );
+		} else {
+			cgs.media.blueFlagModelShader = 0;
+		}
+	}
 }
 
 int CG_CrosshairPlayer( int localPlayerNum ) {
@@ -1556,6 +1563,19 @@ static void CG_RegisterGraphics( void ) {
 #endif
 		cgs.media.redFlagModel = trap_R_RegisterModel( "models/flags/flag_red.md3" );
 		cgs.media.blueFlagModel = trap_R_RegisterModel( "models/flags/flag_blue.md3" );
+
+		if ( cg_redTeamName.string[0] ) {
+			cgs.media.redFlagModelShader = trap_R_RegisterShaderEx( va("models/flags/%s_red.jpg", cg_redTeamName.string), LIGHTMAP_NONE, qtrue );
+		} else {
+			cgs.media.redFlagModelShader = 0;
+		}
+
+		if ( cg_blueTeamName.string[0] ) {
+			cgs.media.blueFlagModelShader = trap_R_RegisterShaderEx( va("models/flags/%s_blue.jpg", cg_blueTeamName.string), LIGHTMAP_NONE, qtrue );
+		} else {
+			cgs.media.blueFlagModelShader = 0;
+		}
+
 		cgs.media.redFlagShader[0] = trap_R_RegisterShaderNoMip( "icons/iconf_red1" );
 		cgs.media.redFlagShader[1] = trap_R_RegisterShaderNoMip( "icons/iconf_red2" );
 		cgs.media.redFlagShader[2] = trap_R_RegisterShaderNoMip( "icons/iconf_red3" );

@@ -886,6 +886,8 @@ typedef struct {
 	qhandle_t	redFlagModel;
 	qhandle_t	blueFlagModel;
 	qhandle_t	neutralFlagModel;
+	qhandle_t	redFlagModelShader;
+	qhandle_t	blueFlagModelShader;
 	qhandle_t	redFlagShader[3];
 	qhandle_t	blueFlagShader[3];
 	qhandle_t	flagShader[4];

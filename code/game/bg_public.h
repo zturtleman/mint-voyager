@@ -973,8 +973,8 @@ typedef struct animation_s {
 #endif
 
 
-#define DEFAULT_REDTEAM_NAME		"Pagans"
-#define DEFAULT_BLUETEAM_NAME		"Stroggs"
+#define DEFAULT_REDTEAM_NAME		"default"
+#define DEFAULT_BLUETEAM_NAME		"default"
 #define MAX_TEAMNAME		32
 
 typedef enum {

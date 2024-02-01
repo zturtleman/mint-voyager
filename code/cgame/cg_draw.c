@@ -102,7 +102,7 @@ CG_Draw3DModelEx
 
 ================
 */
-void CG_Draw3DModelEx( float x, float y, float w, float h, qhandle_t model, cgSkin_t *skin, vec3_t origin, vec3_t angles, const byte *rgba ) {
+void CG_Draw3DModelEx( float x, float y, float w, float h, qhandle_t model, cgSkin_t *skin, vec3_t origin, vec3_t angles, const byte *rgba, qhandle_t customShader ) {
 	refdef_t		refdef;
 	refEntity_t		ent;
 
@@ -119,6 +119,7 @@ void CG_Draw3DModelEx( float x, float y, float w, float h, qhandle_t model, cgSk
 	VectorCopy( origin, ent.origin );
 	ent.hModel = model;
 	ent.customSkin = CG_AddSkinToFrame( skin );
+	ent.customShader = customShader;
 	ent.renderfx = RF_NOSHADOW;		// no stencil shadows
 
 	if ( rgba ) {
@@ -151,7 +152,7 @@ CG_Draw3DModel
 ================
 */
 void CG_Draw3DModel( float x, float y, float w, float h, qhandle_t model, cgSkin_t *skin, vec3_t origin, vec3_t angles ) {
-	CG_Draw3DModelEx( x, y, w, h, model, skin, origin, angles, NULL );
+	CG_Draw3DModelEx( x, y, w, h, model, skin, origin, angles, NULL, 0 );
 }
 
 /*
@@ -190,7 +191,7 @@ void CG_DrawHead( float x, float y, float w, float h, int playerNum, vec3_t head
 		// allow per-model tweaking
 		VectorAdd( origin, pi->headOffset, origin );
 
-		CG_Draw3DModelEx( x, y, w, h, pi->headModel, &pi->modelSkin, origin, headAngles, pi->c1RGBA );
+		CG_Draw3DModelEx( x, y, w, h, pi->headModel, &pi->modelSkin, origin, headAngles, pi->c1RGBA, 0 );
 	} else if ( cg_drawIcons.integer ) {
 		CG_DrawPic( x, y, w, h, pi->modelIcon );
 	}
@@ -214,6 +215,7 @@ void CG_DrawFlagModel( float x, float y, float w, float h, int team, qboolean fo
 	vec3_t			origin, angles;
 	vec3_t			mins, maxs;
 	qhandle_t		handle;
+	qhandle_t		hShader;
 
 	if ( !force2D && cg_draw3dIcons.integer ) {
 
@@ -236,14 +238,17 @@ void CG_DrawFlagModel( float x, float y, float w, float h, int team, qboolean fo
 
 		if( team == TEAM_RED ) {
 			handle = cgs.media.redFlagModel;
+			hShader = cgs.media.redFlagModelShader;
 		} else if( team == TEAM_BLUE ) {
 			handle = cgs.media.blueFlagModel;
+			hShader = cgs.media.blueFlagModelShader;
 		} else if( team == TEAM_FREE ) {
 			handle = cgs.media.neutralFlagModel;
+			hShader = 0;
 		} else {
 			return;
 		}
-		CG_Draw3DModel( x, y, w, h, handle, NULL, origin, angles );
+		CG_Draw3DModelEx( x, y, w, h, handle, NULL, origin, angles, NULL, hShader );
 	} else if ( cg_drawIcons.integer ) {
 		gitem_t *item;
 
