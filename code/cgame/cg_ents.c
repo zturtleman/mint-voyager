@@ -404,6 +404,9 @@ static void CG_Item( centity_t *cent ) {
 	if ( item->giType == IT_TEAM ) {
 		VectorCopy( es->angles, cent->lerpAngles );
 		AnglesToAxis( cent->lerpAngles, ent.axis );
+
+		VectorMA( cent->lerpOrigin, -2, ent.axis[0], cent->lerpOrigin );
+		VectorMA( cent->lerpOrigin, 1, ent.axis[1], cent->lerpOrigin );
 	} else
 	// autorotate at one of two speeds
 	if ( item->giType == IT_HEALTH ) {
@@ -450,6 +453,9 @@ static void CG_Item( centity_t *cent ) {
 
 	// if just respawned, slowly scale up
 	msec = cg.time - cent->miscTime;
+	if ( item->giType == IT_TEAM ) {
+		// ignore for CTF flags
+	} else
 	if ( msec >= 0 && msec < ITEM_SCALEUP_TIME ) {
 		frac = (float)msec / ITEM_SCALEUP_TIME;
 		VectorScale( ent.axis[0], frac, ent.axis[0] );
@@ -479,6 +485,23 @@ static void CG_Item( centity_t *cent ) {
 		ent.nonNormalizedAxes = qtrue;
 	}
 #endif
+
+	// elite force flag models are scaled up and animated
+	if ( item->giType == IT_TEAM ) {
+		VectorScale( ent.axis[0], 1.5, ent.axis[0] );
+		VectorScale( ent.axis[1], 1.5, ent.axis[1] );
+		VectorScale( ent.axis[2], 1.5, ent.axis[2] );
+		ent.nonNormalizedAxes = qtrue;
+
+		// flag seems to be 11 frames at 10 FPS
+		ent.frame = ( cg.time / 100 ) % 11;
+		if ( ent.frame == 0 ) {
+			ent.oldframe = 10;
+		} else {
+			ent.oldframe = ( ent.frame - 1 ) % 11;
+		}
+		ent.backlerp = 1.0f - ( ( cg.time % 100 ) / 100.0f );
+	}
 
 	// add to refresh list
 	CG_AddRefEntityWithMinLight(&ent);
@@ -1020,9 +1043,10 @@ static void CG_TeamBase( centity_t *cent ) {
 		// show the flag base
 		memset(&model, 0, sizeof(model));
 		model.reType = RT_MODEL;
-		VectorCopy( cent->lerpOrigin, model.lightingOrigin );
-		VectorCopy( cent->lerpOrigin, model.origin );
 		AnglesToAxis( cent->currentState.angles, model.axis );
+		// offset base to line up with bottom of Elite Force flag model
+		VectorMA( cent->lerpOrigin, -32, model.axis[0], model.origin );
+		VectorCopy( model.origin, model.lightingOrigin );
 		if ( cent->currentState.modelindex == TEAM_RED ) {
 			model.hModel = cgs.media.redFlagBaseModel;
 		}

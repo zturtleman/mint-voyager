@@ -1924,15 +1924,25 @@ static void CG_TrailItem( centity_t *cent, qhandle_t hModel ) {
 
 	memset( &ent, 0, sizeof( ent ) );
 	VectorMA( cent->lerpOrigin, -16, axis[0], ent.origin );
-	ent.origin[2] += 16;
-	angles[YAW] += 90;
+	angles[YAW] += 180;
 	AnglesToAxis( angles, ent.axis );
 
-	if (cent->currentState.playerNum == cg.cur_lc->predictedPlayerState.playerNum
-		&& cg_thirdPerson[cg.cur_localPlayerNum].integer)
-	{
-		// flag blocks view in third person, so only draw in mirrors
-		ent.renderfx |= RF_ONLY_MIRROR;
+	// flag seems to be 11 frames at 10 FPS
+	ent.frame = ( cg.time / 100 ) % 11;
+	if ( ent.frame == 0 ) {
+		ent.oldframe = 10;
+	} else {
+		ent.oldframe = ( ent.frame - 1 ) % 11;
+	}
+	ent.backlerp = 1.0f - ( ( cg.time % 100 ) / 100.0f );
+
+	if ( cent->currentState.playerNum == cg.cur_lc->predictedPlayerState.playerNum ) {
+		if ( cg_thirdPerson[cg.cur_localPlayerNum].integer ) {
+			ent.renderfx |= RF_FORCE_ENT_ALPHA;
+			ent.shaderRGBA[3] = 0x80;
+		} else {
+			ent.renderfx |= RF_ONLY_MIRROR;
+		}
 	}
 
 	ent.hModel = hModel;

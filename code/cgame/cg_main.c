@@ -1554,8 +1554,8 @@ static void CG_RegisterGraphics( void ) {
 #else
 	if ( cgs.gametype == GT_CTF || cg_buildScript.integer ) {
 #endif
-		cgs.media.redFlagModel = trap_R_RegisterModel( "models/flags/r_flag.md3" );
-		cgs.media.blueFlagModel = trap_R_RegisterModel( "models/flags/b_flag.md3" );
+		cgs.media.redFlagModel = trap_R_RegisterModel( "models/flags/flag_red.md3" );
+		cgs.media.blueFlagModel = trap_R_RegisterModel( "models/flags/flag_blue.md3" );
 		cgs.media.redFlagShader[0] = trap_R_RegisterShaderNoMip( "icons/iconf_red1" );
 		cgs.media.redFlagShader[1] = trap_R_RegisterShaderNoMip( "icons/iconf_red2" );
 		cgs.media.redFlagShader[2] = trap_R_RegisterShaderNoMip( "icons/iconf_red3" );
@@ -1569,10 +1569,13 @@ static void CG_RegisterGraphics( void ) {
 		CG_RegisterSkin( "models/flag2/red.skin", &cgs.media.redFlagFlapSkin, qfalse );
 		CG_RegisterSkin( "models/flag2/blue.skin", &cgs.media.blueFlagFlapSkin, qfalse );
 		CG_RegisterSkin( "models/flag2/white.skin", &cgs.media.neutralFlagFlapSkin, qfalse );
+#endif
 
-		cgs.media.redFlagBaseModel = trap_R_RegisterModel( "models/mapobjects/flagbase/red_base.md3" );
-		cgs.media.blueFlagBaseModel = trap_R_RegisterModel( "models/mapobjects/flagbase/blue_base.md3" );
-		cgs.media.neutralFlagBaseModel = trap_R_RegisterModel( "models/mapobjects/flagbase/ntrl_base.md3" );
+		cgs.media.redFlagBaseModel = trap_R_RegisterModel( "models/powerups/trek/flag_base.md3" );
+		cgs.media.blueFlagBaseModel = cgs.media.redFlagBaseModel;
+
+#ifdef MISSIONPACK
+		cgs.media.neutralFlagBaseModel = cgs.media.redFlagBaseModel;
 #endif
 	}
 

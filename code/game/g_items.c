@@ -667,6 +667,29 @@ void FinishSpawningItem( gentity_t *ent ) {
 		G_SetOrigin( ent, tr.endpos );
 	}
 
+	// add CTF flag base
+	if ( ent->item->giType == IT_TEAM ) {
+		gentity_t *base = G_Spawn();
+
+		VectorCopy( ent->s.angles, base->s.angles );
+		VectorCopy( ent->s.mins, base->s.mins );
+		VectorCopy( ent->s.maxs, base->s.maxs );
+		base->s.contents = 0;
+
+		base->s.eType = ET_TEAM;
+		if ( ent->item->giTag == PW_REDFLAG ) {
+			base->s.modelindex = TEAM_RED;
+		} else if ( ent->item->giTag == PW_BLUEFLAG ) {
+			base->s.modelindex = TEAM_BLUE;
+		} else {
+			base->s.modelindex = TEAM_FREE;
+		}
+
+		G_SetOrigin( base, ent->r.currentOrigin );
+
+		trap_LinkEntity(base);
+	}
+
 	// team slaves and targeted items aren't present at start
 	if ( ( ent->flags & FL_TEAMSLAVE ) || ent->targetname ) {
 		ent->s.eFlags |= EF_NODRAW;
