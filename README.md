@@ -1,11 +1,13 @@
-**Spearmint Star Trek Voyager: Elite Force** game code.
+Incomplete **Spearmint Star Trek Voyager: Elite Force Holomatch (multiplayer)** game code. This is a reimplementation of the Holomatch code as the original code is under an incompatible license. A lot of things look or behave wrong (such as the weapons).
+
+mint-voyager code commits: [compare/upstream...master](https://github.com/zturtleman/mint-voyager/compare/upstream...master)
 
 To use this you'll need the [Spearmint engine](https://github.com/zturtleman/spearmint).
 
   * On Windows, install [Cygwin and mingw-w64](https://github.com/zturtleman/spearmint/wiki/Compiling#windows).
   * Get the source for Spearmint and build it using `make`.
   * Get the source for this repo and build it using `make`.
-  * Copy baseEF/pak0.pk3 into the baseef directory in `mint-arena/build/release-mingw32-x86/`.
+  * Copy baseEF/pak0.pk3 into the baseef directory in `mint-voyager/build/release-mingw32-x86/`.
   * Copy the [spearmint-patch-data](https://github.com/zturtleman/spearmint-patch-data) for baseef there too.
 
 If you put both projects in the same directory you can launch the game using;
