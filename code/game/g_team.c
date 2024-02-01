@@ -246,28 +246,6 @@ void Team_CheckDroppedItem( gentity_t *dropped ) {
 
 /*
 ================
-Team_ForceGesture
-================
-*/
-void Team_ForceGesture(int team) {
-	int i;
-	gentity_t *ent;
-
-	for (i = 0; i < MAX_CLIENTS; i++) {
-		ent = &g_entities[i];
-		if (!ent->inuse)
-			continue;
-		if (!ent->player)
-			continue;
-		if (ent->player->sess.sessionTeam != team)
-			continue;
-		//
-		ent->flags |= FL_FORCE_GESTURE;
-	}
-}
-
-/*
-================
 Team_FragBonuses
 
 Calculate the bonuses for flag defense, flag carrier defense, etc.
@@ -732,7 +710,6 @@ int Team_TouchOurFlag( gentity_t *ent, gentity_t *other, int team ) {
 
 	// Increase the team's score
 	AddTeamScore(ent->s.pos.trBase, other->player->sess.sessionTeam, 1);
-	Team_ForceGesture(other->player->sess.sessionTeam);
 
 	// add the sprite over the player's head
 	other->player->ps.eFlags &= ~(EF_AWARD_IMPRESSIVE | EF_AWARD_EXCELLENT | EF_AWARD_GAUNTLET | EF_AWARD_ASSIST | EF_AWARD_DEFEND | EF_AWARD_CAP );
@@ -1228,7 +1205,6 @@ static void ObeliskDie( gentity_t *self, gentity_t *inflictor, gentity_t *attack
 
 	otherTeam = OtherTeam( self->spawnflags );
 	AddTeamScore(self->s.pos.trBase, otherTeam, 1);
-	Team_ForceGesture(otherTeam);
 
 	CalculateRanks();
 
@@ -1281,7 +1257,6 @@ static void ObeliskTouch( gentity_t *self, gentity_t *other, trace_t *trace ) {
 					other->player->pers.netname, tokens, TeamName( otherTeam ), ( tokens == 1 ) ? "skull" : "skulls" ) );
 
 	AddTeamScore(self->s.pos.trBase, other->player->sess.sessionTeam, tokens);
-	Team_ForceGesture(other->player->sess.sessionTeam);
 
 	AddScore(other, self->r.currentOrigin, CTF_CAPTURE_BONUS*tokens);
 
